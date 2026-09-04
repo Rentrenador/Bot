@@ -24,7 +24,8 @@ Módulos markdown en **español** para una app interactiva que enseña el **pano
 1. Empieza por `00-index.md` (mapa ruta primaria vs opcional).
 2. Lecciones `01`–`06`: pantallas de estudio (párrafos cortos, bullets, callouts).
 3. `07-banco-panorama.md`: quiz de panorama corporativo (parsear por `### Q##`).
-4. `opcional-ftt/`: solo si el usuario activa el módulo FTT.
+4. `08-comparador-productos.md`: atributos para UI de comparador.
+5. `opcional-ftt/`: solo si el usuario activa el módulo FTT.
 
 ### Convención para agent / app
 
@@ -35,22 +36,35 @@ Módulos markdown en **español** para una app interactiva que enseña el **pano
 | `order` | orden en sidebar |
 | `tags` | filtros (`panorama`, `productos`, `ops`, `ftt`…) |
 | `path` | `primary` \| `optional-ftt` |
+| `ui_features` | p. ej. `structure_map`, `news_timeline`, `product_comparator` |
 
 - Renderiza markdown estándar; `> 💡` / `> ⚠️` → callouts.
 - Marcas `⚠️ [Incierta / verificar]` = no usar como hecho duro en quizzes estrictos.
 - **No** inventar cifras de resultados, organigramas secretos ni leaks de entrevista.
 
+### Bloques machine-readable (UI avanzada)
+
+Cada uno de estos archivos incluye un **fence JSON** (legible también por humanos):
+
+| Feature UI | Archivo | Clave JSON |
+|------------|---------|------------|
+| Interactive structure map | `02-estructura.md` | `structure_map.nodes[]` (`id`, `label`, `type`, `parent`, …) |
+| News / study timeline | `05-actualidad.md` | `timeline.events[]` (`id`, `theme`, `date`, `title`, `confidence`, `verify`) |
+| Product comparator | `08-comparador-productos.md` | `product_comparator.products[]` (`segment`, `available_es`, `compare_axes`, …) |
+
+`02-estructura.md` también incluye un diagrama **mermaid** opcional para renderers que lo soporten.
+
 ### Integración sugerida
 
 ```
 tesla-panorama-content/
-  00–07  →  LessonScreen + QuizEngine (ruta primaria)
+  00–08  →  LessonScreen + StructureMap + Comparator + Timeline + QuizEngine
   opcional-ftt/  →  feature flag / pestaña "Carreras / FTT"
 ```
 
 ### Fuentes
 
-Hechos públicos (tesla.com, filings SEC, noticias verificables). Verifica precios, disponibilidad por país y nombres de software en [tesla.com/es_es](https://www.tesla.com/es_es) antes de publicar quizzes “live”.
+Hechos públicos (tesla.com, IR Updates, noticias verificables). Capacidades de planta citadas desde **Tesla Q2 2026 Update**. Verifica precios, disponibilidad por país y nombres de software en [tesla.com/es_es](https://www.tesla.com/es_es) antes de publicar quizzes “live”.
 
 ### Relación con `tesla-ftt-content/`
 
