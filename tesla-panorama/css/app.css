@@ -573,3 +573,32 @@ tr:last-child td { border-bottom: none; }
 @media (min-width: 980px) {
   .map-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ——— Content sync: uncertain badges + map groups ——— */
+.badge-uncertain {
+  display: inline-block;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: .15rem .4rem;
+  border-radius: 999px;
+  background: var(--amber-dim);
+  color: var(--amber);
+  border: 1px solid rgba(245,158,11,.35);
+  vertical-align: middle;
+  margin-left: .25rem;
+}
+.map-node.uncertain { border-color: rgba(245,158,11,.45); }
+.tl-interactive-item.uncertain .tl-interactive-dot { background: var(--amber); }
+.verify-hint a { color: var(--amber); }
+.map-groups { display: grid; gap: 1rem; }
+.map-group-title {
+  margin: 0 0 .45rem;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.map-panel .badge-uncertain { margin: .35rem 0 .5rem; }

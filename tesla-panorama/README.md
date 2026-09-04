@@ -32,7 +32,7 @@ Progreso en `localStorage` clave `tesla-panorama-v2` (incluye `lastWrongIds` par
 tesla-panorama/
   index.html
   css/app.css
-  js/data.js       # módulos + STRUCTURE_MAP + COMPARE_* + ACTUALIDAD_TIMELINE
+  js/data.js       # módulos + STRUCTURE_MAP (nodes) + PRODUCT_COMPARATOR + COMPARE_* + ACTUALIDAD_TIMELINE
   js/quiz-data.js  # QUIZ_BANK + QUIZ_BANK_FTT
   js/app.js
   README.md

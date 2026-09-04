@@ -568,240 +568,643 @@ window.MODULES = [
 
 /* ——— Herramientas interactivas (mapa, comparador, timeline) ——— */
 
-window.STRUCTURE_MAP = [
-  {
-    id: "vehicles",
-    icon: "▣",
-    title: "Vehículos",
-    short: "Automotive · diseño a entrega",
-    accent: "red",
-    detail: {
-      lead: "Diseño, fabricación, venta y entrega de vehículos eléctricos.",
-      points: [
-        "Gama pública: Model 3, Y, S, X; Cybertruck (NA); Semi (flotas).",
-        "En ES/UE el volumen conversacional real se centra en 3 y Y.",
-        "Reporting de segmento Automotive en filings — verifica el último 10-K/earnings."
+/* Synced from tesla-panorama-content JSON (estructura / actualidad / comparador) — 2026-09-04 */
+/* structure_map: content schema + IR Q2’26 capacity notes on factory nodes */
+window.STRUCTURE_MAP = {
+  "version": "2026-09-04",
+  "source_note": "Nodos públicos; capacidades de IR Q2 2026 Update (installed annual capacity ≠ ritmo actual).",
+  "nodes": [
+    {
+      "id": "tesla",
+      "label": "Tesla, Inc.",
+      "type": "company",
+      "parent": null
+    },
+    {
+      "id": "auto",
+      "label": "Automotive",
+      "type": "segment",
+      "parent": "tesla"
+    },
+    {
+      "id": "energy",
+      "label": "Energy Generation & Storage",
+      "type": "segment",
+      "parent": "tesla"
+    },
+    {
+      "id": "services",
+      "label": "Services & Other",
+      "type": "segment",
+      "parent": "tesla"
+    },
+    {
+      "id": "ai_robotics",
+      "label": "AI / Robotics (línea estratégica)",
+      "type": "strategic",
+      "parent": "tesla",
+      "uncertain": true,
+      "verify_hint": "Verificar en tesla.com / IR — línea estratégica, no organigrama fijo"
+    },
+    {
+      "id": "mfg_fremont",
+      "label": "Fremont (California)",
+      "type": "factory_vehicle",
+      "parent": "auto",
+      "products": [
+        "Model 3",
+        "Model Y"
       ],
-      related: "productos"
+      "status": "production",
+      "capacity": ">550.000 veh/año",
+      "capacity_detail": "Model 3 / Model Y · IR Q2’26 installed annual"
+    },
+    {
+      "id": "mfg_shanghai",
+      "label": "Giga Shanghai",
+      "type": "factory_vehicle",
+      "parent": "auto",
+      "products": [
+        "Model 3",
+        "Model Y"
+      ],
+      "status": "production",
+      "capacity": ">950.000 veh/año",
+      "capacity_detail": "Model 3 / Model Y · IR Q2’26 installed annual"
+    },
+    {
+      "id": "mfg_berlin",
+      "label": "Giga Berlin-Brandenburg",
+      "type": "factory_vehicle",
+      "parent": "auto",
+      "products": [
+        "Model Y"
+      ],
+      "status": "production",
+      "region": "EU",
+      "capacity": ">375.000 veh/año",
+      "capacity_detail": "Model Y · IR Q2’26 installed annual"
+    },
+    {
+      "id": "mfg_texas",
+      "label": "Giga Texas (Austin)",
+      "type": "factory_vehicle",
+      "parent": "auto",
+      "products": [
+        "Model Y",
+        "Cybertruck",
+        "Cybercab"
+      ],
+      "status": "production",
+      "capacity": "Y >250k · Cybertruck >125k · Cybercab >125k veh/año",
+      "capacity_detail": "IR Q2’26 installed annual (por línea de producto)"
+    },
+    {
+      "id": "mfg_nevada_semi",
+      "label": "Giga Nevada — Semi",
+      "type": "factory_vehicle",
+      "parent": "auto",
+      "products": [
+        "Semi"
+      ],
+      "status": "commissioning",
+      "capacity": "—",
+      "capacity_detail": "Commissioning · IR Q2’26"
+    },
+    {
+      "id": "mfg_megapack_ca",
+      "label": "Megafactory California (Lathrop)",
+      "type": "factory_energy",
+      "parent": "energy",
+      "products": [
+        "Megapack"
+      ],
+      "status": "production",
+      "capacity": "40 GWh",
+      "capacity_detail": "Megapack · IR Q2’26 installed annual"
+    },
+    {
+      "id": "mfg_megapack_sh",
+      "label": "Megafactory Shanghai",
+      "type": "factory_energy",
+      "parent": "energy",
+      "products": [
+        "Megapack"
+      ],
+      "status": "production",
+      "capacity": "20 GWh",
+      "capacity_detail": "Megapack · IR Q2’26 installed annual"
+    },
+    {
+      "id": "mfg_megapack_tx",
+      "label": "Megafactory Texas",
+      "type": "factory_energy",
+      "parent": "energy",
+      "products": [
+        "Megapack 3 / Megablock"
+      ],
+      "status": "commissioning",
+      "capacity": "—",
+      "capacity_detail": "Megapack 3 / Megablock · commissioning IR Q2’26"
+    },
+    {
+      "id": "mfg_powerwall_nv",
+      "label": "Nevada — Powerwall",
+      "type": "factory_energy",
+      "parent": "energy",
+      "products": [
+        "Powerwall"
+      ],
+      "status": "production",
+      "capacity": ">6 GWh",
+      "capacity_detail": "Powerwall · IR Q2’26 installed annual"
+    },
+    {
+      "id": "eu_retail",
+      "label": "Europa — Stores / Delivery / Service",
+      "type": "customer_channel",
+      "parent": "auto",
+      "region": "EU"
+    },
+    {
+      "id": "es_presence",
+      "label": "España — retail + servicio + Supercharger (sin fábrica de vehículos)",
+      "type": "customer_channel",
+      "parent": "eu_retail",
+      "region": "ES"
+    },
+    {
+      "id": "supercharger",
+      "label": "Red Supercharger",
+      "type": "infra",
+      "parent": "services"
     }
+  ]
+};
+
+window.ACTUALIDAD_TIMELINE_META = {
+  "version": "2026-09-04",
+  "themes": [
+    "factories",
+    "product_refresh",
+    "autonomy",
+    "energy_megapack",
+    "europe_spain"
+  ]
+};
+
+/* timeline.events (+ when/category/body aliases for UI) */
+window.ACTUALIDAD_TIMELINE = [
+  {
+    "id": "juniper-berlin-sop",
+    "theme": "product_refresh",
+    "date": "2025-01-14",
+    "date_precision": "day",
+    "title": "Inicio producción Model Y refresh (Juniper) en Giga Berlin",
+    "summary": "Reportado por prensa alemana (Handelsblatt) y confirmado después por hitos de producción en Berlin.",
+    "markets": [
+      "EU"
+    ],
+    "confidence": "high",
+    "verify": [
+      "tesla.com/modely",
+      "noticias de Giga Berlin / IR"
+    ],
+    "when": "2025-01-14",
+    "category": "product_refresh",
+    "body": "Reportado por prensa alemana (Handelsblatt) y confirmado después por hitos de producción en Berlin.",
+    "ask": "Verifica: tesla.com/modely · noticias de Giga Berlin / IR"
   },
   {
-    id: "energy",
-    icon: "⚡",
-    title: "Energy",
-    short: "Generación y almacenamiento",
-    accent: "amber",
-    detail: {
-      lead: "Baterías residenciales y a escala de red; software de energía.",
-      points: [
-        "Powerwall: hogar / pequeño comercial.",
-        "Megapack: utilities y grandes proyectos; a menudo con despacho software.",
-        "Solar según país y partners — no asumas el mismo modelo en todos los mercados.",
-        "En España: no inventes un retail eléctrico tipo UK sin verificar."
-      ],
-      related: "productos"
-    }
+    "id": "juniper-berlin-100k",
+    "theme": "factories",
+    "date": "2025-08",
+    "date_precision": "month",
+    "title": "Hito ~100.000 Model Y refresh en Giga Berlin",
+    "summary": "Comunicación pública de manufacturing (~6 meses tras SOP).",
+    "markets": [
+      "EU"
+    ],
+    "confidence": "high",
+    "verify": [
+      "cuentas oficiales Tesla Manufacturing / Giga Berlin"
+    ],
+    "when": "2025-08",
+    "category": "factories",
+    "body": "Comunicación pública de manufacturing (~6 meses tras SOP).",
+    "ask": "Verifica: cuentas oficiales Tesla Manufacturing / Giga Berlin"
   },
   {
-    id: "software-ai",
-    icon: "◈",
-    title: "Software / IA",
-    short: "OTA, asistencia, robótica",
-    accent: "blue",
-    detail: {
-      lead: "Capas de software visibles: OTA, app, asistencia a la conducción e IA/robótica en narrativa pública.",
-      points: [
-        "Autopilot / FSD Supervised: asistencia; el conductor supervisa según mercado y ley.",
-        "Disponibilidad y nombres cambian por país y versión de software.",
-        "Optimus y robotaxi: roadmap público e incierto — no SKU de consumo diario en ES (2026).",
-        "Energy software (trading/despacho): más B2B que consumidor."
-      ],
-      related: "productos"
-    }
+    "id": "fsd-spain-testing",
+    "theme": "autonomy",
+    "date": "2025-11",
+    "date_precision": "month",
+    "title": "Pruebas FSD Supervised en vías públicas ES (programa DGT)",
+    "summary": "Flota de prueba bajo autorización ES-AV; conductor responsable. No implica venta al cliente en España.",
+    "markets": [
+      "ES"
+    ],
+    "confidence": "high",
+    "verify": [
+      "DGT / programa ES-AV",
+      "comunicados Tesla Europe"
+    ],
+    "when": "2025-11",
+    "category": "autonomy",
+    "body": "Flota de prueba bajo autorización ES-AV; conductor responsable. No implica venta al cliente en España.",
+    "ask": "Verifica: DGT / programa ES-AV · comunicados Tesla Europe"
   },
   {
-    id: "sales-service",
-    icon: "◎",
-    title: "Sales & Service",
-    short: "Retail, delivery, postventa",
-    accent: "green",
-    detail: {
-      lead: "Canales directos al cliente: experiencia, pedido, entrega y servicio.",
-      points: [
-        "Stores / Galleries: educar, probar, configurar, cerrar.",
-        "Delivery Hubs: preparación, cita, handoff y onboarding.",
-        "Service Centers + Mobile Service: diagnóstico y reparaciones.",
-        "España = red comercial/servicio; sin Giga de vehículos propia."
-      ],
-      related: "como-opera"
-    }
+    "id": "fsd-nl-approval",
+    "theme": "autonomy",
+    "date": "2026-04-10",
+    "date_precision": "day",
+    "title": "RDW (Países Bajos): aprobación tipo provisional FSD Supervised",
+    "summary": "Primera aprobación nacional UE reportada. Asistencia supervisada; no robotaxi. Otros países pueden reconocer o no.",
+    "markets": [
+      "NL",
+      "EU"
+    ],
+    "confidence": "high",
+    "verify": [
+      "RDW",
+      "Tesla Europe",
+      "Electrek / press primaria"
+    ],
+    "when": "2026-04-10",
+    "category": "autonomy",
+    "body": "Primera aprobación nacional UE reportada. Asistencia supervisada; no robotaxi. Otros países pueden reconocer o no.",
+    "ask": "Verifica: RDW · Tesla Europe · Electrek / press primaria"
   },
   {
-    id: "charging",
-    icon: "⌁",
-    title: "Carga",
-    short: "Supercharger + destino",
-    accent: "red",
-    detail: {
-      lead: "La red Supercharger es producto y experiencia de marca; la carga en destino completa el journey.",
-      points: [
-        "Reduce fricción en viajes largos.",
-        "Mapa oficial y políticas de acceso (Tesla / terceros) evolucionan por mercado.",
-        "Parte del ecosistema, no un add-on aislado."
-      ],
-      related: "como-opera"
-    }
+    "id": "es-retail-expansion-2026",
+    "theme": "europe_spain",
+    "date": "2026-02",
+    "date_precision": "month",
+    "title": "Expansión retail España (aperturas reportadas)",
+    "summary": "Prensa: nuevas aperturas (p. ej. A Coruña, Oiartzun, Rivas) y ~21 tiendas/centros de entrega. Cifras perishable.",
+    "markets": [
+      "ES"
+    ],
+    "confidence": "medium",
+    "verify": [
+      "https://www.tesla.com/es_ES/findus"
+    ],
+    "when": "2026-02",
+    "category": "europe_spain",
+    "body": "Prensa: nuevas aperturas (p. ej. A Coruña, Oiartzun, Rivas) y ~21 tiendas/centros de entrega. Cifras perishable.",
+    "ask": "Verifica: https://www.tesla.com/es_ES/findus"
   },
   {
-    id: "manufacturing",
-    icon: "▦",
-    title: "Manufactura",
-    short: "Gigas · footprint público",
-    accent: "muted",
-    detail: {
-      lead: "Huella industrial pública: Fremont, Nevada, Shanghai, Berlin-Brandenburg, Texas.",
-      points: [
-        "Giga Berlin-Brandenburg: ancla europea (Model Y; celdas en evolución en prensa).",
-        "España fue candidata en debates históricos; la Giga europea operativa es Berlín.",
-        "No memorices capacidades anunciadas sin fecha — los objetivos se revisan."
-      ],
-      related: "estructura"
-    }
+    "id": "natpower-megapack",
+    "theme": "energy_megapack",
+    "date": "2026-06",
+    "date_precision": "month",
+    "title": "Acuerdo NatPower–Tesla: >25 GWh Megapack (IT/UK)",
+    "summary": "Supply/execution B2B con software de trading; no implica Powerwall retail en España.",
+    "markets": [
+      "IT",
+      "UK",
+      "EU"
+    ],
+    "confidence": "high",
+    "verify": [
+      "comunicados NatPower / Tesla Energy",
+      "Energy-Storage.News / Electrek"
+    ],
+    "when": "2026-06",
+    "category": "energy_megapack",
+    "body": "Supply/execution B2B con software de trading; no implica Powerwall retail en España.",
+    "ask": "Verifica: comunicados NatPower / Tesla Energy · Energy-Storage.News / Electrek"
+  },
+  {
+    "id": "ir-q2-2026",
+    "theme": "factories",
+    "date": "2026-07",
+    "date_precision": "quarter",
+    "title": "IR Q2 2026: capacidad plantas + Megafactory Texas en commissioning",
+    "summary": "Tabla pública de capacidad instalada; record deployments energy EMEA; Cybercab producción en Texas.",
+    "markets": [
+      "global"
+    ],
+    "confidence": "high",
+    "verify": [
+      "https://ir.tesla.com",
+      "TSLA-Q2-2026-Update.pdf"
+    ],
+    "when": "2026-07",
+    "category": "factories",
+    "body": "Tabla pública de capacidad instalada; record deployments energy EMEA; Cybercab producción en Texas.",
+    "ask": "Verifica: https://ir.tesla.com · TSLA-Q2-2026-Update.pdf"
+  },
+  {
+    "id": "fsd-eu-pending-harmonization",
+    "theme": "autonomy",
+    "date": "2026-09",
+    "date_precision": "month",
+    "title": "FSD Supervised UE: mapa por país en movimiento",
+    "summary": "Aprobaciones nacionales reportadas en varios países (p. ej. NL y otros); ES sigue en pruebas / sin clearance retail al cliente según trackers. Posible voto/coordinación UE — no fosilizar.",
+    "markets": [
+      "EU",
+      "ES"
+    ],
+    "confidence": "medium",
+    "uncertain": true,
+    "verify": [
+      "autoridades nacionales",
+      "Tesla Europe FSD dashboard",
+      "DGT"
+    ],
+    "when": "2026-09",
+    "category": "autonomy",
+    "body": "Aprobaciones nacionales reportadas en varios países (p. ej. NL y otros); ES sigue en pruebas / sin clearance retail al cliente según trackers. Posible voto/coordinación UE — no fosilizar.",
+    "ask": "Verifica: autoridades nacionales · Tesla Europe FSD dashboard · DGT",
+    "verify_hint": "Incierta — verifica en tesla.com / autoridades (no fosilizar)"
   }
 ];
 
+window.PRODUCT_COMPARATOR = {
+  "version": "2026-09-04",
+  "market_default": "ES",
+  "caveats": [
+    "WLTP y precios: verificar en configurador local",
+    "Disponibilidad de trim/software varía por país y fecha",
+    "Cybertruck / Semi / Cybercab no son compra retail práctica en ES"
+  ],
+  "products": [
+    {
+      "id": "model3",
+      "name": "Model 3",
+      "segment": "sedan_compact_mid",
+      "body": "sedán",
+      "relevance_es": "high",
+      "available_es": true,
+      "drivetrain_options": [
+        "RWD",
+        "AWD",
+        "Performance"
+      ],
+      "range_band_wltp": "alto (verificar km en configurador)",
+      "charging": [
+        "Supercharger",
+        "destino AC/DC según equipo"
+      ],
+      "space": "maletero + frunk; 5 plazas típicas",
+      "compare_axes": [
+        "eficiencia",
+        "precio_entrada",
+        "dinamica"
+      ]
+    },
+    {
+      "id": "modely",
+      "name": "Model Y",
+      "segment": "suv_crossover_compact",
+      "body": "SUV/crossover",
+      "relevance_es": "very_high",
+      "available_es": true,
+      "produced_in_eu": true,
+      "factory_eu": "Giga Berlin",
+      "drivetrain_options": [
+        "RWD",
+        "AWD",
+        "Performance"
+      ],
+      "range_band_wltp": "alto (verificar km en configurador)",
+      "charging": [
+        "Supercharger",
+        "destino AC/DC según equipo"
+      ],
+      "space": "más volumen de carga que Model 3; 5 plazas (variantes 7 / L: verificar mercado)",
+      "compare_axes": [
+        "espacio",
+        "versatilidad",
+        "volumen_eu"
+      ]
+    },
+    {
+      "id": "models",
+      "name": "Model S",
+      "segment": "sedan_premium",
+      "body": "sedán premium",
+      "relevance_es": "medium_low",
+      "available_es": "verify",
+      "drivetrain_options": [
+        "AWD",
+        "Plaid / Performance según mercado"
+      ],
+      "range_band_wltp": "muy alto (verificar)",
+      "charging": [
+        "Supercharger"
+      ],
+      "space": "premium; menor volumen de venta",
+      "compare_axes": [
+        "prestaciones",
+        "lujo",
+        "autonomia"
+      ],
+      "notes": "Producción S/X en Fremont reconfigurada según IR (Optimus); disponibilidad retail ES puede ser limitada — verificar web."
+    },
+    {
+      "id": "modelx",
+      "name": "Model X",
+      "segment": "suv_premium",
+      "body": "SUV premium",
+      "relevance_es": "medium_low",
+      "available_es": "verify",
+      "drivetrain_options": [
+        "AWD",
+        "Plaid / Performance según mercado"
+      ],
+      "range_band_wltp": "alto (verificar)",
+      "charging": [
+        "Supercharger"
+      ],
+      "space": "SUV grande; puertas falcon (histórico)",
+      "compare_axes": [
+        "espacio_premium",
+        "prestaciones"
+      ],
+      "notes": "Misma caveat de disponibilidad que Model S."
+    },
+    {
+      "id": "cybertruck",
+      "name": "Cybertruck",
+      "segment": "pickup",
+      "body": "pickup",
+      "relevance_es": "context_only",
+      "available_es": false,
+      "available_eu": false,
+      "drivetrain_options": [
+        "AWD / variantes EE.UU."
+      ],
+      "charging": [
+        "Supercharger NACS — contexto NA"
+      ],
+      "space": "caja pickup",
+      "compare_axes": [
+        "contraste_na_vs_eu"
+      ],
+      "notes": "No es opción de compra práctica en España/UE (homologación/diseño)."
+    },
+    {
+      "id": "powerwall",
+      "name": "Powerwall",
+      "segment": "energy_residential",
+      "body": "batería hogar",
+      "relevance_es": "medium",
+      "available_es": "verify",
+      "charging": [
+        "n/a — almacena energía hogar/solar"
+      ],
+      "compare_axes": [
+        "autoconsumo",
+        "backup"
+      ],
+      "notes": "Powerwall 3 / 3P (trifásico): IR cita 3P en Alemania y expansión a mercados trifásicos. ⚠️ Verificar SKU ES."
+    },
+    {
+      "id": "megapack",
+      "name": "Megapack",
+      "segment": "energy_utility",
+      "body": "almacenamiento red",
+      "relevance_es": "b2b_only",
+      "available_es": "b2b_project",
+      "compare_axes": [
+        "escala_red",
+        "software_despacho"
+      ],
+      "notes": "Cliente utility/B2B; no comparador retail de coche."
+    }
+  ],
+  "software_assistance": {
+    "names": [
+      "Autopilot",
+      "FSD (Supervised)"
+    ],
+    "rule": "Asistencia; conductor supervisa. Disponibilidad y nombre exacto varían por país/versión.",
+    "es_status": "⚠️ Verificar: pruebas DGT reportadas; clearance retail al cliente no asumir = NL/otros."
+  }
+};
+
+/* Derived pools for compare mode (attrs from product_comparator schema) */
 window.COMPARE_VEHICLES = [
   {
-    id: "model-3",
-    name: "Model 3",
-    attrs: {
-      "Tipo": "Sedán",
-      "Relevancia ES/EU": "Alta — volumen / uso diario",
-      "Segmento": "Volumen · eficiente",
-      "Producción EU citada": "No como ancla principal (volumen EU suele asociarse a Y en Berlin)",
-      "Notas": "Punto de partida típico en conversación ES"
-    }
+    "id": "model3",
+    "name": "Model 3",
+    "segment": "sedan_compact_mid",
+    "attrs": {
+      "Tipo": "sedán",
+      "Relevancia ES/EU": "Alta",
+      "Disponibilidad ES": "Sí",
+      "Tracción": "RWD, AWD, Performance",
+      "Autonomía (banda)": "alto (verificar km en configurador)",
+      "Carga": "Supercharger, destino AC/DC según equipo",
+      "Espacio": "maletero + frunk; 5 plazas típicas",
+      "Ejes de comparación": "eficiencia, precio_entrada, dinamica"
+    },
+    "uncertain": false
   },
   {
-    id: "model-y",
-    name: "Model Y",
-    attrs: {
-      "Tipo": "SUV / crossover compacto",
+    "id": "modely",
+    "name": "Model Y",
+    "segment": "suv_crossover_compact",
+    "attrs": {
+      "Tipo": "SUV/crossover",
       "Relevancia ES/EU": "Muy alta",
-      "Segmento": "Volumen · familiar / crossover",
-      "Producción EU citada": "Giga Berlin-Brandenburg",
-      "Notas": "Producto estrella europeo en narrativa pública"
-    }
+      "Disponibilidad ES": "Sí",
+      "Tracción": "RWD, AWD, Performance",
+      "Autonomía (banda)": "alto (verificar km en configurador)",
+      "Carga": "Supercharger, destino AC/DC según equipo",
+      "Espacio": "más volumen de carga que Model 3; 5 plazas (variantes 7 / L: verificar mercado)",
+      "Producción EU": "Giga Berlin",
+      "Ejes de comparación": "espacio, versatilidad, volumen_eu"
+    },
+    "uncertain": false
   },
   {
-    id: "model-s",
-    name: "Model S",
-    attrs: {
-      "Tipo": "Sedán premium",
-      "Relevancia ES/EU": "Media-baja (menor volumen)",
-      "Segmento": "Gama alta",
-      "Producción EU citada": "No es el foco Berlin Y",
-      "Notas": "Premium frente a 3/Y"
-    }
+    "id": "models",
+    "name": "Model S",
+    "segment": "sedan_premium",
+    "attrs": {
+      "Tipo": "sedán premium",
+      "Relevancia ES/EU": "Media-baja",
+      "Disponibilidad ES": "⚠️ Verificar en tesla.com",
+      "Tracción": "AWD, Plaid / Performance según mercado",
+      "Autonomía (banda)": "muy alto (verificar)",
+      "Carga": "Supercharger",
+      "Espacio": "premium; menor volumen de venta",
+      "Notas": "Producción S/X en Fremont reconfigurada según IR (Optimus); disponibilidad retail ES puede ser limitada — verificar web.",
+      "Ejes de comparación": "prestaciones, lujo, autonomia"
+    },
+    "uncertain": true,
+    "verify_hint": "Verificar en https://www.tesla.com/es_es"
   },
   {
-    id: "model-x",
-    name: "Model X",
-    attrs: {
+    "id": "modelx",
+    "name": "Model X",
+    "segment": "suv_premium",
+    "attrs": {
       "Tipo": "SUV premium",
-      "Relevancia ES/EU": "Media-baja (menor volumen)",
-      "Segmento": "Gama alta",
-      "Producción EU citada": "No es el foco Berlin Y",
-      "Notas": "Premium frente a 3/Y"
-    }
+      "Relevancia ES/EU": "Media-baja",
+      "Disponibilidad ES": "⚠️ Verificar en tesla.com",
+      "Tracción": "AWD, Plaid / Performance según mercado",
+      "Autonomía (banda)": "alto (verificar)",
+      "Carga": "Supercharger",
+      "Espacio": "SUV grande; puertas falcon (histórico)",
+      "Notas": "Misma caveat de disponibilidad que Model S.",
+      "Ejes de comparación": "espacio_premium, prestaciones"
+    },
+    "uncertain": true,
+    "verify_hint": "Verificar en https://www.tesla.com/es_es"
   },
   {
-    id: "cybertruck",
-    name: "Cybertruck",
-    attrs: {
-      "Tipo": "Pickup",
-      "Relevancia ES/EU": "No práctica como compra retail",
-      "Segmento": "NA / contraste de mercado",
-      "Producción EU citada": "—",
-      "Notas": "Diseño/homologación distintos a EE.UU.; no trates como opción ES"
-    }
+    "id": "cybertruck",
+    "name": "Cybertruck",
+    "segment": "pickup",
+    "attrs": {
+      "Tipo": "pickup",
+      "Relevancia ES/EU": "Solo contexto (no compra ES)",
+      "Disponibilidad ES": "No",
+      "Tracción": "AWD / variantes EE.UU.",
+      "Carga": "Supercharger NACS — contexto NA",
+      "Espacio": "caja pickup",
+      "Producción EU": "—",
+      "Notas": "No es opción de compra práctica en España/UE (homologación/diseño).",
+      "Ejes de comparación": "contraste_na_vs_eu"
+    },
+    "uncertain": false
   }
 ];
 
 window.COMPARE_ENERGY = [
   {
-    id: "powerwall",
-    name: "Powerwall",
-    attrs: {
-      "Escala": "Residencial / pequeño comercial",
-      "Cliente típico": "Hogar (y PYME según mercado)",
-      "Idea clave": "Almacenamiento en el punto de consumo",
-      "Software": "App / integración solar según mercado",
-      "Notas ES": "Verifica SKU y disponibilidad en tesla.com/es_es — la línea evoluciona"
-    }
+    "id": "powerwall",
+    "name": "Powerwall",
+    "segment": "energy_residential",
+    "attrs": {
+      "Tipo": "batería hogar",
+      "Relevancia ES/EU": "Media",
+      "Disponibilidad ES": "⚠️ Verificar en tesla.com",
+      "Carga": "n/a — almacena energía hogar/solar",
+      "Notas": "Powerwall 3 / 3P (trifásico): IR cita 3P en Alemania y expansión a mercados trifásicos. ⚠️ Verificar SKU ES.",
+      "Ejes de comparación": "autoconsumo, backup"
+    },
+    "uncertain": true,
+    "verify_hint": "Verificar en https://www.tesla.com/es_es"
   },
   {
-    id: "megapack",
-    name: "Megapack",
-    attrs: {
-      "Escala": "Red / utility / grandes proyectos",
-      "Cliente típico": "Utilities, desarrolladores, B2B",
-      "Idea clave": "Almacenamiento a escala de red",
-      "Software": "A menudo con capas de despacho / trading",
-      "Notas ES": "Un deal europeo ≠ Powerwall automático en tu bloque"
-    }
-  }
-];
-
-/* Hitos del módulo actualidad (pack 2026-09-04). Sin fechas inventadas: periodo = lo que dice la fuente. */
-window.ACTUALIDAD_TIMELINE = [
-  {
-    id: "tl-pack",
-    when: "2026-09-04",
-    category: "pack",
-    title: "Pack de contenido fechado",
-    body: "Este panorama lleva fecha explícita. Si lees mucho después, trata los ejemplos como ilustraciones y revalida en fuentes primarias.",
-    ask: "¿La app muestra «actualizado» y un CTA a tesla.com?"
-  },
-  {
-    id: "tl-berlin",
-    when: "2026 (continuo)",
-    category: "fábricas",
-    title: "Giga Berlin como ancla EU",
-    body: "Sigue siendo el ancla manufacturero en Europa (Model Y; evolución de celdas anunciada en prensa). Planes ≠ capacidad ya al máximo.",
-    ask: "¿Es anuncio, permiso o producción real?"
-  },
-  {
-    id: "tl-fsd",
-    when: "2026",
-    category: "autonomía",
-    title: "FSD Supervised — primeras aprobaciones UE",
-    body: "Primeras aprobaciones nacionales / provisionales reportadas en 2026; mapa por país en movimiento. No generalices a toda la UE ni a España sin comprobar.",
-    ask: "¿País? ¿Supervised? ¿Fuente primaria?"
-  },
-  {
-    id: "tl-energy",
-    when: "2026 (narrativa)",
-    category: "energy",
-    title: "Energy en el relato corporativo",
-    body: "Crece la narrativa de Megapack / software; deals europeos aparecen en prensa especializada. Separar utility-scale de producto residencial local.",
-    ask: "¿Residencial o utility? ¿Afecta al configurador ES?"
-  },
-  {
-    id: "tl-bev",
-    when: "2026 (mercado EU)",
-    category: "producto",
-    title: "Competencia BEV en Europa",
-    body: "Tesla no es el único actor. Precio, software y red de carga importan en el panorama competitivo.",
-    ask: "¿Qué cambia para un cliente en España esta semana?"
-  },
-  {
-    id: "tl-sources",
-    when: "Siempre",
-    category: "método",
-    title: "Fuentes primarias primero",
-    body: "tesla.com/es_es, Investor Relations / press, filings SEC, autoridades de homologación, mapa Supercharger oficial. Un medio serio + contraste.",
-    ask: "¿Qué fuente primaria confirmaría este titular?"
+    "id": "megapack",
+    "name": "Megapack",
+    "segment": "energy_utility",
+    "attrs": {
+      "Tipo": "almacenamiento red",
+      "Relevancia ES/EU": "Solo B2B / utility",
+      "Disponibilidad ES": "Proyecto B2B",
+      "Notas": "Cliente utility/B2B; no comparador retail de coche.",
+      "Ejes de comparación": "escala_red, software_despacho"
+    },
+    "uncertain": false
   }
 ];
 

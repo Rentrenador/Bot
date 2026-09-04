@@ -11,8 +11,8 @@
     quiz: null,
     starId: "ownership",
     mapAreaId: null,
-    compareLeft: "model-3",
-    compareRight: "model-y",
+    compareLeft: "model3",
+    compareRight: "modely",
     compareMode: "vehicles",
     timelineId: null,
   };
@@ -346,13 +346,79 @@
     `;
   }
 
-  /* ---------- STRUCTURE MAP ---------- */
+  /* ---------- STRUCTURE MAP (content schema: structure_map.nodes) ---------- */
+
+  function structureNodes() {
+    const sm = window.STRUCTURE_MAP;
+    if (!sm) return [];
+    if (Array.isArray(sm)) return sm;
+    return sm.nodes || [];
+  }
+
+  function structureMeta() {
+    const sm = window.STRUCTURE_MAP;
+    if (!sm || Array.isArray(sm)) return { version: "", source_note: "" };
+    return { version: sm.version || "", source_note: sm.source_note || "" };
+  }
+
+  const NODE_TYPE_META = {
+    company: { icon: "◎", accent: "red", short: "Compañía" },
+    segment: { icon: "▣", accent: "red", short: "Segmento IR" },
+    strategic: { icon: "◈", accent: "blue", short: "Línea estratégica" },
+    factory_vehicle: { icon: "▦", accent: "muted", short: "Fábrica vehículos" },
+    factory_energy: { icon: "⚡", accent: "amber", short: "Fábrica energy" },
+    customer_channel: { icon: "◎", accent: "green", short: "Canal cliente" },
+    infra: { icon: "⌁", accent: "red", short: "Infraestructura" },
+  };
+
+  function nodeTypeMeta(type) {
+    return NODE_TYPE_META[type] || { icon: "•", accent: "muted", short: type || "nodo" };
+  }
+
+  function childrenOf(nodes, parentId) {
+    return nodes.filter((n) => n.parent === parentId);
+  }
 
   function renderMap() {
-    const areas = window.STRUCTURE_MAP || [];
-    const activeId = state.mapAreaId || areas[0]?.id;
-    const active = areas.find((a) => a.id === activeId) || areas[0];
-    if (!active) return `<p class="empty">Mapa no disponible.</p>`;
+    const nodes = structureNodes();
+    const meta = structureMeta();
+    if (!nodes.length) return `<p class="empty">Mapa no disponible.</p>`;
+
+    const selectable = nodes.filter((n) => n.type !== "company");
+    const activeId = state.mapAreaId || selectable[0]?.id || nodes[0]?.id;
+    const active = nodes.find((a) => a.id === activeId) || selectable[0] || nodes[0];
+    const tm = nodeTypeMeta(active.type);
+    const kids = childrenOf(nodes, active.id);
+    const parent = nodes.find((n) => n.id === active.parent);
+
+    const groups = [
+      { key: "segment", title: "Segmentos" },
+      { key: "strategic", title: "Estratégico" },
+      { key: "factory_vehicle", title: "Fábricas vehículos" },
+      { key: "factory_energy", title: "Fábricas energy" },
+      { key: "customer_channel", title: "Canales EU/ES" },
+      { key: "infra", title: "Infra" },
+    ];
+
+    const panelBits = [];
+    panelBits.push(`<div class="map-panel-kicker">${escapeHtml(tm.icon)} ${escapeHtml(tm.short)}${active.region ? " · " + escapeHtml(active.region) : ""}</div>`);
+    panelBits.push(`<h2>${escapeHtml(active.label)}</h2>`);
+    if (active.uncertain) {
+      panelBits.push(`<span class="badge-uncertain">uncertain</span>`);
+      panelBits.push(`<div class="callout warn verify-hint"><strong>Verificar en tesla.com</strong> — ${escapeHtml(active.verify_hint || "Línea estratégica pública; no organigrama fijo. Mira IR / tesla.com.")}</div>`);
+    }
+    if (parent) panelBits.push(`<p class="map-lead">Padre: <strong>${escapeHtml(parent.label)}</strong></p>`);
+    if (active.status) panelBits.push(`<p class="map-lead">Estado: <strong>${escapeHtml(active.status)}</strong></p>`);
+    if (active.products && active.products.length) {
+      panelBits.push(`<p class="map-lead">Productos: ${escapeHtml(active.products.join(", "))}</p>`);
+    }
+    if (active.capacity) {
+      panelBits.push(`<div class="callout tip"><strong>Capacidad instalada (IR Q2’26):</strong> ${escapeHtml(active.capacity)}${active.capacity_detail ? `<br/><span style="color:var(--muted);font-size:.85rem">${escapeHtml(active.capacity_detail)} · capacidad ≠ ritmo actual</span>` : ""}</div>`);
+    }
+    if (kids.length) {
+      panelBits.push(`<h3 style="margin-top:1rem;font-size:.9rem">Nodos hijos</h3><ul class="bullets">${kids.map((k) => `<li>${escapeHtml(k.label)}${k.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}${k.capacity ? ` · <em>${escapeHtml(k.capacity)}</em>` : ""}</li>`).join("")}</ul>`);
+    }
+    panelBits.push(`<div class="hero-actions" style="margin-top:1rem"><button type="button" class="btn btn-ghost btn-sm" data-module="estructura">Ver módulo Estructura</button><a class="btn btn-ghost btn-sm" href="https://www.tesla.com/es_es" target="_blank" rel="noopener">tesla.com/es_es</a></div>`);
 
     return `
       <nav class="breadcrumb">
@@ -361,38 +427,37 @@
         <span>Mapa de estructura</span>
       </nav>
       <div class="module-hero">
-        <div class="tag">Interactivo · áreas públicas</div>
+        <div class="tag">structure_map · ${escapeHtml(meta.version || "pack")}</div>
         <h1>▦ Mapa de estructura</h1>
-        <p>Haz clic en un área de negocio u operativa. Detalle a la derecha (o debajo en móvil). Sin organigramas inventados.</p>
+        <p>${escapeHtml(meta.source_note || "Nodos públicos parseados del contenido. Sin organigramas inventados.")}</p>
       </div>
       <div class="map-layout">
-        <div class="map-grid" role="list">
-          ${areas.map((a) => `
-            <button type="button" class="map-node accent-${escapeHtml(a.accent || "red")} ${a.id === active.id ? "active" : ""}" data-map-area="${escapeHtml(a.id)}" role="listitem">
-              <span class="map-node-icon">${escapeHtml(a.icon)}</span>
-              <span class="map-node-title">${escapeHtml(a.title)}</span>
-              <span class="map-node-short">${escapeHtml(a.short)}</span>
-            </button>
-          `).join("")}
+        <div class="map-groups">
+          ${groups.map((g) => {
+            const items = nodes.filter((n) => n.type === g.key);
+            if (!items.length) return "";
+            return `<div class="map-group"><h3 class="map-group-title">${escapeHtml(g.title)}</h3>
+              <div class="map-grid" role="list">
+                ${items.map((a) => {
+                  const m = nodeTypeMeta(a.type);
+                  return `<button type="button" class="map-node accent-${escapeHtml(m.accent)} ${a.id === active.id ? "active" : ""} ${a.uncertain ? "uncertain" : ""}" data-map-area="${escapeHtml(a.id)}" role="listitem">
+                    <span class="map-node-icon">${escapeHtml(m.icon)}</span>
+                    <span class="map-node-title">${escapeHtml(a.label)}${a.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}</span>
+                    <span class="map-node-short">${escapeHtml(m.short)}${a.status ? " · " + escapeHtml(a.status) : ""}${a.capacity ? " · " + escapeHtml(a.capacity) : ""}</span>
+                  </button>`;
+                }).join("")}
+              </div></div>`;
+          }).join("")}
         </div>
         <aside class="map-panel card" id="map-detail">
-          <div class="map-panel-kicker">${escapeHtml(active.icon)} ${escapeHtml(active.title)}</div>
-          <h2>${escapeHtml(active.short)}</h2>
-          <p class="map-lead">${escapeHtml(active.detail.lead)}</p>
-          <ul class="bullets">
-            ${(active.detail.points || []).map((p) => `<li>${escapeHtml(p)}</li>`).join("")}
-          </ul>
-          ${active.detail.related ? `
-            <div class="hero-actions" style="margin-top:1rem">
-              <button type="button" class="btn btn-ghost btn-sm" data-module="${escapeHtml(active.detail.related)}">Ver módulo relacionado</button>
-            </div>` : ""}
+          ${panelBits.join("\n")}
         </aside>
       </div>
-      <p class="callout tip" style="margin-top:1rem">A nivel público Tesla se entiende por negocios (auto/energy) y nodos (fábricas, tiendas, service, Superchargers). El reporting interno detallado no es material obligatorio.</p>
+      <p class="callout tip" style="margin-top:1rem">Capacidad instalada (IR) ≠ ritmo de producción actual. Verifica cifras en <a href="https://ir.tesla.com" target="_blank" rel="noopener">ir.tesla.com</a>.</p>
     `;
   }
 
-  /* ---------- COMPARATOR ---------- */
+  /* ---------- COMPARATOR (product_comparator schema) ---------- */
 
   function comparePool() {
     return state.compareMode === "energy"
@@ -402,11 +467,12 @@
 
   function renderCompare() {
     const pool = comparePool();
-    if (pool.length < 2) return `<p class="empty">Comparador sin datos.</p>`;
+    const pc = window.PRODUCT_COMPARATOR || {};
+    if (pool.length < 1) return `<p class="empty">Comparador sin datos.</p>`;
 
     let left = pool.find((p) => p.id === state.compareLeft) || pool[0];
-    let right = pool.find((p) => p.id === state.compareRight) || pool[1];
-    if (left.id === right.id) {
+    let right = pool.find((p) => p.id === state.compareRight) || pool[1] || pool[0];
+    if (left.id === right.id && pool.length > 1) {
       right = pool.find((p) => p.id !== left.id) || pool[0];
     }
     state.compareLeft = left.id;
@@ -418,8 +484,16 @@
     ]));
 
     const opts = (selected) => pool.map((p) =>
-      `<option value="${escapeHtml(p.id)}" ${p.id === selected ? "selected" : ""}>${escapeHtml(p.name)}</option>`
+      `<option value="${escapeHtml(p.id)}" ${p.id === selected ? "selected" : ""}>${escapeHtml(p.name)}${p.uncertain ? " ⚠" : ""}</option>`
     ).join("");
+
+    const uncertainBanner = [left, right].filter((p) => p.uncertain).map((p) =>
+      `<div class="callout warn verify-hint"><span class="badge-uncertain">uncertain</span> <strong>${escapeHtml(p.name)}</strong>: ${escapeHtml(p.verify_hint || "Verificar en tesla.com/es_es")}</div>`
+    ).join("");
+
+    const caveats = (pc.caveats || []).map((c) => `<li>${escapeHtml(c)}</li>`).join("");
+    const soft = pc.software_assistance;
+    const softHtml = soft ? `<div class="callout tip" style="margin-top:.75rem"><strong>Software / asistencia:</strong> ${escapeHtml((soft.names || []).join(" / "))}. ${escapeHtml(soft.rule || "")}<br/><em>${escapeHtml(soft.es_status || "")}</em></div>` : "";
 
     return `
       <nav class="breadcrumb">
@@ -428,14 +502,15 @@
         <span>Comparador</span>
       </nav>
       <div class="module-hero">
-        <div class="tag">Hechos públicos · cualitativo</div>
+        <div class="tag">product_comparator · ${escapeHtml(pc.version || "")} · mercado ${escapeHtml(pc.market_default || "ES")}</div>
         <h1>⇄ Comparador de productos</h1>
-        <p>Atributos de panorama para conversación ES/EU. Sin km, precios ni CV inventados — verifica cifras en tesla.com/es_es.</p>
+        <p>Schema del contenido New Bot. Sin km/precios fosilizados — verifica en <a href="https://www.tesla.com/es_es" target="_blank" rel="noopener">tesla.com/es_es</a>.</p>
       </div>
       <div class="compare-mode-row">
         <button type="button" class="chip ${state.compareMode === "vehicles" ? "active" : ""}" data-compare-mode="vehicles">Vehículos</button>
         <button type="button" class="chip ${state.compareMode === "energy" ? "active" : ""}" data-compare-mode="energy">Energy</button>
       </div>
+      ${uncertainBanner}
       <div class="compare-pickers card">
         <label>
           <span>Producto A</span>
@@ -452,8 +527,8 @@
           <thead>
             <tr>
               <th>Atributo</th>
-              <th>${escapeHtml(left.name)}</th>
-              <th>${escapeHtml(right.name)}</th>
+              <th>${escapeHtml(left.name)}${left.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}</th>
+              <th>${escapeHtml(right.name)}${right.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}</th>
             </tr>
           </thead>
           <tbody>
@@ -467,17 +542,21 @@
           </tbody>
         </table>
       </div>
-      <div class="callout warn">Si no estás seguro de un número (autonomía WLTP, precio, potencia), omítelo. Este comparador prioriza tipología, relevancia de mercado y notas cualitativas.</div>
+      ${caveats ? `<div class="card" style="margin-top:.85rem"><h3>Caveats</h3><ul class="bullets">${caveats}</ul></div>` : ""}
+      ${softHtml}
+      <div class="callout warn">Si no estás seguro de un número (autonomía WLTP, precio, potencia), omítelo y verifica en el configurador.</div>
       <div class="hero-actions">
         <button type="button" class="btn btn-ghost" data-module="productos">Abrir módulo Productos</button>
+        <a class="btn btn-ghost" href="https://www.tesla.com/es_es" target="_blank" rel="noopener">Verificar en tesla.com</a>
       </div>
     `;
   }
 
-  /* ---------- ACTUALIDAD TIMELINE ---------- */
+  /* ---------- ACTUALIDAD TIMELINE (timeline.events schema) ---------- */
 
   function renderTimeline() {
     const items = window.ACTUALIDAD_TIMELINE || [];
+    const meta = window.ACTUALIDAD_TIMELINE_META || {};
     const activeId = state.timelineId || items[0]?.id;
     const active = items.find((i) => i.id === activeId) || items[0];
 
@@ -490,29 +569,37 @@
         <span>Timeline</span>
       </nav>
       <div class="module-hero">
-        <div class="tag">Pack ${escapeHtml(window.APP_META.updated)} · sin fechas inventadas</div>
+        <div class="tag">timeline · ${escapeHtml(meta.version || window.APP_META.updated)} · sin fechas inventadas</div>
         <h1>◉ Timeline de actualidad</h1>
-        <p>Hitos pedagógicos del módulo Actualidad. Pulsa un nodo para el detalle y la pregunta de lectura sana.</p>
+        <p>Eventos del contenido New Bot (${escapeHtml(String((meta.themes || []).join(", ")))}). Pulsa un hito para verificar fuentes.</p>
       </div>
       <div class="tl-interactive">
         ${items.map((it) => {
           const on = active && it.id === active.id;
+          const when = it.when || it.date || "";
+          const cat = it.category || it.theme || "";
+          const body = it.body || it.summary || "";
+          const preview = body.slice(0, 90) + (body.length > 90 ? "…" : "");
           return `
-            <button type="button" class="tl-interactive-item ${on ? "active" : ""}" data-timeline-id="${escapeHtml(it.id)}">
+            <button type="button" class="tl-interactive-item ${on ? "active" : ""} ${it.uncertain ? "uncertain" : ""}" data-timeline-id="${escapeHtml(it.id)}">
               <div class="tl-interactive-rail" aria-hidden="true"><span class="tl-interactive-dot"></span></div>
               <div class="tl-interactive-body">
-                <div class="tl-when">${escapeHtml(it.when)} · <span class="tl-cat">${escapeHtml(it.category)}</span></div>
+                <div class="tl-when">${escapeHtml(when)} · <span class="tl-cat">${escapeHtml(cat)}</span>${it.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}${it.confidence ? ` · <span class="tl-cat">${escapeHtml(it.confidence)}</span>` : ""}</div>
                 <h3>${escapeHtml(it.title)}</h3>
                 ${on ? `
-                  <p>${escapeHtml(it.body)}</p>
-                  ${it.ask ? `<div class="callout tip"><strong>Pregúntate:</strong> ${escapeHtml(it.ask)}</div>` : ""}
-                ` : `<p class="tl-preview">${escapeHtml(it.body.slice(0, 90))}…</p>`}
+                  <p>${escapeHtml(body)}</p>
+                  ${it.markets && it.markets.length ? `<p style="color:var(--muted);font-size:.82rem;margin:.35rem 0 0">Mercados: ${escapeHtml(it.markets.join(", "))}</p>` : ""}
+                  ${it.uncertain ? `<div class="callout warn verify-hint"><strong>Badge uncertain</strong> — ${escapeHtml(it.verify_hint || "Verifica en tesla.com / autoridades; no fosilizar.")}</div>` : ""}
+                  ${it.ask ? `<div class="callout tip"><strong>Verifica:</strong> ${escapeHtml(it.ask)}</div>` : ""}
+                  ${(it.verify || []).length ? `<ul class="bullets" style="margin-top:.5rem">${it.verify.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>` : ""}
+                ` : `<p class="tl-preview">${escapeHtml(preview)}</p>`}
               </div>
             </button>`;
         }).join("")}
       </div>
       <div class="hero-actions" style="margin-top:1rem">
         <button type="button" class="btn btn-primary" data-module="actualidad">Estudiar módulo Actualidad</button>
+        <a class="btn btn-ghost" href="https://www.tesla.com/es_es" target="_blank" rel="noopener">tesla.com/es_es</a>
         <button type="button" class="btn btn-ghost" data-go="home">Inicio</button>
       </div>
     `;
