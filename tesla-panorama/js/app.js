@@ -626,6 +626,23 @@
 
   function packChangesCardHtml() {
     const meta = window.CONTENT_PACK_META || {};
+    const wc = window.WHAT_CHANGED || [];
+    if (wc.length) {
+      return `
+      <div class="card pack-changes-card">
+        <div class="pack-changes-kicker">what_changed · ${escapeHtml(meta.version || meta.updated || window.APP_META.updated)}</div>
+        <h3 style="margin:.25rem 0 .5rem">¿Qué ha cambiado en el contenido?</h3>
+        <ul class="bullets">${wc.map((item) => {
+          const since = item.since ? `<span class="tl-cat">${escapeHtml(item.since)}</span> · ` : "";
+          const theme = item.theme ? `<span class="tl-cat">${escapeHtml(item.theme)}</span>` : "";
+          const verify = (item.verify || []).length
+            ? `<ul class="bullets" style="margin-top:.35rem">${item.verify.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>`
+            : "";
+          return `<li><strong>${since}${theme}</strong><div>${escapeHtml(item.summary || "")}</div>${verify}</li>`;
+        }).join("")}</ul>
+        ${meta.notes ? `<p class="pack-changes-note">${escapeHtml(meta.notes)}</p>` : ""}
+      </div>`;
+    }
     const changes = meta.changelog || [];
     if (!changes.length && !meta.version) return "";
     return `
