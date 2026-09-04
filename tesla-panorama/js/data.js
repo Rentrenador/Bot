@@ -816,6 +816,7 @@ window.ACTUALIDAD_TIMELINE = [
   },
   {
     "id": "fsd-nl-approval",
+    "recent": true,
     "theme": "autonomy",
     "date": "2026-04-10",
     "date_precision": "day",
@@ -838,6 +839,7 @@ window.ACTUALIDAD_TIMELINE = [
   },
   {
     "id": "es-retail-expansion-2026",
+    "recent": true,
     "theme": "europe_spain",
     "date": "2026-02",
     "date_precision": "month",
@@ -857,6 +859,7 @@ window.ACTUALIDAD_TIMELINE = [
   },
   {
     "id": "natpower-megapack",
+    "recent": true,
     "theme": "energy_megapack",
     "date": "2026-06",
     "date_precision": "month",
@@ -879,6 +882,7 @@ window.ACTUALIDAD_TIMELINE = [
   },
   {
     "id": "ir-q2-2026",
+    "recent": true,
     "theme": "factories",
     "date": "2026-07",
     "date_precision": "quarter",
@@ -899,6 +903,7 @@ window.ACTUALIDAD_TIMELINE = [
   },
   {
     "id": "fsd-eu-pending-harmonization",
+    "recent": true,
     "theme": "autonomy",
     "date": "2026-09",
     "date_precision": "month",
@@ -1266,3 +1271,676 @@ window.STUDY_PATH = [
 window.STUDY_PATH_FTT = [
   "programa-ftt", "historias-star"
 ];
+
+/* ——— Pack meta + glosario / carga EU / ops journey (content 09–11) ——— */
+window.CONTENT_PACK_META = {
+  "version": "2026-09-04",
+  "updated": "2026-09-04",
+  "source": "tesla-panorama-content/",
+  "changelog": [
+    "Glosario buscable (términos públicos ES/EU)",
+    "Vista Carga / Europa (capas cualitativas + Find Us)",
+    "Ops día a día: stepper Sales → Delivery → Service",
+    "Modo «¿Qué ha cambiado?» en timeline (uncertain / verify / recientes)",
+    "Schema structure_map / product_comparator / timeline (pack New Bot)"
+  ],
+  "notes": "Hechos públicos; cifras perishable — verificar en tesla.com / IR. No inventar organigramas ni stalls por ciudad."
+};
+
+window.GLOSSARY = [
+  {
+    "id": "autopilot",
+    "term": "Autopilot",
+    "short": "Nombre histórico del paquete de asistencia al conductor de Tesla (mantenimiento de carril, control de crucero adaptativo, etc.). Naming en UI puede evolucionar (p. ej. Autosteer / Self-Driving en menús); no implica autonomía total.",
+    "tags": [
+      "software",
+      "asistencia",
+      "seguridad"
+    ],
+    "related": [
+      "autosteer",
+      "fsd-supervised",
+      "ota"
+    ]
+  },
+  {
+    "id": "autosteer",
+    "term": "Autosteer",
+    "short": "Función de mantenimiento de carril / dirección asistida dentro del ecosistema de asistencia. En actualizaciones OTA 2026, Tesla ha renombrado etiquetas (p. ej. Navigate on Autopilot → Navigate on Autosteer) sin cambiar necesariamente el comportamiento.",
+    "tags": [
+      "software",
+      "asistencia"
+    ],
+    "related": [
+      "autopilot",
+      "fsd-supervised"
+    ]
+  },
+  {
+    "id": "fsd-supervised",
+    "term": "FSD (Supervised)",
+    "short": "Full Self-Driving (Supervised): asistencia avanzada bajo supervisión continua del conductor. No es robotaxi ni autonomía sin conductor. Disponibilidad, precio y aprobación regulatoria dependen del país.",
+    "tags": [
+      "software",
+      "asistencia",
+      "regulacion",
+      "europa"
+    ],
+    "related": [
+      "autopilot",
+      "hw3",
+      "hw4",
+      "ota"
+    ]
+  },
+  {
+    "id": "hw3",
+    "term": "HW3 / Autopilot Hardware 3",
+    "short": "Generación de hardware de visión/cómputo a bordo usada en muchos vehículos Tesla de años anteriores. Capacidades de software futuras pueden diferir respecto a HW4; verifica por VIN/app.",
+    "tags": [
+      "hardware",
+      "asistencia"
+    ],
+    "related": [
+      "hw4",
+      "fsd-supervised",
+      "ai-computer"
+    ]
+  },
+  {
+    "id": "hw4",
+    "term": "HW4 / AI4",
+    "short": "Generación más reciente de hardware de visión/cómputo a bordo (a veces referida como AI4 en comunidad/prensa). Presente en modelos más nuevos; no garantiza FSD Supervised en todos los mercados.",
+    "tags": [
+      "hardware",
+      "asistencia"
+    ],
+    "related": [
+      "hw3",
+      "fsd-supervised",
+      "ai-computer"
+    ]
+  },
+  {
+    "id": "ai-computer",
+    "term": "AI Computer",
+    "short": "Nombre de UI (OTA ~2026) para el computador de inferencia a bordo antes etiquetado como FSD Computer. Renombre de interfaz; el silicio del coche no cambia por el nombre.",
+    "tags": [
+      "hardware",
+      "software",
+      "naming"
+    ],
+    "related": [
+      "hw3",
+      "hw4",
+      "fsd-supervised"
+    ]
+  },
+  {
+    "id": "ota",
+    "term": "OTA (Over-The-Air)",
+    "short": "Actualización de software del vehículo por red, sin visita obligatoria al taller. Puede cambiar UI, funciones, eficiencia o correcciones de seguridad.",
+    "tags": [
+      "software",
+      "ops",
+      "producto"
+    ],
+    "related": [
+      "autopilot",
+      "fsd-supervised",
+      "app-tesla"
+    ]
+  },
+  {
+    "id": "supercharger",
+    "term": "Supercharger",
+    "short": "Red de carga rápida DC de Tesla, pensada para viajes y recargas de alto kW. En Europa usa conector CCS2. Parte de la experiencia de producto y de las ops de red.",
+    "tags": [
+      "carga",
+      "infra",
+      "viaje"
+    ],
+    "related": [
+      "destination-charger",
+      "wall-connector",
+      "ccs2",
+      "afir"
+    ]
+  },
+  {
+    "id": "destination-charger",
+    "term": "Destination Charger",
+    "short": "Cargador AC (típicamente en hoteles, restaurantes, destinos) del programa Destination Charging de Tesla. Más lento que Supercharger; pensado para cargar mientras estás aparcado en destino.",
+    "tags": [
+      "carga",
+      "destino",
+      "ac"
+    ],
+    "related": [
+      "supercharger",
+      "wall-connector"
+    ]
+  },
+  {
+    "id": "wall-connector",
+    "term": "Wall Connector",
+    "short": "Cargador de pared Tesla para casa o empresa (AC). Suele ser la opción principal de carga diaria si hay plaza y instalación eléctrica adecuada.",
+    "tags": [
+      "carga",
+      "hogar",
+      "ac"
+    ],
+    "related": [
+      "mobile-connector",
+      "destination-charger"
+    ]
+  },
+  {
+    "id": "mobile-connector",
+    "term": "Mobile Connector",
+    "short": "Cable/cargador portátil Tesla para enchufes domésticos o adaptadores; carga lenta. Recomendado como respaldo; no confundir con Mobile Service (técnico a domicilio).",
+    "tags": [
+      "carga",
+      "accesorio"
+    ],
+    "related": [
+      "wall-connector",
+      "mobile-service"
+    ]
+  },
+  {
+    "id": "ccs2",
+    "term": "CCS2",
+    "short": "Combined Charging System Tipo 2: conector estándar de carga rápida en Europa. Los Superchargers europeos usan CCS2 (sin Magic Dock típico de NACS en NA).",
+    "tags": [
+      "carga",
+      "europa",
+      "estandar"
+    ],
+    "related": [
+      "supercharger",
+      "afir"
+    ]
+  },
+  {
+    "id": "afir",
+    "term": "AFIR",
+    "short": "Alternative Fuels Infrastructure Regulation (UE): marco que exige, entre otras cosas, acceso ad-hoc y transparencia en puntos de carga públicos. Afecta el ecosistema de carga europea, incluida la red abierta a terceros donde aplique.",
+    "tags": [
+      "regulacion",
+      "europa",
+      "carga"
+    ],
+    "related": [
+      "supercharger",
+      "ccs2"
+    ]
+  },
+  {
+    "id": "megapack",
+    "term": "Megapack",
+    "short": "Sistema de almacenamiento de energía a escala utility / comercial grande. Negocio B2B Energy; no es el Powerwall residencial.",
+    "tags": [
+      "energy",
+      "utility",
+      "producto"
+    ],
+    "related": [
+      "powerwall",
+      "megafactory"
+    ]
+  },
+  {
+    "id": "powerwall",
+    "term": "Powerwall",
+    "short": "Batería residencial/comercial pequeña de Tesla Energy para almacenar energía solar o de red. Disponibilidad de variantes (p. ej. trifásico) depende del mercado.",
+    "tags": [
+      "energy",
+      "residencial",
+      "producto"
+    ],
+    "related": [
+      "megapack",
+      "solar"
+    ]
+  },
+  {
+    "id": "megafactory",
+    "term": "Megafactory",
+    "short": "Planta dedicada a fabricar Megapack (p. ej. California, Shanghai; Texas en commissioning según IR). Distinta de las Giga de vehículos.",
+    "tags": [
+      "energy",
+      "fabricacion"
+    ],
+    "related": [
+      "megapack",
+      "giga"
+    ]
+  },
+  {
+    "id": "giga",
+    "term": "Giga (Gigafactory)",
+    "short": "Prefijo de fábricas a gran escala de Tesla (Shanghai, Berlin-Brandenburg, Texas, Nevada…). «Giga Berlin» produce Model Y para Europa; España no tiene Giga de vehículos.",
+    "tags": [
+      "fabricacion",
+      "estructura"
+    ],
+    "related": [
+      "giga-berlin",
+      "juniper",
+      "megafactory"
+    ]
+  },
+  {
+    "id": "giga-berlin",
+    "term": "Giga Berlin-Brandenburg",
+    "short": "Fábrica de vehículos en Grünheide (Alemania). Ancla europea de producción de Model Y (incl. refresh). Fuente habitual de stock EU.",
+    "tags": [
+      "fabricacion",
+      "europa"
+    ],
+    "related": [
+      "giga",
+      "juniper",
+      "model-y"
+    ]
+  },
+  {
+    "id": "juniper",
+    "term": "Juniper (Model Y refresh)",
+    "short": "Nombre interno/prensa del facelift del Model Y (producción EU reportada desde ene 2025 en Berlin). En web de cliente suele aparecer como New Model Y / Model Y actualizado — no memorices el code name como SKU oficial.",
+    "tags": [
+      "producto",
+      "naming",
+      "europa"
+    ],
+    "related": [
+      "highland",
+      "model-y",
+      "giga-berlin"
+    ]
+  },
+  {
+    "id": "highland",
+    "term": "Highland (Model 3 refresh)",
+    "short": "Nombre interno/prensa del facelift del Model 3 (lanzado antes que Juniper). En configurador: Model 3 actual; el code name es útil para estudiar, no para vender.",
+    "tags": [
+      "producto",
+      "naming"
+    ],
+    "related": [
+      "juniper",
+      "model-3"
+    ]
+  },
+  {
+    "id": "model-3",
+    "term": "Model 3",
+    "short": "Sedán de volumen de Tesla. Muy relevante en ES/EU; precios y trims cambian en configurador.",
+    "tags": [
+      "producto",
+      "vehiculo"
+    ],
+    "related": [
+      "highland",
+      "model-y",
+      "supercharger"
+    ]
+  },
+  {
+    "id": "model-y",
+    "term": "Model Y",
+    "short": "SUV/crossover de mayor volumen; en Europa se produce en Giga Berlin. Suele ser el producto estrella de conversación en ES.",
+    "tags": [
+      "producto",
+      "vehiculo",
+      "europa"
+    ],
+    "related": [
+      "juniper",
+      "giga-berlin",
+      "model-3"
+    ]
+  },
+  {
+    "id": "delivery-hub",
+    "term": "Delivery Hub / Delivery Center",
+    "short": "Centro de preparación y entrega de vehículos al cliente. Puede compartir o no emplazamiento con Store o Service. Handoff crítico Sales → Delivery.",
+    "tags": [
+      "ops",
+      "entrega",
+      "retail"
+    ],
+    "related": [
+      "store",
+      "service-center",
+      "mobile-service"
+    ]
+  },
+  {
+    "id": "store",
+    "term": "Store / Gallery / Tesla Center (retail)",
+    "short": "Punto de contacto comercial: demos, educación, pedidos. En venta directa no es un concesionario legacy con stock negociable al estilo tradicional.",
+    "tags": [
+      "ops",
+      "venta",
+      "retail"
+    ],
+    "related": [
+      "delivery-hub",
+      "service-center"
+    ]
+  },
+  {
+    "id": "service-center",
+    "term": "Service Center",
+    "short": "Taller Tesla para mantenimiento y reparaciones que requieren bahía, elevador o piezas mayores. Citas vía app.",
+    "tags": [
+      "ops",
+      "servicio"
+    ],
+    "related": [
+      "mobile-service",
+      "parts",
+      "delivery-hub"
+    ]
+  },
+  {
+    "id": "mobile-service",
+    "term": "Mobile Service",
+    "short": "Técnico Tesla que repara en domicilio/trabajo cuando el trabajo lo permite. No es el Mobile Connector (cable). Reduce visitas al Service Center.",
+    "tags": [
+      "ops",
+      "servicio"
+    ],
+    "related": [
+      "service-center",
+      "parts",
+      "mobile-connector"
+    ]
+  },
+  {
+    "id": "parts",
+    "term": "Parts / Piezas",
+    "short": "Cadena de suministro de recambios para Service y Mobile Service. Cuello de botella frecuente en ops de reparación y tiempos de cita.",
+    "tags": [
+      "ops",
+      "servicio"
+    ],
+    "related": [
+      "service-center",
+      "mobile-service"
+    ]
+  },
+  {
+    "id": "app-tesla",
+    "term": "App Tesla",
+    "short": "Aplicación móvil: control remoto, carga, citas de servicio, actualizaciones, localización Find Us / Superchargers. Canal principal post-venta.",
+    "tags": [
+      "software",
+      "cliente",
+      "ops"
+    ],
+    "related": [
+      "ota",
+      "supercharger",
+      "mobile-service"
+    ]
+  },
+  {
+    "id": "find-us",
+    "term": "Find Us",
+    "short": "Mapa oficial de tiendas, delivery, service y carga en tesla.com. Fuente viva para no fosilizar conteos de Superchargers o centros.",
+    "tags": [
+      "infra",
+      "retail",
+      "fuente"
+    ],
+    "related": [
+      "supercharger",
+      "store",
+      "service-center"
+    ]
+  },
+  {
+    "id": "ir-update",
+    "term": "IR Update / Earnings Update",
+    "short": "Informe trimestral de Investor Relations (PDF en ir.tesla.com): capacidad de plantas, entregas, energy, outlook. Fuente primaria para cifras de compañía.",
+    "tags": [
+      "finanzas",
+      "fuente",
+      "estructura"
+    ],
+    "related": [
+      "megapack",
+      "giga"
+    ]
+  },
+  {
+    "id": "wltp",
+    "term": "WLTP",
+    "short": "Ciclo de homologación de autonomía/consumo en Europa. Las cifras del configurador ES usan WLTP; no las compares a EPA (EE.UU.) sin contexto.",
+    "tags": [
+      "producto",
+      "europa",
+      "autonomia"
+    ],
+    "related": [
+      "model-3",
+      "model-y"
+    ]
+  },
+  {
+    "id": "venta-directa",
+    "term": "Venta directa",
+    "short": "Modelo comercial en el que Tesla vende al cliente sin red de dealers independientes (en mercados donde aplica, p. ej. ES). Precio más transparente online; tienda = canal de marca.",
+    "tags": [
+      "ops",
+      "venta",
+      "retail"
+    ],
+    "related": [
+      "store",
+      "delivery-hub"
+    ]
+  },
+  {
+    "id": "cybertruck",
+    "term": "Cybertruck",
+    "short": "Pick-up producido principalmente en Giga Texas. No es compra retail práctica típica en España; útil como contexto de producto global.",
+    "tags": [
+      "producto",
+      "vehiculo"
+    ],
+    "related": [
+      "giga"
+    ]
+  },
+  {
+    "id": "optimus",
+    "term": "Optimus",
+    "short": "Proyecto de robot humanoide en la narrativa AI/Robotics. Roadmap ≠ inventario en configurador ES; no lo trates como producto de venta local.",
+    "tags": [
+      "ai",
+      "robotics",
+      "roadmap"
+    ],
+    "related": [
+      "fsd-supervised"
+    ]
+  },
+  {
+    "id": "trade-in",
+    "term": "Trade-in / Entrega de vehículo usado",
+    "short": "Valoración y entrega de un coche usado (Tesla u otra marca) como parte del proceso de compra de uno nuevo. Condiciones y partners varían por mercado; verifica en el flujo de pedido / app.",
+    "tags": [
+      "ops",
+      "venta",
+      "finanzas"
+    ],
+    "related": [
+      "store",
+      "delivery-hub",
+      "venta-directa"
+    ]
+  },
+  {
+    "id": "delivery",
+    "term": "Delivery (entrega)",
+    "short": "Momento y proceso de handoff del vehículo al cliente (cita, documentación, walkthrough, app). Suele ocurrir en un Delivery Hub/Center. Distinto de Delivery (logística de paquetería genérica).",
+    "tags": [
+      "ops",
+      "entrega"
+    ],
+    "related": [
+      "delivery-hub",
+      "store",
+      "app-tesla"
+    ]
+  }
+];
+
+window.CHARGING_EU = {
+  "version": "2026-09-04",
+  "market_default": "ES",
+  "layers": [
+    {
+      "id": "home_ac",
+      "label": "Casa / trabajo (AC)",
+      "kind": "conceptual",
+      "description": "Wall Connector u otro wallbox; carga diaria típica. Depende de plaza e instalación eléctrica."
+    },
+    {
+      "id": "destination_ac",
+      "label": "Destination Charging (AC)",
+      "kind": "network",
+      "description": "Hoteles, restaurantes y destinos del programa Destination Charging. Más lento; cargas mientras estás aparcado."
+    },
+    {
+      "id": "supercharger_dc",
+      "label": "Supercharger (DC rápido)",
+      "kind": "network",
+      "description": "Red rápida Tesla CCS2 en EU. Viajes y top-ups de alto kW. Mapa oficial: Find Us / app."
+    },
+    {
+      "id": "third_party_dc",
+      "label": "Otras redes DC (Ionity, etc.)",
+      "kind": "ecosystem",
+      "description": "Redes no Tesla en corredores EU. Complementan el viaje; no son el foco de este módulo."
+    },
+    {
+      "id": "open_access",
+      "label": "Acceso abierto a no-Tesla (selectivo)",
+      "kind": "policy",
+      "description": "Parte de la red Supercharger EU está abierta a otros BEV CCS2 vía app Tesla. No todas las estaciones; verificar en mapa «Charge Your Non-Tesla» / Find Us."
+    }
+  ],
+  "notes": [
+    "No fosilizar stalls por ciudad: usar Find Us.",
+    "AFIR (UE) refuerza acceso ad-hoc y transparencia en carga pública; plazos de pago con tarjeta/contactless afectan a operadores en red TEN-T.",
+    "En EU el conector Supercharger es CCS2 (estándar regional).",
+    "Potencia por stall y apertura a terceros cambian con el tiempo — verificar en sitio."
+  ],
+  "spain": {
+    "summary": "Red Supercharger densa en corredores principales (A-1, Mediterráneo, etc.); sin fábrica de vehículos. Carga en casa + Supercharger en viaje es el patrón típico.",
+    "milestone_press": {
+      "claim": "Hito ~1.000 stalls / ~96 estaciones en España (comunicado / prensa, marzo 2026).",
+      "as_of": "2026-03",
+      "confidence": "medium",
+      "perishable": true,
+      "verify": [
+        "https://www.tesla.com/es_ES/findus",
+        "comunicados @TeslaCharging / Tesla España",
+        "https://www.expansion.com/empresas/motor/2026/03/05/69a9ade5468aeb7d318b45bb.html"
+      ]
+    },
+    "qualitative": [
+      "Corredores de larga distancia y turismo estival tensionan la capacidad — más stalls por estación ayudan a colas.",
+      "Muchas estaciones reportadas a potencias altas (p. ej. V3/V4 ~250 kW por stall en comunicados) — verificar en sitio.",
+      "Apertura a no-Tesla en estaciones seleccionadas; no asumir toda la red."
+    ],
+    "nodes_for_ui": [
+      {
+        "id": "es-home",
+        "label": "Carga en destino/casa",
+        "layer": "home_ac",
+        "region": "ES"
+      },
+      {
+        "id": "es-sc-network",
+        "label": "Red Supercharger ES (mapa vivo)",
+        "layer": "supercharger_dc",
+        "region": "ES",
+        "map_url": "https://www.tesla.com/es_ES/findus"
+      },
+      {
+        "id": "es-destination",
+        "label": "Destination Charging ES",
+        "layer": "destination_ac",
+        "region": "ES"
+      },
+      {
+        "id": "eu-afir",
+        "label": "Marco AFIR (UE)",
+        "layer": "open_access",
+        "region": "EU"
+      }
+    ]
+  },
+  "verify_links": [
+    "https://www.tesla.com/es_ES/findus",
+    "https://www.tesla.com/trips",
+    "https://www.tesla.com/en_eu/support/charging (o soporte local ES)",
+    "Reglamento (UE) 2023/1804 — AFIR"
+  ]
+};
+
+window.OPS_FLOW = {
+  "version": "2026-09-04",
+  "market_default": "ES",
+  "disclaimer": "Roles a nivel público / visible al cliente; títulos exactos y headcount no son públicos.",
+  "stages": [
+    {
+      "id": "sale",
+      "title": "Venta / educación",
+      "what_happens": "Cliente explora web o Store/Gallery; prueba de conducción si aplica; configuración del vehículo; aclaración de autonomía realista, carga, asistencia y plazos.",
+      "customer_sees": "Configurador, precio transparente online, asesor en tienda, demo drive, depósito/pedido.",
+      "tesla_team": "Sales / Product Specialists / Advisors (educación y cierre de pedido; no dealer legacy)."
+    },
+    {
+      "id": "order_finance",
+      "title": "Pedido y financiación",
+      "what_happens": "Pedido en cuenta Tesla; opciones de pago o financiación vía partners locales; posibles trade-in; seguimiento de estado del pedido en app/web.",
+      "customer_sees": "Confirmación de pedido, estimaciones de entrega, documentos de financiación/seguros según mercado.",
+      "tesla_team": "Sales + equipos de order support / finance partners (externos según país)."
+    },
+    {
+      "id": "prepare",
+      "title": "Preparación / logística",
+      "what_happens": "Asignación de VIN/stock, transporte desde fábrica (p. ej. Berlin) o inventario regional, inspección, prep estética/técnica, scheduling de cita de entrega.",
+      "customer_sees": "Actualizaciones de fecha, invitación a agendar Delivery Hub, checklist de documentos.",
+      "tesla_team": "Logistics, Delivery Ops, Quality / Inventory (nombres internos varían; lo visible es ‘tu coche se prepara’)."
+    },
+    {
+      "id": "delivery",
+      "title": "Entrega",
+      "what_happens": "Cita en Delivery Hub/Center: documentación, walkthrough del vehículo, emparejar app, explicación de carga y funciones básicas, handoff de llaves/cuenta.",
+      "customer_sees": "Día de entrega, tour del coche, app funcionando, primera carga orientada.",
+      "tesla_team": "Delivery Specialists / Delivery Advisors; handoff limpio desde Sales."
+    },
+    {
+      "id": "ownership",
+      "title": "Uso diario (post-entrega)",
+      "what_happens": "Carga en casa/destino + Supercharger en viaje; OTA; soporte vía app; posibles upgrades de software según mercado.",
+      "customer_sees": "App, Superchargers, actualizaciones, notificaciones.",
+      "tesla_team": "Customer Support, Charging Ops (red), Software (OTA) — en contacto indirecto."
+    },
+    {
+      "id": "service",
+      "title": "Servicio / pieces / mobile",
+      "what_happens": "Diagnóstico (a menudo remoto vía telemetría/app); cita Mobile Service o Service Center; piezas; reparación; cierre y feedback.",
+      "customer_sees": "Solicitud de servicio en app, técnico a domicilio o taller, estimaciones, posibles loaners según política/disponibilidad.",
+      "tesla_team": "Service Advisors, Technicians, Mobile Service, Parts."
+    }
+  ]
+};

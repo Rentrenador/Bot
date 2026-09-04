@@ -15,6 +15,12 @@
     compareRight: "modely",
     compareMode: "vehicles",
     timelineId: null,
+    timelineMode: "all",
+    glossaryQuery: "",
+    glossaryTag: "all",
+    glossaryId: null,
+    chargingLayerId: null,
+    opsStep: 0,
   };
 
   function loadStore() {
@@ -150,7 +156,7 @@
   }
 
   function setActiveNav(view) {
-    const tools = ["map", "compare", "timeline"];
+    const tools = ["map", "compare", "timeline", "glossary", "charging", "ops"];
     document.querySelectorAll("[data-nav]").forEach((btn) => {
       const nav = btn.getAttribute("data-nav");
       const active =
@@ -181,6 +187,12 @@
     if (opts.compareRight) state.compareRight = opts.compareRight;
     if (opts.compareMode) state.compareMode = opts.compareMode;
     if (opts.timelineId !== undefined) state.timelineId = opts.timelineId;
+    if (opts.timelineMode) state.timelineMode = opts.timelineMode;
+    if (opts.glossaryQuery !== undefined) state.glossaryQuery = opts.glossaryQuery;
+    if (opts.glossaryTag) state.glossaryTag = opts.glossaryTag;
+    if (opts.glossaryId !== undefined) state.glossaryId = opts.glossaryId;
+    if (opts.chargingLayerId !== undefined) state.chargingLayerId = opts.chargingLayerId;
+    if (opts.opsStep !== undefined) state.opsStep = opts.opsStep;
     location.hash = buildHash(view, opts);
     render();
     $main.focus({ preventScroll: true });
@@ -200,7 +212,21 @@
     if (view === "compare") return "#/comparador";
     if (view === "timeline") {
       const id = opts.timelineId || state.timelineId;
-      return id ? "#/actualidad-timeline/" + id : "#/actualidad-timeline";
+      const base = id ? "#/actualidad-timeline/" + id : "#/actualidad-timeline";
+      const mode = opts.timelineMode || state.timelineMode;
+      return mode && mode !== "all" ? base + "?modo=cambios" : base;
+    }
+    if (view === "glossary") {
+      const id = opts.glossaryId || state.glossaryId;
+      return id ? "#/glosario/" + id : "#/glosario";
+    }
+    if (view === "charging") {
+      const id = opts.chargingLayerId || state.chargingLayerId;
+      return id ? "#/carga/" + id : "#/carga";
+    }
+    if (view === "ops") {
+      const step = opts.opsStep !== undefined ? opts.opsStep : state.opsStep;
+      return step ? "#/ops/" + step : "#/ops";
     }
     return "#/";
   }
@@ -220,7 +246,17 @@
     if (parts[0] === "star") return navigate("star", { starId: parts[1] || "ownership" });
     if (parts[0] === "mapa") return navigate("map", { mapAreaId: parts[1] || null });
     if (parts[0] === "comparador") return navigate("compare");
-    if (parts[0] === "actualidad-timeline") return navigate("timeline", { timelineId: parts[1] || null });
+    if (parts[0] === "actualidad-timeline") {
+      const q = (location.hash.split("?")[1] || "");
+      const mode = /modo=cambios/.test(q) ? "changed" : "all";
+      return navigate("timeline", { timelineId: parts[1] || null, timelineMode: mode });
+    }
+    if (parts[0] === "glosario") return navigate("glossary", { glossaryId: parts[1] || null });
+    if (parts[0] === "carga") return navigate("charging", { chargingLayerId: parts[1] || null });
+    if (parts[0] === "ops") {
+      const step = parts[1] ? parseInt(parts[1], 10) : 0;
+      return navigate("ops", { opsStep: Number.isFinite(step) ? step : 0 });
+    }
     return navigate("home");
   }
 
@@ -232,7 +268,7 @@
       <div class="section-head">
         <div>
           <h2>Herramientas</h2>
-          <p>Mapa, comparador, timeline y quiz — primera clase en el dashboard.</p>
+          <p>Mapa, comparador, timeline, glosario, carga EU, ops y quiz — primera clase en el dashboard.</p>
         </div>
       </div>
       <div class="grid grid-tools">
@@ -251,14 +287,38 @@
         <button type="button" class="card card-clickable tool-card" data-go="timeline">
           <div class="card-icon">◉</div>
           <h3>Timeline actualidad</h3>
-          <p>Hitos del pack ${escapeHtml(window.APP_META.updated)} — sin fechas inventadas.</p>
+          <p>Hitos del pack ${escapeHtml(window.APP_META.updated)} — modo «¿Qué ha cambiado?» incluido.</p>
           <span class="tool-cta">Ver timeline →</span>
+        </button>
+        <button type="button" class="card card-clickable tool-card" data-go="glossary">
+          <div class="card-icon">Aa</div>
+          <h3>Glosario</h3>
+          <p>FSD, OTA, WLTP, Megapack, Delivery, Trade-in, Supercharger, HW… con búsqueda al escribir.</p>
+          <span class="tool-cta">Buscar términos →</span>
+        </button>
+        <button type="button" class="card card-clickable tool-card" data-go="charging">
+          <div class="card-icon">⌁</div>
+          <h3>Carga / Europa</h3>
+          <p>Supercharger vs Destination, casa y roaming — cards regionales, sin inventar stalls.</p>
+          <span class="tool-cta">Ver ecosistema →</span>
+        </button>
+        <button type="button" class="card card-clickable tool-card" data-go="ops">
+          <div class="card-icon">→</div>
+          <h3>Ops día a día</h3>
+          <p>Stepper Sales → Delivery → Service (lente cliente + handoffs internos visibles).</p>
+          <span class="tool-cta">Recorrer journey →</span>
         </button>
         <button type="button" class="card card-clickable tool-card" data-go="examen">
           <div class="card-icon">?</div>
           <h3>Quiz + repaso</h3>
           <p>Simulacro con autoevaluación. ${wrong ? `<strong>${wrong} fallos</strong> listos para repasar.` : "Repaso de fallos tras cada intento."}</p>
           <span class="tool-cta">Ir al quiz →</span>
+        </button>
+        <button type="button" class="card card-clickable tool-card" data-go="timeline-changed">
+          <div class="card-icon">Δ</div>
+          <h3>¿Qué ha cambiado?</h3>
+          <p>Filtro de timeline: uncertain / verify / recientes + resumen del pack de contenido.</p>
+          <span class="tool-cta">Ver cambios →</span>
         </button>
       </div>
     `;
@@ -554,11 +614,36 @@
 
   /* ---------- ACTUALIDAD TIMELINE (timeline.events schema) ---------- */
 
+  function isTimelineChanged(it) {
+    if (!it) return false;
+    if (it.uncertain) return true;
+    if (it.recent) return true;
+    if (it.verify_hint) return true;
+    if ((it.confidence || "").toLowerCase() === "medium") return true;
+    if ((it.verify || []).length && (it.uncertain || it.recent || (it.confidence || "").toLowerCase() === "medium")) return true;
+    return false;
+  }
+
+  function packChangesCardHtml() {
+    const meta = window.CONTENT_PACK_META || {};
+    const changes = meta.changelog || [];
+    if (!changes.length && !meta.version) return "";
+    return `
+      <div class="card pack-changes-card">
+        <div class="pack-changes-kicker">Últimos cambios del pack · ${escapeHtml(meta.version || meta.updated || window.APP_META.updated)}</div>
+        <h3 style="margin:.25rem 0 .5rem">¿Qué ha cambiado en el contenido?</h3>
+        <ul class="bullets">${changes.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul>
+        ${meta.notes ? `<p class="pack-changes-note">${escapeHtml(meta.notes)}</p>` : ""}
+      </div>`;
+  }
+
   function renderTimeline() {
-    const items = window.ACTUALIDAD_TIMELINE || [];
+    const all = window.ACTUALIDAD_TIMELINE || [];
     const meta = window.ACTUALIDAD_TIMELINE_META || {};
-    const activeId = state.timelineId || items[0]?.id;
-    const active = items.find((i) => i.id === activeId) || items[0];
+    const mode = state.timelineMode || "all";
+    const items = mode === "changed" ? all.filter(isTimelineChanged) : all;
+    const activeId = state.timelineId || items[0]?.id || all[0]?.id;
+    const active = items.find((i) => i.id === activeId) || items[0] || all.find((i) => i.id === activeId);
 
     return `
       <nav class="breadcrumb">
@@ -573,29 +658,40 @@
         <h1>◉ Timeline de actualidad</h1>
         <p>Eventos del contenido New Bot (${escapeHtml(String((meta.themes || []).join(", ")))}). Pulsa un hito para verificar fuentes.</p>
       </div>
+      ${packChangesCardHtml()}
+      <div class="compare-mode-row" role="tablist" aria-label="Filtro timeline">
+        <button type="button" class="chip ${mode === "all" ? "active" : ""}" data-timeline-mode="all">Todos</button>
+        <button type="button" class="chip ${mode === "changed" ? "active" : ""}" data-timeline-mode="changed">¿Qué ha cambiado?</button>
+      </div>
+      ${mode === "changed" ? `<p class="callout tip">Mostrando hitos <strong>uncertain</strong>, <strong>recent</strong>, confianza media o con hint de verificación (${items.length} de ${all.length}).</p>` : ""}
       <div class="tl-interactive">
-        ${items.map((it) => {
+        ${items.length ? items.map((it) => {
           const on = active && it.id === active.id;
           const when = it.when || it.date || "";
           const cat = it.category || it.theme || "";
           const body = it.body || it.summary || "";
           const preview = body.slice(0, 90) + (body.length > 90 ? "…" : "");
+          const badges = [
+            it.uncertain ? '<span class="badge-uncertain">uncertain</span>' : "",
+            it.recent ? '<span class="badge-recent">recent</span>' : "",
+            (it.confidence || "").toLowerCase() === "medium" ? '<span class="badge-verify">verify</span>' : "",
+          ].filter(Boolean).join(" ");
           return `
-            <button type="button" class="tl-interactive-item ${on ? "active" : ""} ${it.uncertain ? "uncertain" : ""}" data-timeline-id="${escapeHtml(it.id)}">
+            <button type="button" class="tl-interactive-item ${on ? "active" : ""} ${it.uncertain ? "uncertain" : ""} ${it.recent ? "recent" : ""}" data-timeline-id="${escapeHtml(it.id)}">
               <div class="tl-interactive-rail" aria-hidden="true"><span class="tl-interactive-dot"></span></div>
               <div class="tl-interactive-body">
-                <div class="tl-when">${escapeHtml(when)} · <span class="tl-cat">${escapeHtml(cat)}</span>${it.uncertain ? ' <span class="badge-uncertain">uncertain</span>' : ""}${it.confidence ? ` · <span class="tl-cat">${escapeHtml(it.confidence)}</span>` : ""}</div>
+                <div class="tl-when">${escapeHtml(when)} · <span class="tl-cat">${escapeHtml(cat)}</span> ${badges}${it.confidence ? ` · <span class="tl-cat">${escapeHtml(it.confidence)}</span>` : ""}</div>
                 <h3>${escapeHtml(it.title)}</h3>
                 ${on ? `
                   <p>${escapeHtml(body)}</p>
                   ${it.markets && it.markets.length ? `<p style="color:var(--muted);font-size:.82rem;margin:.35rem 0 0">Mercados: ${escapeHtml(it.markets.join(", "))}</p>` : ""}
-                  ${it.uncertain ? `<div class="callout warn verify-hint"><strong>Badge uncertain</strong> — ${escapeHtml(it.verify_hint || "Verifica en tesla.com / autoridades; no fosilizar.")}</div>` : ""}
+                  ${it.uncertain || it.recent || (it.confidence || "").toLowerCase() === "medium" ? `<div class="callout warn verify-hint"><strong>Revisar</strong> — ${escapeHtml(it.verify_hint || "Verifica en tesla.com / autoridades; no fosilizar.")}</div>` : ""}
                   ${it.ask ? `<div class="callout tip"><strong>Verifica:</strong> ${escapeHtml(it.ask)}</div>` : ""}
                   ${(it.verify || []).length ? `<ul class="bullets" style="margin-top:.5rem">${it.verify.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>` : ""}
                 ` : `<p class="tl-preview">${escapeHtml(preview)}</p>`}
               </div>
             </button>`;
-        }).join("")}
+        }).join("") : `<p class="empty">No hay hitos en este filtro.</p>`}
       </div>
       <div class="hero-actions" style="margin-top:1rem">
         <button type="button" class="btn btn-primary" data-module="actualidad">Estudiar módulo Actualidad</button>
@@ -666,7 +762,8 @@
     const extraTools =
       m.id === "estructura" ? `<button type="button" class="btn btn-ghost" data-go="map">Abrir mapa interactivo</button>` :
       m.id === "productos" ? `<button type="button" class="btn btn-ghost" data-go="compare">Abrir comparador</button>` :
-      m.id === "actualidad" ? `<button type="button" class="btn btn-ghost" data-go="timeline">Abrir timeline</button>` : "";
+      m.id === "como-opera" ? `<button type="button" class="btn btn-ghost" data-go="ops">Ops día a día</button><button type="button" class="btn btn-ghost" data-go="charging">Carga / Europa</button>` :
+      m.id === "actualidad" ? `<button type="button" class="btn btn-ghost" data-go="timeline">Abrir timeline</button><button type="button" class="btn btn-ghost" data-go="timeline-changed">¿Qué ha cambiado?</button>` : "";
 
     return `
       <nav class="breadcrumb">
@@ -1022,6 +1119,207 @@
     `;
   }
 
+  /* ---------- GLOSARIO ---------- */
+
+  function glossaryTerms() {
+    return window.GLOSSARY || [];
+  }
+
+  function glossaryTags() {
+    const set = new Set();
+    glossaryTerms().forEach((t) => (t.tags || []).forEach((x) => set.add(x)));
+    return Array.from(set).sort();
+  }
+
+  function filterGlossary() {
+    const q = String(state.glossaryQuery || "").trim().toLowerCase();
+    const tag = state.glossaryTag || "all";
+    return glossaryTerms().filter((t) => {
+      if (tag !== "all" && !(t.tags || []).includes(tag)) return false;
+      if (!q) return true;
+      const blob = [t.term, t.short, t.id, ...(t.tags || []), ...(t.related || [])].join(" ").toLowerCase();
+      return blob.includes(q);
+    });
+  }
+
+  function renderGlossary() {
+    const all = glossaryTerms();
+    const filtered = filterGlossary();
+    const tags = glossaryTags();
+    const activeId = state.glossaryId || filtered[0]?.id || all[0]?.id;
+    const active = all.find((t) => t.id === activeId) || filtered[0];
+    const related = (active?.related || [])
+      .map((id) => all.find((t) => t.id === id))
+      .filter(Boolean);
+
+    return `
+      <nav class="breadcrumb">
+        <button type="button" data-go="home">Inicio</button>
+        <span>/</span>
+        <span>Glosario</span>
+      </nav>
+      <div class="module-hero">
+        <div class="tag">glosario · ${all.length} términos · búsqueda en vivo</div>
+        <h1>Aa Glosario Tesla</h1>
+        <p>Definiciones públicas cortas (ES/EU). Naming y disponibilidad de software varían por mercado — verifica en tesla.com/es_es.</p>
+      </div>
+      <div class="glossary-search card">
+        <label class="glossary-search-label" for="glossary-q">Buscar</label>
+        <input type="search" id="glossary-q" placeholder="FSD, OTA, WLTP, Megapack, Delivery, Trade-in…" value="${escapeHtml(state.glossaryQuery || "")}" autocomplete="off" />
+        <div class="tag-row" id="glossary-tags">
+          <button type="button" class="chip ${state.glossaryTag === "all" ? "active" : ""}" data-glossary-tag="all">Todos</button>
+          ${tags.map((t) => `<button type="button" class="chip ${state.glossaryTag === t ? "active" : ""}" data-glossary-tag="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join("")}
+        </div>
+        <p class="glossary-count">${filtered.length} resultado${filtered.length === 1 ? "" : "s"}</p>
+      </div>
+      <div class="glossary-layout">
+        <div class="glossary-list" role="list">
+          ${filtered.length ? filtered.map((t) => `
+            <button type="button" class="glossary-item ${t.id === active?.id ? "active" : ""}" data-glossary-id="${escapeHtml(t.id)}" role="listitem">
+              <strong>${escapeHtml(t.term)}</strong>
+              <span>${escapeHtml((t.tags || []).slice(0, 3).join(" · "))}</span>
+            </button>`).join("") : `<p class="empty">Sin coincidencias. Prueba otro término.</p>`}
+        </div>
+        <aside class="card glossary-detail">
+          ${active ? `
+            <div class="map-panel-kicker">${escapeHtml((active.tags || []).join(" · "))}</div>
+            <h2>${escapeHtml(active.term)}</h2>
+            <p>${escapeHtml(active.short)}</p>
+            ${related.length ? `<h3 style="margin-top:1rem;font-size:.9rem">Ver también</h3>
+              <div class="tag-row">${related.map((r) => `<button type="button" class="chip" data-glossary-id="${escapeHtml(r.id)}">${escapeHtml(r.term)}</button>`).join("")}</div>` : ""}
+            <div class="callout tip" style="margin-top:1rem">Fuente de estudio no oficial. Si un nombre de software no aparece en tu mercado, no lo inventes en una conversación de cliente.</div>
+          ` : `<p class="empty">Selecciona un término.</p>`}
+        </aside>
+      </div>
+    `;
+  }
+
+  /* ---------- CARGA / EUROPA ---------- */
+
+  function renderCharging() {
+    const data = window.CHARGING_EU || {};
+    const layers = data.layers || [];
+    const spain = data.spain || {};
+    const activeId = state.chargingLayerId || layers[0]?.id;
+    const active = layers.find((l) => l.id === activeId) || layers[0];
+    const milestone = spain.milestone_press || {};
+    const nodes = spain.nodes_for_ui || [];
+
+    return `
+      <nav class="breadcrumb">
+        <button type="button" data-go="home">Inicio</button>
+        <span>/</span>
+        <span>Carga / Europa</span>
+      </nav>
+      <div class="module-hero">
+        <div class="tag">charging · ${escapeHtml(data.version || "")} · mercado ${escapeHtml(data.market_default || "ES")}</div>
+        <h1>⌁ Carga en Europa y España</h1>
+        <p>Ecosistema de alto nivel: casa, Destination, Supercharger y notas de roaming. <strong>Sin mapa GPS inventado</strong> — números vivos en Find Us.</p>
+      </div>
+      <div class="grid grid-2">
+        ${layers.map((l) => `
+          <button type="button" class="card card-clickable charging-layer ${l.id === active?.id ? "active" : ""}" data-charging-layer="${escapeHtml(l.id)}">
+            <div class="map-panel-kicker">${escapeHtml(l.kind || "capa")}</div>
+            <h3>${escapeHtml(l.label)}</h3>
+            <p>${escapeHtml(l.description)}</p>
+          </button>`).join("")}
+      </div>
+      ${active ? `<div class="card" style="margin-top:1rem">
+        <h3>${escapeHtml(active.label)}</h3>
+        <p>${escapeHtml(active.description)}</p>
+      </div>` : ""}
+      <div class="section-head"><div><h2>España — lectura cualitativa</h2><p>${escapeHtml(spain.summary || "")}</p></div></div>
+      <div class="grid grid-2">
+        ${(spain.qualitative || []).map((q) => `<div class="card"><p style="margin:0">${escapeHtml(q)}</p></div>`).join("")}
+      </div>
+      ${milestone.claim ? `
+        <div class="callout warn verify-hint" style="margin-top:1rem">
+          <span class="badge-uncertain">perishable</span>
+          <strong>Hito prensa (${escapeHtml(milestone.as_of || "")}, confianza ${escapeHtml(milestone.confidence || "medium")}):</strong>
+          ${escapeHtml(milestone.claim)}
+          <ul class="bullets" style="margin-top:.5rem">${(milestone.verify || []).map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>
+        </div>` : ""}
+      <div class="section-head"><div><h2>Cards de región / capa</h2><p>Enlaces oficiales — no inventamos stalls por ciudad.</p></div></div>
+      <div class="grid grid-2">
+        ${nodes.map((n) => `
+          <div class="card region-card">
+            <div class="map-panel-kicker">${escapeHtml(n.region || "ES/EU")} · ${escapeHtml(n.layer || "")}</div>
+            <h3>${escapeHtml(n.label)}</h3>
+            ${n.map_url ? `<a class="btn btn-ghost btn-sm" href="${escapeHtml(n.map_url)}" target="_blank" rel="noopener">Abrir mapa oficial</a>` : `<p style="color:var(--muted);font-size:.85rem;margin:0">Capa conceptual — verifica en Find Us / soporte.</p>`}
+          </div>`).join("")}
+      </div>
+      ${(data.notes || []).length ? `<div class="card" style="margin-top:1rem"><h3>Notas</h3><ul class="bullets">${data.notes.map((n) => `<li>${escapeHtml(n)}</li>`).join("")}</ul></div>` : ""}
+      <div class="hero-actions" style="margin-top:1rem">
+        <a class="btn btn-primary" href="https://www.tesla.com/es_ES/findus" target="_blank" rel="noopener">Find Us ES</a>
+        <a class="btn btn-ghost" href="https://www.tesla.com/trips" target="_blank" rel="noopener">Trip planner</a>
+        <button type="button" class="btn btn-ghost" data-go="glossary">Glosario carga</button>
+        <button type="button" class="btn btn-ghost" data-module="como-opera">Módulo Cómo opera</button>
+      </div>
+    `;
+  }
+
+  /* ---------- OPS DÍA A DÍA ---------- */
+
+  function renderOps() {
+    const flow = window.OPS_FLOW || {};
+    const stages = flow.stages || [];
+    if (!stages.length) return `<p class="empty">Ops flow no disponible.</p>`;
+    let idx = Number(state.opsStep) || 0;
+    if (idx < 0) idx = 0;
+    if (idx >= stages.length) idx = stages.length - 1;
+    state.opsStep = idx;
+    const stage = stages[idx];
+
+    return `
+      <nav class="breadcrumb">
+        <button type="button" data-go="home">Inicio</button>
+        <span>/</span>
+        <button type="button" data-module="como-opera">Cómo opera</button>
+        <span>/</span>
+        <span>Ops día a día</span>
+      </nav>
+      <div class="module-hero">
+        <div class="tag">ops_flow · ${escapeHtml(flow.version || "")} · ${escapeHtml(flow.market_default || "ES")}</div>
+        <h1>→ Ops día a día</h1>
+        <p>${escapeHtml(flow.disclaimer || "Journey público venta → entrega → servicio.")} Complementa el módulo Cómo opera.</p>
+      </div>
+      <div class="ops-stepper" role="tablist" aria-label="Etapas del journey">
+        ${stages.map((s, i) => `
+          <button type="button" class="ops-step ${i === idx ? "active" : ""} ${i < idx ? "done" : ""}" data-ops-step="${i}" role="tab" aria-selected="${i === idx}">
+            <span class="ops-step-num">${i + 1}</span>
+            <span class="ops-step-label">${escapeHtml(s.title)}</span>
+          </button>`).join("")}
+      </div>
+      <div class="card ops-stage-card">
+        <div class="map-panel-kicker">Etapa ${idx + 1} / ${stages.length}</div>
+        <h2>${escapeHtml(stage.title)}</h2>
+        <p>${escapeHtml(stage.what_happens)}</p>
+        <div class="grid grid-2" style="margin-top:1rem">
+          <div class="card" style="background:var(--bg-elev)">
+            <h3>Lo que ve el cliente</h3>
+            <p>${escapeHtml(stage.customer_sees)}</p>
+          </div>
+          <div class="card" style="background:var(--bg-elev)">
+            <h3>Equipo Tesla (visible)</h3>
+            <p>${escapeHtml(stage.tesla_team)}</p>
+          </div>
+        </div>
+        <div class="hero-actions" style="margin-top:1.1rem">
+          <button type="button" class="btn btn-ghost" data-ops-step="${Math.max(0, idx - 1)}" ${idx === 0 ? "disabled style=\"opacity:.45\"" : ""}>← Anterior</button>
+          <button type="button" class="btn btn-primary" data-ops-step="${Math.min(stages.length - 1, idx + 1)}" ${idx === stages.length - 1 ? "disabled style=\"opacity:.45\"" : ""}>Siguiente →</button>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:1rem">
+        <strong>Handoffs clave:</strong> Sales → Delivery (no «empezar de cero»); Delivery → Ownership (carga en casa); Ownership → Service (síntomas claros); Service → Parts.
+      </div>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-ghost" data-module="como-opera">Abrir módulo Cómo opera</button>
+        <button type="button" class="btn btn-ghost" data-go="charging">Carga / Europa</button>
+        <button type="button" class="btn btn-ghost" data-go="glossary">Glosario ops</button>
+      </div>
+    `;
+  }
+
   /* ---------- MAIN RENDER + EVENTS ---------- */
 
   function render() {
@@ -1036,6 +1334,9 @@
       case "map": html = renderMap(); break;
       case "compare": html = renderCompare(); break;
       case "timeline": html = renderTimeline(); break;
+      case "glossary": html = renderGlossary(); break;
+      case "charging": html = renderCharging(); break;
+      case "ops": html = renderOps(); break;
       case "examen": html = renderExamenSetup(); break;
       case "quiz-play": html = renderQuizPlay(); break;
       case "quiz-result": html = renderQuizResult(); break;
@@ -1092,7 +1393,11 @@
         if (go === "modules") return navigate("modules");
         if (go === "map") return navigate("map", { mapAreaId: state.mapAreaId });
         if (go === "compare") return navigate("compare");
-        if (go === "timeline") return navigate("timeline", { timelineId: state.timelineId });
+        if (go === "timeline") return navigate("timeline", { timelineId: state.timelineId, timelineMode: state.timelineMode || "all" });
+        if (go === "timeline-changed") return navigate("timeline", { timelineMode: "changed", timelineId: null });
+        if (go === "glossary") return navigate("glossary", { glossaryId: state.glossaryId });
+        if (go === "charging") return navigate("charging", { chargingLayerId: state.chargingLayerId });
+        if (go === "ops") return navigate("ops", { opsStep: state.opsStep || 0 });
       });
     });
     $main.querySelectorAll("[data-done]").forEach((el) => {
@@ -1151,7 +1456,51 @@
 
     $main.querySelectorAll("[data-timeline-id]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        navigate("timeline", { timelineId: btn.getAttribute("data-timeline-id") });
+        navigate("timeline", { timelineId: btn.getAttribute("data-timeline-id"), timelineMode: state.timelineMode || "all" });
+      });
+    });
+    $main.querySelectorAll("[data-timeline-mode]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        navigate("timeline", { timelineMode: btn.getAttribute("data-timeline-mode"), timelineId: null });
+      });
+    });
+
+    const gq = $main.querySelector("#glossary-q");
+    if (gq) {
+      gq.addEventListener("input", () => {
+        state.glossaryQuery = gq.value;
+        render();
+        const again = document.getElementById("glossary-q");
+        if (again) {
+          again.focus();
+          const len = again.value.length;
+          try { again.setSelectionRange(len, len); } catch (_) {}
+        }
+      });
+    }
+    $main.querySelectorAll("[data-glossary-tag]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.glossaryTag = btn.getAttribute("data-glossary-tag");
+        render();
+      });
+    });
+    $main.querySelectorAll("[data-glossary-id]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        navigate("glossary", { glossaryId: btn.getAttribute("data-glossary-id") });
+      });
+    });
+
+    $main.querySelectorAll("[data-charging-layer]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        navigate("charging", { chargingLayerId: btn.getAttribute("data-charging-layer") });
+      });
+    });
+
+    $main.querySelectorAll("[data-ops-step]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        const step = parseInt(btn.getAttribute("data-ops-step"), 10);
+        navigate("ops", { opsStep: Number.isFinite(step) ? step : 0 });
       });
     });
 
