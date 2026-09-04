@@ -1,8 +1,10 @@
 # Tesla Panorama
 
-SPA estática (HTML/CSS/JS) para aprender el **panorama actual de Tesla** como compañía: qué es, estructura, productos, cómo opera, actualidad y cultura. UI en español (España), tema negro / blanco / rojo.
+SPA estática (HTML/CSS/JS) con look de **exposición / pitch**: portada, wordmark tipográfico, modo exposición y panel de herramientas. Contenido en español (España/EU), paleta negro / blanco / rojo.
 
 **Contenido fuente:** `tesla-panorama-content/` (ruta primaria). **Modo Future Talent** (FTT + STAR) es opcional y va **apagado por defecto**.
+
+> **Proyecto educativo / no afiliado a Tesla, Inc.** La marca tipográfica del header es un wordmark geométrico propio (no el logo oficial de Tesla).
 
 ## Cómo abrir
 
@@ -18,7 +20,10 @@ O abre `index.html` / Live Server. Sin build ni Node.
 
 | Ruta | Vista |
 |------|--------|
-| `#/` | Dashboard / inicio |
+| `#/` o `#/inicio` | **Portada** (hero exposición) |
+| `#/panel` | Panel / dashboard (herramientas + módulos) |
+| `#/exposicion` o `#/expo` | Entra en **modo exposición** (paso 0) |
+| `#/exposicion/2` | Modo exposición en el paso N |
 | `#/mapa` | Mapa de estructura |
 | `#/comparador` | Comparador de productos |
 | `#/actualidad-timeline` | Timeline actualidad |
@@ -26,12 +31,25 @@ O abre `index.html` / Live Server. Sin build ni Node.
 | `#/glosario` | Glosario con búsqueda |
 | `#/carga` | Carga / Europa (capas cualitativas) |
 | `#/ops` | Ops día a día (stepper Sales→Service) |
+| `#/modulos` | Lista de módulos |
+| `#/modulo/:id` | Lección |
 | `#/examen` | Quiz + repaso de fallos |
+
+### Modo exposición
+
+Recorrido curado con tipografía ampliada y menos chrome:
+
+1. Qué es → 2. Estructura/mapa → 3. Productos/comparador → 4. Ops → 5. Actualidad → 6. Quiz
+
+- Toggle **Expo** en el header, CTA en portada, o ruta `#/exposicion`
+- Teclado: `←` / `→` (o PageUp/PageDown), `Esc` para salir
+- Progress dots en la barra de exposición
 
 ## Qué incluye
 
 | Capa | Contenido |
 |------|-----------|
+| **Presentación** | Portada · wordmark SVG · modo exposición · panel |
 | **Primaria** | 6 lecciones + quiz panorama (32 Q, cortas con autoevaluación) |
 | **Herramientas** | Mapa · Comparador · Timeline (+ ¿Qué ha cambiado?) · Glosario · Carga EU · Ops journey · Quiz / miss-review |
 | **Opcional** | Toggle «Modo Future Talent» → programa FTT, banco corto FTT, STAR |
@@ -43,6 +61,7 @@ Progreso en `localStorage` clave `tesla-panorama-v2` (incluye `lastWrongIds` par
 ```
 tesla-panorama/
   index.html
+  assets/wordmark.svg
   css/app.css
   js/data.js       # módulos + STRUCTURE_MAP + PRODUCT_COMPARATOR + ACTUALIDAD_TIMELINE
                    # + GLOSSARY + CHARGING_EU + OPS_FLOW + CONTENT_PACK_META
@@ -51,7 +70,11 @@ tesla-panorama/
   README.md
 ```
 
-Datos embebidos desde `tesla-panorama-content/` (incl. `09-glosario.md`, `10-charging-europa.md`, `11-ops-dia-a-dia.md` cuando existan). Preferir hechos públicos; marcas **uncertain** / **perishable** no son specs inventadas.
+## Demo rápida (60 s)
+
+1. Abre `#/` — portada con wordmark y valor prop.
+2. Pulsa **Modo exposición** → avanza con `→` por mapa, comparador, ops, actualidad, quiz.
+3. `Esc` → vuelve al panel (`#/panel`) o portada; explora herramientas.
 
 ## Aviso
 

@@ -3,43 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="Tesla Panorama — mapa interactivo de la compañía (España/EU). FTT/STAR opcional." />
+  <meta name="description" content="Tesla Panorama — panorama interactivo educativo de Tesla (España/EU). Proyecto educativo, no afiliado a Tesla, Inc." />
   <meta name="theme-color" content="#000000" />
-  <title>Tesla Panorama · España</title>
+  <title>Tesla Panorama · Exposición</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/app.css" />
+  <link rel="icon" href="assets/wordmark.svg" type="image/svg+xml" />
 </head>
 <body>
   <div id="app">
-    <header class="topbar">
-      <button type="button" class="brand" data-nav="home" aria-label="Ir al inicio">
-        <span class="brand-mark" aria-hidden="true">T</span>
-        <span class="brand-text">
-          <strong>Tesla Panorama</strong>
-          <small>Compañía · España / EU</small>
+    <header class="topbar" id="topbar">
+      <button type="button" class="brand" data-nav="landing" aria-label="Ir a la portada">
+        <span class="wordmark" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40" class="wordmark-svg" focusable="false">
+            <text x="0" y="24" class="wm-tesla" letter-spacing="0.32em">TESLA</text>
+            <text x="132" y="24" class="wm-sub" letter-spacing="0.2em">PANORAMA</text>
+            <rect x="0" y="32" width="64" height="2" class="wm-accent" rx="1"/>
+          </svg>
         </span>
+        <span class="brand-badge" id="ftt-badge" hidden>FTT</span>
       </button>
       <nav class="topnav" aria-label="Principal">
-        <button type="button" data-nav="home">Inicio</button>
+        <button type="button" data-nav="landing">Portada</button>
+        <button type="button" data-nav="home">Panel</button>
         <button type="button" data-nav="modules">Módulos</button>
         <button type="button" data-nav="examen">Quiz</button>
         <button type="button" data-nav="star" hidden style="display:none">STAR</button>
       </nav>
       <div class="topbar-meta">
+        <button type="button" class="expo-toggle" id="expo-toggle" title="Modo exposición (← →)" aria-pressed="false">Expo</button>
         <span id="progress-pill" class="pill" title="Progreso global">0%</span>
       </div>
     </header>
+
+    <div id="expo-bar" class="expo-bar" hidden>
+      <button type="button" class="expo-nav" id="expo-prev" aria-label="Anterior">←</button>
+      <div class="expo-dots" id="expo-dots" role="tablist" aria-label="Recorrido exposición"></div>
+      <button type="button" class="expo-nav" id="expo-next" aria-label="Siguiente">→</button>
+      <span class="expo-hint">← → · Esc salir</span>
+    </div>
+
     <main id="main" class="main" tabindex="-1"></main>
+
     <nav class="bottomnav" aria-label="Móvil">
-      <button type="button" data-nav="home"><span>⌂</span>Inicio</button>
-      <button type="button" data-nav="modules"><span>▣</span>Módulos</button>
+      <button type="button" data-nav="landing"><span>⌂</span>Portada</button>
+      <button type="button" data-nav="home"><span>▣</span>Panel</button>
+      <button type="button" data-nav="modules"><span>≡</span>Módulos</button>
       <button type="button" data-nav="examen"><span>?</span>Quiz</button>
       <button type="button" data-nav="star" hidden style="display:none"><span>★</span>STAR</button>
     </nav>
+
     <footer class="footer">
-      <p>Contenido de estudio no oficial · hechos públicos · verifica en tesla.com/es_es · fuente: tesla-panorama-content/</p>
+      <p>Proyecto educativo / no afiliado a Tesla, Inc. · hechos públicos · verifica en tesla.com/es_es</p>
     </footer>
   </div>
   <script src="js/quiz-data.js"></script>

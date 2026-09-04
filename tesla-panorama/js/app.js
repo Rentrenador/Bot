@@ -6,7 +6,7 @@
   const $pill = document.getElementById("progress-pill");
 
   const state = {
-    view: "home",
+    view: "landing",
     moduleId: null,
     quiz: null,
     starId: "ownership",
@@ -21,7 +21,19 @@
     glossaryId: null,
     chargingLayerId: null,
     opsStep: 0,
+    expo: false,
+    expoStep: 0,
   };
+
+  /** Curated exhibition story path */
+  const EXPO_PATH = [
+    { id: "que-es", label: "Qué es", view: "module", opts: { moduleId: "que-es-tesla" } },
+    { id: "mapa", label: "Estructura", view: "map", opts: { mapAreaId: null } },
+    { id: "productos", label: "Productos", view: "compare", opts: {} },
+    { id: "ops", label: "Ops", view: "ops", opts: { opsStep: 0 } },
+    { id: "actualidad", label: "Actualidad", view: "timeline", opts: { timelineId: null, timelineMode: "all" } },
+    { id: "quiz", label: "Quiz", view: "examen", opts: {} },
+  ];
 
   function loadStore() {
     try {
@@ -90,10 +102,64 @@
       el.style.display = on ? "" : "none";
     });
     document.body.classList.toggle("ftt-on", on);
-    const brandStrong = document.querySelector(".brand-text strong");
-    const brandSmall = document.querySelector(".brand-text small");
-    if (brandStrong) brandStrong.textContent = on ? "Tesla · FTT" : "Tesla Panorama";
-    if (brandSmall) brandSmall.textContent = on ? "Future Talent · opcional" : "Compañía · España / EU";
+    const badge = document.getElementById("ftt-badge");
+    if (badge) badge.hidden = !on;
+  }
+
+  function syncExpoChrome() {
+    const on = !!state.expo;
+    document.body.classList.toggle("expo-on", on);
+    const bar = document.getElementById("expo-bar");
+    const toggle = document.getElementById("expo-toggle");
+    if (bar) bar.hidden = !on;
+    if (toggle) toggle.setAttribute("aria-pressed", on ? "true" : "false");
+    if (on) renderExpoDots();
+  }
+
+  function renderExpoDots() {
+    const wrap = document.getElementById("expo-dots");
+    if (!wrap) return;
+    wrap.innerHTML = EXPO_PATH.map((step, i) => {
+      const cls = i === state.expoStep ? "active" : i < state.expoStep ? "done" : "";
+      return `<button type="button" class="expo-dot ${cls}" data-expo-step="${i}" title="${escapeHtml(step.label)}" aria-label="${escapeHtml(step.label)}" role="tab" aria-selected="${i === state.expoStep}"></button>`;
+    }).join("");
+    wrap.querySelectorAll("[data-expo-step]").forEach((btn) => {
+      btn.addEventListener("click", () => goExpoStep(parseInt(btn.getAttribute("data-expo-step"), 10)));
+    });
+    const prev = document.getElementById("expo-prev");
+    const next = document.getElementById("expo-next");
+    if (prev) prev.disabled = state.expoStep <= 0;
+    if (next) next.disabled = state.expoStep >= EXPO_PATH.length - 1;
+  }
+
+  function goExpoStep(i) {
+    if (i < 0 || i >= EXPO_PATH.length) return;
+    state.expoStep = i;
+    state.expo = true;
+    const step = EXPO_PATH[i];
+    syncExpoChrome();
+    navigate(step.view, { ...(step.opts || {}), _fromExpo: true });
+  }
+
+  function setExpoMode(on) {
+    state.expo = !!on;
+    if (on) {
+      syncExpoChrome();
+      goExpoStep(state.expoStep || 0);
+    } else {
+      syncExpoChrome();
+      render();
+    }
+  }
+
+  function expoNext() {
+    if (!state.expo) return;
+    if (state.expoStep < EXPO_PATH.length - 1) goExpoStep(state.expoStep + 1);
+  }
+
+  function expoPrev() {
+    if (!state.expo) return;
+    if (state.expoStep > 0) goExpoStep(state.expoStep - 1);
   }
 
   function moduleProgress(id) {
@@ -161,12 +227,14 @@
       const nav = btn.getAttribute("data-nav");
       const active =
         nav === view ||
+        (view === "landing" && nav === "landing") ||
         (view === "module" && nav === "modules") ||
         (view === "quiz-play" && nav === "examen") ||
         (view === "quiz-result" && nav === "examen") ||
         (tools.includes(view) && nav === "home");
       btn.classList.toggle("active", active);
     });
+    document.body.classList.toggle("landing-on", view === "landing");
   }
 
   function navigate(view, opts = {}) {
@@ -228,13 +296,21 @@
       const step = opts.opsStep !== undefined ? opts.opsStep : state.opsStep;
       return step ? "#/ops/" + step : "#/ops";
     }
+    if (view === "home") return "#/panel";
+    if (view === "landing") return "#/";
     return "#/";
   }
 
   function parseHash() {
-    const h = (location.hash || "#/").replace(/^#/, "");
+    const h = (location.hash || "#/").replace(/^#/, "").split("?")[0];
     const parts = h.split("/").filter(Boolean);
-    if (!parts.length) return navigate("home");
+    if (!parts.length || parts[0] === "inicio") return navigate("landing");
+    if (parts[0] === "panel" || parts[0] === "dashboard") return navigate("home");
+    if (parts[0] === "exposicion" || parts[0] === "expo") {
+      state.expo = true;
+      const idx = parts[1] ? parseInt(parts[1], 10) : 0;
+      return goExpoStep(Number.isFinite(idx) ? idx : 0);
+    }
     if (parts[0] === "modulos") return navigate("modules");
     if (parts[0] === "modulo" && parts[1]) {
       const m = window.MODULES.find((x) => x.id === parts[1]);
@@ -257,7 +333,7 @@
       const step = parts[1] ? parseInt(parts[1], 10) : 0;
       return navigate("ops", { opsStep: Number.isFinite(step) ? step : 0 });
     }
-    return navigate("home");
+    return navigate("landing");
   }
 
   /* ---------- RENDERERS ---------- */
@@ -324,6 +400,36 @@
     `;
   }
 
+  function renderLanding() {
+    const updated = escapeHtml(window.APP_META?.updated || "");
+    return `
+      <section class="landing" aria-label="Portada">
+        <div class="landing-inner">
+          <div class="landing-wordmark" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 52" focusable="false">
+              <text x="0" y="30" class="wm-tesla" letter-spacing="0.34em">TESLA</text>
+              <text x="168" y="30" class="wm-sub" letter-spacing="0.22em">PANORAMA</text>
+              <rect x="0" y="40" width="88" height="3" class="wm-accent" rx="1.5"/>
+            </svg>
+          </div>
+          <p class="landing-kicker">Exposición · ES / EU · ${updated}</p>
+          <h1>Panorama interactivo de Tesla</h1>
+          <p class="landing-lead">Un recorrido público para entender la compañía hoy: estructura, productos, operaciones, actualidad y quiz — diseñado para presentación y estudio.</p>
+          <div class="landing-actions">
+            <button type="button" class="btn btn-primary" data-go="map">Entrar al mapa</button>
+            <button type="button" class="btn btn-ghost" data-go="path">Empezar recorrido</button>
+            <button type="button" class="btn btn-ghost" data-go="expo">Modo exposición</button>
+          </div>
+          <div class="landing-meta">
+            <span><i></i> 6 módulos + herramientas</span>
+            <span><i></i> Modo exposición con teclado</span>
+            <span><i></i> Proyecto educativo · no afiliado</span>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
   function renderHome() {
     const pct = globalProgress();
     const history = getStore().quizHistory || [];
@@ -335,6 +441,7 @@
 
     return `
       <section class="hero">
+        <p class="panel-eyebrow">Panel de exploración</p>
         <div class="hero-kicker">Panorama Tesla · ES / EU · ${escapeHtml(window.APP_META.updated)}</div>
         <h1>Entiende Tesla como compañía hoy</h1>
         <p>${escapeHtml(window.APP_META.audience)}. Ruta primaria (~${escapeHtml(window.APP_META.studyHours)}): qué es, estructura, productos, cómo opera, actualidad, cultura y quiz. FTT/STAR solo si lo activas.</p>
@@ -342,6 +449,7 @@
           <button type="button" class="btn btn-primary" data-go="path">Empezar panorama</button>
           <button type="button" class="btn btn-ghost" data-go="map">Mapa estructura</button>
           <button type="button" class="btn btn-ghost" data-go="examen">Quiz panorama</button>
+          <button type="button" class="btn btn-ghost" data-go="expo">Modo exposición</button>
         </div>
       </section>
 
@@ -1343,8 +1451,10 @@
     setActiveNav(state.view);
     updateProgressPill();
     syncFttChrome();
+    syncExpoChrome();
     let html = "";
     switch (state.view) {
+      case "landing": html = renderLanding(); break;
       case "home": html = renderHome(); break;
       case "modules": html = renderModulesList(); break;
       case "module": html = renderModule(); break;
@@ -1358,7 +1468,7 @@
       case "quiz-play": html = renderQuizPlay(); break;
       case "quiz-result": html = renderQuizResult(); break;
       case "star": html = renderStar(); break;
-      default: html = renderHome();
+      default: html = renderLanding();
     }
     $main.classList.remove("view-enter");
     $main.innerHTML = html;
@@ -1406,8 +1516,10 @@
         if (go === "path") return openModule(firstIncomplete());
         if (go === "examen") return navigate("examen");
         if (go === "star") return navigate("star");
+        if (go === "landing") return navigate("landing");
         if (go === "home") return navigate("home");
         if (go === "modules") return navigate("modules");
+        if (go === "expo") return setExpoMode(true);
         if (go === "map") return navigate("map", { mapAreaId: state.mapAreaId });
         if (go === "compare") return navigate("compare");
         if (go === "timeline") return navigate("timeline", { timelineId: state.timelineId, timelineMode: state.timelineMode || "all" });
@@ -1636,11 +1748,37 @@
   document.querySelectorAll("[data-nav]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const nav = btn.getAttribute("data-nav");
-      if (nav === "home") navigate("home");
+      if (nav === "landing") { state.expo = false; syncExpoChrome(); navigate("landing"); }
+      else if (nav === "home") navigate("home");
       else if (nav === "modules") navigate("modules");
       else if (nav === "examen") navigate("examen");
       else if (nav === "star") navigate("star");
     });
+  });
+
+  const expoToggleBtn = document.getElementById("expo-toggle");
+  if (expoToggleBtn) {
+    expoToggleBtn.addEventListener("click", () => setExpoMode(!state.expo));
+  }
+  const expoPrevBtn = document.getElementById("expo-prev");
+  const expoNextBtn = document.getElementById("expo-next");
+  if (expoPrevBtn) expoPrevBtn.addEventListener("click", expoPrev);
+  if (expoNextBtn) expoNextBtn.addEventListener("click", expoNext);
+
+  window.addEventListener("keydown", (e) => {
+    if (!state.expo) return;
+    const tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target?.isContentEditable) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown") {
+      e.preventDefault();
+      expoNext();
+    } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+      e.preventDefault();
+      expoPrev();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setExpoMode(false);
+    }
   });
 
   window.addEventListener("hashchange", () => {
@@ -1648,7 +1786,8 @@
   });
 
   syncFttChrome();
+  syncExpoChrome();
   updateProgressPill();
   if (location.hash && location.hash.length > 2) parseHash();
-  else navigate("home");
+  else navigate("landing");
 })();
