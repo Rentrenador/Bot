@@ -1,3 +1,4 @@
+/* Auto-generated from tesla-panorama-content quiz banks — 2026-09-04 */
 window.QUIZ_BANK = [
   {
     "id": "Q01",
@@ -5,11 +6,11 @@ window.QUIZ_BANK = [
     "tags": [
       "mision"
     ],
-    "question": "¿Cuál es la formulación clásica (pública/SEC) de la misión de Tesla?",
+    "question": "¿Cuál es la formulación clásica (pública) de la misión de Tesla?",
     "options": [
       {
         "key": "A",
-        "text": "Ser la marca de lujo nº1"
+        "text": "Ser la marca de lujo nº1 del mundo"
       },
       {
         "key": "B",
@@ -21,11 +22,11 @@ window.QUIZ_BANK = [
       },
       {
         "key": "D",
-        "text": "Fabricar solo baterías industriales"
+        "text": "Fabricar solo robots humanoides"
       }
     ],
     "answer": "B",
-    "explanation": "La misión pública reiterada en filings es acelerar la transición a energía sostenible."
+    "explanation": "La misión pública reiterada en materiales corporativos/filings apunta a acelerar la transición a energía sostenible."
   },
   {
     "id": "Q02",
@@ -33,38 +34,38 @@ window.QUIZ_BANK = [
     "tags": [
       "mision"
     ],
-    "question": "¿Por qué Tesla insiste en energía *y* transporte?",
+    "question": "¿Por qué tiene sentido que Tesla combine vehículos y energía?",
     "options": [
       {
         "key": "A",
-        "text": "Porque el marketing lo pide"
+        "text": "Solo por marketing de redes"
       },
       {
         "key": "B",
-        "text": "Porque hay que atacar generación/almacenamiento y consumo"
+        "text": "Porque hay que actuar sobre consumo (movilidad) y generación/almacenamiento"
       },
       {
         "key": "C",
-        "text": "Porque solo venden Powerwall"
+        "text": "Porque no vende coches en Europa"
       },
       {
         "key": "D",
-        "text": "Porque no fabrican coches en Europa"
+        "text": "Porque Autopilot lo exige la ley en todos los países"
       }
     ],
     "answer": "B",
-    "explanation": "Reducir emisiones implica limpiar cómo se genera y cómo se consume la energía."
+    "explanation": "El panorama de “energía sostenible” cubre cómo se produce/almacena y cómo se consume (p. ej. transporte eléctrico)."
   },
   {
     "id": "Q03",
     "type": "respuesta corta",
     "tags": [
-      "mision"
+      "ecosistema"
     ],
-    "question": "Nombra un elemento del “ecosistema” Tesla además del vehículo.",
+    "question": "Nombra un elemento del ecosistema Tesla además del vehículo.",
     "options": [],
-    "answer": "Ejemplos válidos: Superchargers, Powerwall/Energy, software OTA, servicio propio, venta directa.",
-    "explanation": "Tesla se presenta como ecosistema, no solo OEM."
+    "answer": "Ejemplos válidos: Supercharger, Powerwall/Megapack, software OTA, app, servicio propio, venta directa.",
+    "explanation": "Tesla se entiende mejor como ecosistema hardware + red + software + ops."
   },
   {
     "id": "Q04",
@@ -72,27 +73,27 @@ window.QUIZ_BANK = [
     "tags": [
       "productos"
     ],
-    "question": "¿Qué modelo encaja mejor como SUV/crossover compacto familiar en la gama actual típica de España?",
+    "question": "En la gama típica relevante para un cliente en España, Model Y se describe mejor como:",
     "options": [
       {
         "key": "A",
-        "text": "Model 3"
+        "text": "Pickup"
       },
       {
         "key": "B",
-        "text": "Model Y"
+        "text": "SUV/crossover compacto"
       },
       {
         "key": "C",
-        "text": "Cybertruck"
+        "text": "Camión de flota Semi"
       },
       {
         "key": "D",
-        "text": "Semi"
+        "text": "Motocicleta"
       }
     ],
     "answer": "B",
-    "explanation": "Model Y es el crossover/SUV compacto; Model 3 es sedán; Cybertruck no es opción práctica en ES."
+    "explanation": "Model Y es el crossover/SUV compacto de volumen; Model 3 es sedán."
   },
   {
     "id": "Q05",
@@ -104,31 +105,32 @@ window.QUIZ_BANK = [
     "options": [
       {
         "key": "A",
-        "text": "Pickup"
+        "text": "Sedán"
       },
       {
         "key": "B",
-        "text": "Sedán compacto"
+        "text": "Furgoneta comercial"
       },
       {
         "key": "C",
-        "text": "Furgoneta"
+        "text": "Autobús"
       },
       {
         "key": "D",
-        "text": "Motocicleta"
+        "text": "Cybercab de producción masiva en ES"
       }
     ],
-    "answer": "B",
-    "explanation": "Sedán de volumen; eficiente para uso diario."
+    "answer": "A",
+    "explanation": "Model 3 es el sedán de volumen de la gama."
   },
   {
     "id": "Q06",
     "type": "opción múltiple",
     "tags": [
-      "productos"
+      "productos",
+      "europa"
     ],
-    "question": "Sobre Cybertruck en España/Europa (conocimiento público 2026):",
+    "question": "Sobre Cybertruck para un comprador en España (conocimiento público típico 2026):",
     "options": [
       {
         "key": "A",
@@ -136,211 +138,712 @@ window.QUIZ_BANK = [
       },
       {
         "key": "B",
-        "text": "No es una opción de compra práctica / no homologado como en EE.UU."
+        "text": "No es una opción de compra práctica / no se comercializa como en EE.UU."
       },
       {
         "key": "C",
-        "text": "Sustituye al Model Y"
+        "text": "Sustituye oficialmente al Model X en toda la UE"
       },
       {
         "key": "D",
-        "text": "Solo se vende con FSD Unsupervised"
+        "text": "Solo se vende con FSD Unsupervised obligatorio"
       }
     ],
     "answer": "B",
-    "explanation": "No está disponible comercialmente en Europa de forma práctica."
+    "explanation": "Cybertruck está orientado a Norteamérica; en Europa no es una compra retail práctica comparable."
   },
   {
     "id": "Q07",
     "type": "opción múltiple",
     "tags": [
-      "carga"
+      "energy"
     ],
-    "question": "Para la mayoría de kilómetros semanales, ¿qué suele recomendar el sentido común al cliente?",
+    "question": "Powerwall está pensado principalmente para:",
     "options": [
       {
         "key": "A",
-        "text": "Solo Supercharger"
+        "text": "Sustituir al Model S"
       },
       {
         "key": "B",
-        "text": "Carga en casa/trabajo (p. ej. Wall Connector)"
+        "text": "Almacenamiento de energía en el hogar (o pequeño comercial)"
       },
       {
         "key": "C",
-        "text": "Nunca cargar por encima del 50 %"
+        "text": "Solo carga de Supercharger públicos"
       },
       {
         "key": "D",
-        "text": "Solo carga en gasolineras"
+        "text": "Homologar FSD en la UE"
       }
     ],
     "answer": "B",
-    "explanation": "La carga cotidiana es doméstica/laboral; Supercharger brilla en viajes."
+    "explanation": "Powerwall es el producto residencial de almacenamiento; Megapack cubre escala mucho mayor."
   },
   {
     "id": "Q08",
     "type": "opción múltiple",
     "tags": [
-      "carga"
+      "energy"
     ],
-    "question": "¿Qué mide principalmente el kWh en una sesión de carga?",
+    "question": "Megapack se asocia sobre todo a:",
     "options": [
       {
         "key": "A",
-        "text": "Velocidad instantánea máxima del cargador"
+        "text": "Auriculares"
       },
       {
         "key": "B",
-        "text": "Energía entregada (y base del coste)"
+        "text": "Almacenamiento a escala de red / proyectos utility"
       },
       {
         "key": "C",
-        "text": "Número de Superchargers en España"
+        "text": "Maletero del Model 3"
       },
       {
         "key": "D",
-        "text": "Peso de la batería"
+        "text": "Un modo de conducción"
       }
     ],
     "answer": "B",
-    "explanation": "kWh = energía; kW = potencia/velocidad de carga."
+    "explanation": "Megapack es hardware de almacenamiento a gran escala, a menudo con capa de software de despacho."
   },
   {
     "id": "Q09",
     "type": "opción múltiple",
     "tags": [
-      "carga"
+      "software"
     ],
-    "question": "El Supercharger se usa sobre todo para:",
+    "question": "La forma más segura de hablar de FSD / asistencia avanzada es:",
     "options": [
       {
         "key": "A",
-        "text": "Sustituir siempre la carga doméstica"
+        "text": "“El coche ya es un robotaxi legal en toda España”"
       },
       {
         "key": "B",
-        "text": "Carga rápida en ruta"
+        "text": "“Es asistencia; el conductor debe supervisar según el mercado y la ley”"
       },
       {
         "key": "C",
-        "text": "Solo camiones"
+        "text": "“En Europa es idéntico a California siempre”"
       },
       {
         "key": "D",
-        "text": "Cargar Powerwall exclusivamente"
+        "text": "“No existe software de asistencia en Tesla”"
       }
     ],
     "answer": "B",
-    "explanation": "Red de carga rápida DC para trayectos."
+    "explanation": "Incluso donde hay FSD Supervised aprobado, el matiz de supervisión y la disponibilidad por país son críticos."
   },
   {
     "id": "Q10",
-    "type": "opción múltiple",
+    "type": "verdadero/falso",
     "tags": [
-      "fsd"
+      "software",
+      "europa"
     ],
-    "question": "Autopilot / FSD (Supervised) a nivel cliente significa:",
-    "options": [
-      {
-        "key": "A",
-        "text": "El coche es legalmente autónomo Level 5"
-      },
-      {
-        "key": "B",
-        "text": "Asistencia avanzada; el conductor debe supervisar"
-      },
-      {
-        "key": "C",
-        "text": "Solo funciona sin conductor en España"
-      },
-      {
-        "key": "D",
-        "text": "Sustituye el seguro obligatorio"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Sistemas ADAS; responsabilidad del conductor; “Supervised” lo deja explícito."
+    "question": "Verdadero o falso: si FSD Supervised se aprueba en un país de la UE, automáticamente está activo y legal para todos los conductores en España al día siguiente.",
+    "options": [],
+    "answer": "Falso",
+    "explanation": "Las aprobaciones y despliegues son por país / marco regulatorio; no se debe extrapolar sin verificar."
   },
   {
     "id": "Q11",
-    "type": "verdadero/falso",
+    "type": "opción múltiple",
     "tags": [
-      "fsd"
+      "estructura",
+      "fabricas"
     ],
-    "question": "“Full Self-Driving (Supervised)” implica que puedes dormir al volante en vía pública.",
-    "options": [],
-    "answer": "Falso",
-    "explanation": "Requiere atención activa; no es autonomía completa."
+    "question": "¿Cuál es la principal planta de fabricación de vehículos Tesla en Europa citada públicamente?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Gigafactory Madrid"
+      },
+      {
+        "key": "B",
+        "text": "Gigafactory Berlin-Brandenburg (Grünheide)"
+      },
+      {
+        "key": "C",
+        "text": "Gigafactory Lisboa"
+      },
+      {
+        "key": "D",
+        "text": "Solo Fremont abastece Europa"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Giga Berlin es la ancla manufacturera europea (p. ej. Model Y)."
   },
   {
     "id": "Q12",
     "type": "opción múltiple",
     "tags": [
-      "energy"
+      "estructura",
+      "espana"
     ],
-    "question": "Powerwall, en términos de cliente doméstico, es principalmente:",
+    "question": "Presencia típica de Tesla en España:",
     "options": [
       {
         "key": "A",
-        "text": "Un cargador portátil Schuko"
+        "text": "Fábrica de vehículos a escala Giga + retail"
       },
       {
         "key": "B",
-        "text": "Una batería de almacenamiento doméstico"
+        "text": "Retail, entrega, servicio y Superchargers — sin Giga de vehículos propia"
       },
       {
         "key": "C",
-        "text": "Un modelo de coche"
+        "text": "Solo un call center, sin tiendas"
       },
       {
         "key": "D",
-        "text": "Un seguro de neumáticos"
+        "text": "Solo vende Powerwall, nunca coches"
       }
     ],
     "answer": "B",
-    "explanation": "Almacenamiento para solar/red y backup según configuración."
+    "explanation": "España forma parte de la red comercial/servicio; la Giga europea está en Alemania."
   },
   {
     "id": "Q13",
     "type": "opción múltiple",
     "tags": [
-      "proceso"
+      "ops"
     ],
-    "question": "Orden típico del viaje del cliente:",
+    "question": "En el modelo de venta directa, el orden más coherente del journey es:",
     "options": [
       {
         "key": "A",
-        "text": "Service → compra → delivery"
+        "text": "Servicio → pedido → interés"
       },
       {
         "key": "B",
-        "text": "Compra/asesoramiento → finance/trade-in → delivery → service"
+        "text": "Interés/educación → pedido → entrega → uso → servicio"
       },
       {
         "key": "C",
-        "text": "Delivery → compra → finance"
+        "text": "Solo Supercharger → robotaxi"
       },
       {
         "key": "D",
-        "text": "Solo Supercharger → compra"
+        "text": "Concesionario legacy compra el stock y luego Tesla desaparece"
       }
     ],
     "answer": "B",
-    "explanation": "Flujo retail lógico de punta a punta."
+    "explanation": "El flujo estándar es descubrimiento, pedido, entrega, vida del vehículo y postventa."
   },
   {
     "id": "Q14",
     "type": "opción múltiple",
     "tags": [
-      "ftt",
-      "proceso"
+      "ops"
     ],
-    "question": "Según la oferta pública FTT España, el orden de rotaciones es:",
+    "question": "Un Delivery Hub sirve principalmente para:",
     "options": [
       {
         "key": "A",
-        "text": "Elective → Sales → Ops → Delivery"
+        "text": "Fabricar celdas 4680"
+      },
+      {
+        "key": "B",
+        "text": "Preparar y entregar el vehículo al cliente"
+      },
+      {
+        "key": "C",
+        "text": "Aprobar FSD a nivel UE"
+      },
+      {
+        "key": "D",
+        "text": "Sustituir al Megapack"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Los hubs/centros de entrega gestionan la preparación y el handoff del coche."
+  },
+  {
+    "id": "Q15",
+    "type": "opción múltiple",
+    "tags": [
+      "ops"
+    ],
+    "question": "Mobile Service se entiende mejor como:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Una app de música"
+      },
+      {
+        "key": "B",
+        "text": "Servicio que puede desplazarse al cliente para ciertos trabajos"
+      },
+      {
+        "key": "C",
+        "text": "Un modo Autopilot"
+      },
+      {
+        "key": "D",
+        "text": "Un tipo de Supercharger"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Complementa a los Service Centers para intervenciones seleccionadas."
+  },
+  {
+    "id": "Q16",
+    "type": "opción múltiple",
+    "tags": [
+      "ops",
+      "carga"
+    ],
+    "question": "La red Supercharger aporta al panorama Tesla porque:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Solo existe en California"
+      },
+      {
+        "key": "B",
+        "text": "Reduce la fricción de viajes largos y forma parte de la experiencia de marca"
+      },
+      {
+        "key": "C",
+        "text": "Sustituye legalmente al carnet de conducir"
+      },
+      {
+        "key": "D",
+        "text": "Es un powerwall portátil obligatorio"
+      }
+    ],
+    "answer": "B",
+    "explanation": "La red de carga rápida es un activo de producto y de ops de experiencia."
+  },
+  {
+    "id": "Q17",
+    "type": "opción múltiple",
+    "tags": [
+      "estructura"
+    ],
+    "question": "¿Qué afirmación sobre organigramas es la más honesta para este pack?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Debemos memorizar el VP exacto de cada ciudad española"
+      },
+      {
+        "key": "B",
+        "text": "A nivel público conviene hablar de áreas de negocio y nodos ops, no inventar jerarquías"
+      },
+      {
+        "key": "C",
+        "text": "Tesla publica semanalmente el organigrama completo de Sales ES"
+      },
+      {
+        "key": "D",
+        "text": "No hay áreas de energy en Tesla"
+      }
+    ],
+    "answer": "B",
+    "explanation": "El contenido educativo debe evitar organigramas inventados."
+  },
+  {
+    "id": "Q18",
+    "type": "opción múltiple",
+    "tags": [
+      "cultura"
+    ],
+    "question": "“First principles” en este contexto significa aproximadamente:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Copiar siempre al fabricante legacy"
+      },
+      {
+        "key": "B",
+        "text": "Descomponer el problema a hechos base en lugar de asumir costumbres de industria"
+      },
+      {
+        "key": "C",
+        "text": "Ignorar la ley de homologación"
+      },
+      {
+        "key": "D",
+        "text": "Solo diseñar logos"
+      }
+    ],
+    "answer": "B",
+    "explanation": "First principles = razonar desde fundamentos, no desde analogías flojas."
+  },
+  {
+    "id": "Q19",
+    "type": "opción múltiple",
+    "tags": [
+      "cultura"
+    ],
+    "question": "Ownership de extremo a extremo implica sobre todo:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Culpar siempre a otro equipo"
+      },
+      {
+        "key": "B",
+        "text": "Quedarse con el problema hasta el resultado, incluidos handoffs"
+      },
+      {
+        "key": "C",
+        "text": "Nunca pedir ayuda"
+      },
+      {
+        "key": "D",
+        "text": "Evitar hablar con el cliente"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Ownership cruza fronteras Sales/Delivery/Service hasta cerrar el loop."
+  },
+  {
+    "id": "Q20",
+    "type": "verdadero/falso",
+    "tags": [
+      "cultura"
+    ],
+    "question": "Verdadero o falso: “Ir rápido” en cultura Tesla justifica saltarse controles de seguridad del vehículo.",
+    "options": [],
+    "answer": "Falso",
+    "explanation": "Velocidad y aprendizaje no anulan seguridad/calidad crítica en un producto regulado."
+  },
+  {
+    "id": "Q21",
+    "type": "opción múltiple",
+    "tags": [
+      "cultura"
+    ],
+    "question": "Sobre “listas oficiales de Leadership Principles” de Tesla:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Este pack inventa 14 LPs numeradas como si fueran oficiales"
+      },
+      {
+        "key": "B",
+        "text": "Hay temas culturales públicos recurrentes, pero no debemos fingir una lista interna oficial"
+      },
+      {
+        "key": "C",
+        "text": "Tesla no tiene ninguna cultura"
+      },
+      {
+        "key": "D",
+        "text": "Las únicas LPs válidas son las de Amazon copiadas"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Honestidad pedagógica: temas sí, documento inventado no."
+  },
+  {
+    "id": "Q22",
+    "type": "opción múltiple",
+    "tags": [
+      "productos",
+      "software"
+    ],
+    "question": "Las actualizaciones OTA importan porque:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Obligan a ir al taller cada semana"
+      },
+      {
+        "key": "B",
+        "text": "Pueden mejorar o corregir funciones de software sin visita física"
+      },
+      {
+        "key": "C",
+        "text": "Solo afectan al color de la pintura"
+      },
+      {
+        "key": "D",
+        "text": "Sustituyen a la batería"
+      }
+    ],
+    "answer": "B",
+    "explanation": "OTA es parte central del modelo de producto software-defined."
+  },
+  {
+    "id": "Q23",
+    "type": "opción múltiple",
+    "tags": [
+      "actualidad"
+    ],
+    "question": "La mejor reacción ante un titular “Tesla aprueba FSD en Europa” es:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Asumir que ya funciona igual en todos los países UE"
+      },
+      {
+        "key": "B",
+        "text": "Preguntar país, tipo de aprobación, supervised vs no, y fuente primaria"
+      },
+      {
+        "key": "C",
+        "text": "Borrar el módulo de productos"
+      },
+      {
+        "key": "D",
+        "text": "Inventar una fecha de robotaxi en Madrid"
+      }
+    ],
+    "answer": "B",
+    "explanation": "La actualidad de autonomía es altamente dependiente de jurisdicción y matices."
+  },
+  {
+    "id": "Q24",
+    "type": "opción múltiple",
+    "tags": [
+      "actualidad"
+    ],
+    "question": "¿Por qué este pack lleva fecha `updated`?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Por adorno"
+      },
+      {
+        "key": "B",
+        "text": "Porque productos, regulaciones y noticias cambian; la app debe poder refrescar"
+      },
+      {
+        "key": "C",
+        "text": "Porque Tesla lo exige por ley en todos los quizzes"
+      },
+      {
+        "key": "D",
+        "text": "Porque FTT dura exactamente esa fecha"
+      }
+    ],
+    "answer": "B",
+    "explanation": "El panorama no es estático; versionar contenido evita fosilizar titulares."
+  },
+  {
+    "id": "Q25",
+    "type": "respuesta corta",
+    "tags": [
+      "actualidad"
+    ],
+    "question": "Nombra una fuente primaria razonable para verificar un hecho de producto Tesla en España.",
+    "options": [],
+    "answer": "Ejemplos: tesla.com/es_es, comunicados IR/press, filings SEC para hechos corporativos.",
+    "explanation": "Priorizar fuente primaria sobre rumor de redes."
+  },
+  {
+    "id": "Q26",
+    "type": "opción múltiple",
+    "tags": [
+      "estructura"
+    ],
+    "question": "Automotive + Energy + software se entienden mejor como:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Tres marcas distintas sin relación"
+      },
+      {
+        "key": "B",
+        "text": "Pilares del mismo panorama de compañía"
+      },
+      {
+        "key": "C",
+        "text": "Solo un tip de Instagram"
+      },
+      {
+        "key": "D",
+        "text": "Exclusivos de Cybertruck"
+      }
+    ],
+    "answer": "B",
+    "explanation": "El aprendizaje panorama une esos pilares bajo una misión compartida."
+  },
+  {
+    "id": "Q27",
+    "type": "opción múltiple",
+    "tags": [
+      "ops"
+    ],
+    "question": "En retail Tesla (mercados directos), una diferencia típica frente a muchos concesionarios legacy es:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Tesla nunca tiene tiendas físicas"
+      },
+      {
+        "key": "B",
+        "text": "Precio/proceso más centrados en canal propio online + tiendas de marca"
+      },
+      {
+        "key": "C",
+        "text": "Tesla prohíbe Superchargers"
+      },
+      {
+        "key": "D",
+        "text": "Solo se vende con subasta"
+      }
+    ],
+    "answer": "B",
+    "explanation": "El modelo directo busca controlar experiencia y transparencia de precio (con matices locales)."
+  },
+  {
+    "id": "Q28",
+    "type": "opción múltiple",
+    "tags": [
+      "productos"
+    ],
+    "question": "Model S y Model X en el panorama ES/EU suelen situarse como:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Únicos modelos legales"
+      },
+      {
+        "key": "B",
+        "text": "Gama premium de menor volumen frente a 3/Y"
+      },
+      {
+        "key": "C",
+        "text": "Sustitutos del Megapack"
+      },
+      {
+        "key": "D",
+        "text": "Obligatorio para FTT"
+      }
+    ],
+    "answer": "B",
+    "explanation": "S/X son el extremo premium; el volumen conversacional en ES suele centrarse en 3/Y."
+  },
+  {
+    "id": "Q29",
+    "type": "verdadero/falso",
+    "tags": [
+      "panorama"
+    ],
+    "question": "Verdadero o falso: el objetivo primario de esta app (según el pack) es aprender el panorama de Tesla, no centrarse solo en preparar entrevistas FTT.",
+    "options": [],
+    "answer": "Verdadero",
+    "explanation": "FTT/STAR son capa opcional; el núcleo es panorama de compañía."
+  },
+  {
+    "id": "Q30",
+    "type": "opción múltiple",
+    "tags": [
+      "ops",
+      "cultura"
+    ],
+    "question": "Un buen ejemplo de “calidad vs velocidad” en entrega sería:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Entregar con un fallo de seguridad para no romper el KPI de hora"
+      },
+      {
+        "key": "B",
+        "text": "Cumplir el slot si es posible, pero no entregar un coche inseguro; comunicar el retraso"
+      },
+      {
+        "key": "C",
+        "text": "Mentir sobre el estado del vehículo"
+      },
+      {
+        "key": "D",
+        "text": "Desactivar el Service Center"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Velocidad con juicio: la seguridad no es vanity metric."
+  },
+  {
+    "id": "Q31",
+    "type": "opción múltiple",
+    "tags": [
+      "energy",
+      "actualidad"
+    ],
+    "question": "Un acuerdo grande de Megapack en Italia o Reino Unido implica automáticamente que:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Todos los hogares en España tienen Powerwall gratis"
+      },
+      {
+        "key": "B",
+        "text": "Nada automáticamente en el configurador residencial ES — es un dato B2B/utility a contextualizar"
+      },
+      {
+        "key": "C",
+        "text": "Cybertruck se homologa en la UE"
+      },
+      {
+        "key": "D",
+        "text": "FSD Unsupervised es legal en Madrid"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Hay que separar deals utility-scale de producto residencial local."
+  },
+  {
+    "id": "Q32",
+    "type": "respuesta corta",
+    "tags": [
+      "estructura"
+    ],
+    "question": "Nombra dos “nodos” físicos con los que un cliente en España puede interactuar. --- ## Notas para el QuizEngine - Mezclar Q de misión, productos, ops, cultura y actualidad. - En modo “divertido”, mostrar explicaciones siempre (aprendizaje > ranking). - Marcar preguntas de software/EU con badge “verificar mercado” si `updated` > 90 días.",
+    "options": [],
+    "answer": "Ejemplos: tienda/gallery, delivery hub, service center, Supercharger.",
+    "explanation": "La huella local es comercial y de servicio/carga."
+  }
+];
+
+window.QUIZ_BANK_FTT = [
+  {
+    "id": "FTT-Q01",
+    "type": "opción múltiple",
+    "tags": [
+      "ftt"
+    ],
+    "question": "Según ofertas públicas citadas, la duración típica del FTT España es:",
+    "options": [
+      {
+        "key": "A",
+        "text": "3 semanas"
+      },
+      {
+        "key": "B",
+        "text": "12 meses"
+      },
+      {
+        "key": "C",
+        "text": "5 años garantizados"
+      },
+      {
+        "key": "D",
+        "text": "Solo fines de semana sueltos"
+      }
+    ],
+    "answer": "B",
+    "explanation": "El programa se describe públicamente como traineeship de 12 meses."
+  },
+  {
+    "id": "FTT-Q02",
+    "type": "opción múltiple",
+    "tags": [
+      "ftt"
+    ],
+    "question": "El orden público de rotaciones incluye:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Solo Engineering → Legal → Finance"
       },
       {
         "key": "B",
@@ -348,540 +851,131 @@ window.QUIZ_BANK = [
       },
       {
         "key": "C",
-        "text": "Solo Sales 12 meses"
+        "text": "Solo Supercharger construction"
       },
       {
         "key": "D",
-        "text": "Factory → Engineering → Design"
+        "text": "Solo Optimus lab"
       }
     ],
     "answer": "B",
-    "explanation": "Rotaciones publicadas en la descripción del programa."
+    "explanation": "Ese es el orden citado en descripciones públicas del programa orientado a retail/ops."
   },
   {
-    "id": "Q15",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "En Vehicle Delivery, una idea central es:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Diseñar baterías"
-      },
-      {
-        "key": "B",
-        "text": "Asegurar una experiencia excepcional de recogida en el hub"
-      },
-      {
-        "key": "C",
-        "text": "Escribir el código de FSD"
-      },
-      {
-        "key": "D",
-        "text": "Fijar tipos de interés"
-      }
-    ],
-    "answer": "B",
-    "explanation": "La oferta destaca la experiencia de collection en Delivery hub."
-  },
-  {
-    "id": "Q16",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "Regional Operations se describe públicamente como:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Solo redes sociales"
-      },
-      {
-        "key": "B",
-        "text": "Ver detrás de escena lo que hace fluida la experiencia de cliente"
-      },
-      {
-        "key": "C",
-        "text": "Pilotar robotaxis"
-      },
-      {
-        "key": "D",
-        "text": "Homologar títulos universitarios"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Texto típico de la oferta FTT."
-  },
-  {
-    "id": "Q17",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "La fase Elective sirve para:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Vacaciones pagadas obligatorias"
-      },
-      {
-        "key": "B",
-        "text": "Elegir una rotación alineada con pasión / posible carrera post-programa"
-      },
-      {
-        "key": "C",
-        "text": "Repetir solo Sales"
-      },
-      {
-        "key": "D",
-        "text": "Examinar a otros trainees"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Última fase orientada a intereses y trayectoria."
-  },
-  {
-    "id": "Q18",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "Duración del FTT España según ofertas públicas:",
-    "options": [
-      {
-        "key": "A",
-        "text": "3 meses"
-      },
-      {
-        "key": "B",
-        "text": "6 meses"
-      },
-      {
-        "key": "C",
-        "text": "12 meses"
-      },
-      {
-        "key": "D",
-        "text": "24 meses fijos sin rotación"
-      }
-    ],
-    "answer": "C",
-    "explanation": "Programa de 12 meses."
-  },
-  {
-    "id": "Q19",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "Sobre la jornada:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Solo teletrabajo"
-      },
-      {
-        "key": "B",
-        "text": "Completa, 5 días/semana incluyendo weekends"
-      },
-      {
-        "key": "C",
-        "text": "Solo noches"
-      },
-      {
-        "key": "D",
-        "text": "2 días al mes"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Explicitado en ofertas FTT Spain."
-  },
-  {
-    "id": "Q20",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt",
-      "elegibilidad"
-    ],
-    "question": "El contrato citado para el trainee es:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Contrato de artistas"
-      },
-      {
-        "key": "B",
-        "text": "Contrato formativo para la obtención de la práctica profesional"
-      },
-      {
-        "key": "C",
-        "text": "Beca no laboral sin requisitos"
-      },
-      {
-        "key": "D",
-        "text": "Contrato indefinido automático día 1"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Tipo contractual público de la oferta; hay requisitos legales."
-  },
-  {
-    "id": "Q21",
+    "id": "FTT-Q03",
     "type": "verdadero/falso",
     "tags": [
-      "ftt",
-      "elegibilidad"
+      "ftt"
     ],
-    "question": "Si ya completaste un contrato formativo de prácticas para el mismo título en otra empresa, puedes asumir que siempre eres elegible al FTT.",
+    "question": "Verdadero o falso: el FTT se presenta en ofertas como jornada que puede incluir fines de semana.",
     "options": [],
-    "answer": "Falso",
-    "explanation": "Las ofertas suelen exigir no haber agotado ese tipo de contrato para el mismo grado; verificar Vida Laboral y norma."
+    "answer": "Verdadero",
+    "explanation": "Las ofertas citadas indican 5 días/semana incluyendo weekends — es retail operativo."
   },
   {
-    "id": "Q22",
+    "id": "FTT-Q04",
     "type": "opción múltiple",
     "tags": [
       "ftt"
     ],
-    "question": "Idiomas típicamente requeridos:",
+    "question": "Sobre salarios y exercises exactos del assessment day en este pack:",
     "options": [
       {
         "key": "A",
-        "text": "Solo chino"
+        "text": "Están publicados aquí con cifras oficiales"
       },
       {
         "key": "B",
-        "text": "Español fluido + inglés mínimo B1"
+        "text": "No deben inventarse; verifica portal de empleo / proceso real"
       },
       {
         "key": "C",
-        "text": "Solo latín"
+        "text": "Siempre son idénticos a FAANG"
       },
       {
         "key": "D",
-        "text": "Ningún idioma"
+        "text": "Garantizan contrato indefinido"
       }
     ],
     "answer": "B",
-    "explanation": "Programa en español; B1 inglés en requisitos públicos."
+    "explanation": "Honestidad: sin leaks ni cifras inventadas."
   },
   {
-    "id": "Q23",
+    "id": "FTT-Q05",
     "type": "opción múltiple",
     "tags": [
-      "cultura"
+      "ftt"
     ],
-    "question": "“First principles” en la práctica significa:",
+    "question": "La mejor preparación previa al FTT según este pack es:",
     "options": [
       {
         "key": "A",
-        "text": "Copiar al competidor más cercano"
+        "text": "Ignorar productos y ops"
       },
       {
         "key": "B",
-        "text": "Descomponer el problema a verdades básicas y reconstruir la solución"
+        "text": "Dominar el panorama de la compañía (ruta primaria) y luego elegibilidad + STAR"
       },
       {
         "key": "C",
-        "text": "Ignorar al cliente"
+        "text": "Solo memorizar rumores de redes"
       },
       {
         "key": "D",
-        "text": "Evitar cualquier dato"
+        "text": "Fingir organigramas internos"
       }
     ],
     "answer": "B",
-    "explanation": "Enfoque asociado públicamente a la cultura de resolución de problemas."
+    "explanation": "FTT es capa opcional; el conocimiento de empresa viene del panorama."
   },
   {
-    "id": "Q24",
+    "id": "FTT-Q06",
     "type": "opción múltiple",
     "tags": [
-      "cultura"
+      "ftt"
     ],
-    "question": "Ownership bueno en Delivery se ve cuando:",
+    "question": "Un requisito frecuentemente listado es:",
     "options": [
       {
         "key": "A",
-        "text": "Ignoras un defecto porque “no es tu KPI”"
+        "text": "No necesitar carné nunca"
       },
       {
         "key": "B",
-        "text": "Detectas un issue, comunicas y haces seguimiento hasta cierre o handoff limpio"
+        "text": "Permiso de conducir válido España o UE"
       },
       {
         "key": "C",
-        "text": "Culpas a Sales en voz alta ante el cliente"
+        "text": "Vivir obligatoriamente en California"
       },
       {
         "key": "D",
-        "text": "Cierras sin checklist para irte antes"
+        "text": "Haber trabajado ya 20 años en OEM"
       }
     ],
     "answer": "B",
-    "explanation": "Responsabilidad de extremo a extremo + calidad."
+    "explanation": "Las ofertas públicas citan carné ES/UE entre requisitos."
   },
   {
-    "id": "Q25",
-    "type": "opción múltiple",
-    "tags": [
-      "cultura"
-    ],
-    "question": "Ante feedback duro y justo, la respuesta más alineada es:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Defenderte sin escuchar"
-      },
-      {
-        "key": "B",
-        "text": "Escuchar, aclarar y cambiar un comportamiento concreto"
-      },
-      {
-        "key": "C",
-        "text": "Abandonar el assessment"
-      },
-      {
-        "key": "D",
-        "text": "Publicarlo en redes criticando al equipo"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Receptividad y acción > ego."
-  },
-  {
-    "id": "Q26",
-    "type": "opción múltiple",
-    "tags": [
-      "cultura"
-    ],
-    "question": "Calidad vs velocidad: ¿qué es más seguro decir en entrevista?",
-    "options": [
-      {
-        "key": "A",
-        "text": "“La velocidad siempre gana aunque sea inseguro”"
-      },
-      {
-        "key": "B",
-        "text": "“Protejo seguridad/calidad crítica y acelero lo demás con trade-offs claros”"
-      },
-      {
-        "key": "C",
-        "text": "“Nunca entrego nada”"
-      },
-      {
-        "key": "D",
-        "text": "“Solo sigo el manual aunque esté obsoleto y peligroso”"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Ritmo alto con criterio; seguridad no negociable."
-  },
-  {
-    "id": "Q27",
+    "id": "FTT-Q07",
     "type": "respuesta corta",
     "tags": [
-      "proceso"
-    ],
-    "question": "¿Por qué un trade-in/financiación mal documentados afectan a Delivery?",
-    "options": [],
-    "answer": "Retrasos, frustración del cliente, rework entre equipos; el handoff sucio rompe el “día grande”.",
-    "explanation": "El cliente vive un solo viaje; los silos se notan en la entrega."
-  },
-  {
-    "id": "Q28",
-    "type": "opción múltiple",
-    "tags": [
-      "productos",
-      "fsd"
-    ],
-    "question": "Las actualizaciones OTA sirven principalmente para:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Cambiar el color de la pintura física"
-      },
-      {
-        "key": "B",
-        "text": "Mejorar software (funciones, seguridad, UX) sin visitar taller necesariamente"
-      },
-      {
-        "key": "C",
-        "text": "Sustituir el motor de combustión"
-      },
-      {
-        "key": "D",
-        "text": "Emitir el carnet de conducir"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Mejora continua por software; hecho público característico de Tesla."
-  },
-  {
-    "id": "Q29",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "Ubicaciones citadas para plazas FTT España incluyen:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Solo Londres"
-      },
-      {
-        "key": "B",
-        "text": "Barcelona, Bilbao, Madrid, Málaga, Sevilla, Valencia"
-      },
-      {
-        "key": "C",
-        "text": "Solo Gigafactory Texas"
-      },
-      {
-        "key": "D",
-        "text": "Solo Canarias"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Listado de ofertas públicas de la cohorte citada."
-  },
-  {
-    "id": "Q30",
-    "type": "opción múltiple",
-    "tags": [
-      "mision",
-      "cultura"
-    ],
-    "question": "La mejor forma de demostrar alineación con la misión en FTT es:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Recitar el slogan sin ejemplos"
-      },
-      {
-        "key": "B",
-        "text": "Conectar educación al cliente / entrega / ops con facilitar la transición sostenible"
-      },
-      {
-        "key": "C",
-        "text": "Inventar un roadmap secreto"
-      },
-      {
-        "key": "D",
-        "text": "Criticar a todos los ICE sin datos"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Credibilidad = misión + acciones del rol."
-  },
-  {
-    "id": "Q31",
-    "type": "verdadero/falso",
-    "tags": [
-      "carga"
-    ],
-    "question": "Autonomía WLTP y autonomía real en autopista invierno son siempre idénticas.",
-    "options": [],
-    "answer": "Falso",
-    "explanation": "WLTP es homologación; condiciones reales (velocidad, clima) reducen autonomía."
-  },
-  {
-    "id": "Q32",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt"
-    ],
-    "question": "Sobre viajes en el programa:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Nunca sales del barrio"
-      },
-      {
-        "key": "B",
-        "text": "Puede requerirse viaje regular a hubs/eventos Tesla"
-      },
-      {
-        "key": "C",
-        "text": "Solo vuelos intercontinentales semanales"
-      },
-      {
-        "key": "D",
-        "text": "Prohibido cualquier desplazamiento"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Ofertas mencionan willingness to travel y commute a delivery hub."
-  },
-  {
-    "id": "Q33",
-    "type": "respuesta corta",
-    "tags": [
-      "cultura",
       "star"
     ],
-    "question": "En formato STAR, ¿qué debe dominar la sección Action?",
+    "question": "¿Qué significan las letras STAR?",
     "options": [],
-    "answer": "Acciones *tuyas* concretas (verbos en 1ª persona), no solo lo que hizo el equipo.",
-    "explanation": "Los evaluadores buscan ownership individual observable."
+    "answer": "Situation, Task, Action, Result.",
+    "explanation": "Estructura para contar logros de forma clara en entrevistas."
   },
   {
-    "id": "Q34",
-    "type": "opción múltiple",
+    "id": "FTT-Q08",
+    "type": "verdadero/falso",
     "tags": [
-      "productos"
+      "ftt"
     ],
-    "question": "Si un cliente pregunta por FSD en España, lo más profesional es:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Prometer Level 5 inmediato"
-      },
-      {
-        "key": "B",
-        "text": "Explicar asistencia supervisada y verificar funciones activas en el mercado"
-      },
-      {
-        "key": "C",
-        "text": "Decir que no existe software en Tesla"
-      },
-      {
-        "key": "D",
-        "text": "Afirmar que puede mirar el móvil sin límites legales"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Honestidad + local compliance; disponibilidad por mercado."
-  },
-  {
-    "id": "Q35",
-    "type": "opción múltiple",
-    "tags": [
-      "ftt",
-      "elegibilidad"
-    ],
-    "question": "Si tu título es extranjero, las ofertas suelen indicar que necesitas:",
-    "options": [
-      {
-        "key": "A",
-        "text": "Nada"
-      },
-      {
-        "key": "B",
-        "text": "Homologación/equivalencia oficial antes del start date"
-      },
-      {
-        "key": "C",
-        "text": "Solo un selfie"
-      },
-      {
-        "key": "D",
-        "text": "Un máster en física de plasmas"
-      }
-    ],
-    "answer": "B",
-    "explanation": "Homologación/equivalencia del Ministerio de Universidades citada en requisitos."
+    "question": "Verdadero o falso: completar el FTT garantiza por contrato en este texto una plaza indefinida.",
+    "options": [],
+    "answer": "Falso",
+    "explanation": "El pack habla de desarrollo y elective; no inventa garantías de conversión."
   }
 ];
