@@ -318,3 +318,63 @@ tr:last-child td { border-bottom: none; }
   .grid-stats { grid-template-columns: repeat(4, 1fr); }
   .hero { padding: 2.25rem 2rem; }
 }
+
+/* Modo Future Talent toggle */
+.ftt-toggle-card { margin: 1rem 0 1.25rem; }
+.ftt-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  cursor: pointer;
+  user-select: none;
+}
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch-ui {
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: #333;
+  border: 1px solid #555;
+  position: relative;
+  transition: background .2s, border-color .2s;
+}
+.switch-ui::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform .2s;
+}
+.switch input:checked + .switch-ui {
+  background: var(--red);
+  border-color: var(--red);
+}
+.switch input:checked + .switch-ui::after { transform: translateX(18px); }
+.switch-label {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--muted);
+  min-width: 2rem;
+}
+.switch input:checked ~ .switch-label { color: var(--red); }
+.pill-ftt {
+  display: inline-block;
+  font-size: .65rem;
+  vertical-align: middle;
+  margin-left: .25rem;
+  background: rgba(227, 25, 55, .15);
+  color: var(--red);
+  border: 1px solid rgba(227, 25, 55, .35);
+}
