@@ -25,7 +25,10 @@ Módulos markdown en **español** para una app interactiva que enseña el **pano
 2. Lecciones `01`–`06`: pantallas de estudio (párrafos cortos, bullets, callouts).
 3. `07-banco-panorama.md`: quiz de panorama corporativo (parsear por `### Q##`).
 4. `08-comparador-productos.md`: atributos para UI de comparador.
-5. `opcional-ftt/`: solo si el usuario activa el módulo FTT.
+5. `09-glosario.md`: glosario buscable (JSON `glossary`).
+6. `10-charging-europa.md`: capas de carga EU/ES (JSON `charging_map`).
+7. `11-ops-dia-a-dia.md`: card ops venta→servicio (JSON `ops_flow`).
+8. `opcional-ftt/`: solo si el usuario activa el módulo FTT.
 
 ### Convención para agent / app
 
@@ -36,7 +39,7 @@ Módulos markdown en **español** para una app interactiva que enseña el **pano
 | `order` | orden en sidebar |
 | `tags` | filtros (`panorama`, `productos`, `ops`, `ftt`…) |
 | `path` | `primary` \| `optional-ftt` |
-| `ui_features` | p. ej. `structure_map`, `news_timeline`, `product_comparator` |
+| `ui_features` | p. ej. `structure_map`, `news_timeline`, `product_comparator`, `searchable_glossary`, `charging_map`, `ops_flow_card` |
 
 - Renderiza markdown estándar; `> 💡` / `> ⚠️` → callouts.
 - Marcas `⚠️ [Incierta / verificar]` = no usar como hecho duro en quizzes estrictos.
@@ -44,27 +47,39 @@ Módulos markdown en **español** para una app interactiva que enseña el **pano
 
 ### Bloques machine-readable (UI avanzada)
 
-Cada uno de estos archivos incluye un **fence JSON** (legible también por humanos):
+Cada feature usa el **primer fence JSON** del archivo:
 
 | Feature UI | Archivo | Clave JSON |
 |------------|---------|------------|
-| Interactive structure map | `02-estructura.md` | `structure_map.nodes[]` (`id`, `label`, `type`, `parent`, …) |
-| News / study timeline | `05-actualidad.md` | `timeline.events[]` (`id`, `theme`, `date`, `title`, `confidence`, `verify`) |
-| Product comparator | `08-comparador-productos.md` | `product_comparator.products[]` (`segment`, `available_es`, `compare_axes`, …) |
+| Interactive structure map | `02-estructura.md` | `structure_map.nodes[]` |
+| News / study timeline | `05-actualidad.md` | `timeline.events[]` |
+| What changed mode | `05-actualidad.md` | `what_changed[]` *(aditivo en la misma fence)* |
+| Product comparator | `08-comparador-productos.md` | `product_comparator.products[]` |
+| Searchable glossary | `09-glosario.md` | `glossary[]` (`id`, `term`, `short`, `tags`, `related`) |
+| Charging map EU/ES | `10-charging-europa.md` | `charging_map` (`layers`, `notes`, `spain`) |
+| Day-to-day ops card | `11-ops-dia-a-dia.md` | `ops_flow.stages[]` |
 
 `02-estructura.md` también incluye un diagrama **mermaid** opcional para renderers que lo soporten.
+
+### Parse notes para Chief of Staff / app
+
+1. Extrae el **primer** bloque ` ```json ` … ` ``` ` de cada `.md` como payload UI.  
+2. Schemas existentes `structure_map` / `timeline` / `product_comparator`: **no romper**; en `05` solo se añadió `what_changed`.  
+3. `charging_map.spain.milestone_press` es **perishable** — UI debe preferir `verify` / Find Us sobre el número.  
+4. Glosario: indexar `term` + `tags`; deep-link con `id` y grafo `related`.
 
 ### Integración sugerida
 
 ```
 tesla-panorama-content/
-  00–08  →  LessonScreen + StructureMap + Comparator + Timeline + QuizEngine
+  00–11  →  LessonScreen + StructureMap + Comparator + Timeline
+            + WhatChanged + Glossary + ChargingMap + OpsCard + QuizEngine
   opcional-ftt/  →  feature flag / pestaña "Carreras / FTT"
 ```
 
 ### Fuentes
 
-Hechos públicos (tesla.com, IR Updates, noticias verificables). Capacidades de planta citadas desde **Tesla Q2 2026 Update**. Verifica precios, disponibilidad por país y nombres de software en [tesla.com/es_es](https://www.tesla.com/es_es) antes de publicar quizzes “live”.
+Hechos públicos (tesla.com, IR Updates, AFIR, prensa verificable). Capacidades de planta citadas desde **Tesla Q2 2026 Update**. Hito Supercharger ES (~1.000 stalls, mar 2026): prensa/comunicado — revalidar en Find Us. Verifica precios, disponibilidad por país y nombres de software en [tesla.com/es_es](https://www.tesla.com/es_es) antes de publicar quizzes “live”.
 
 ### Relación con `tesla-ftt-content/`
 

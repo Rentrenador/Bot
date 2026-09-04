@@ -111,7 +111,51 @@ Este módulo **no** es un feed en vivo. Da **temas + hitos verificables** para l
         "verify": ["autoridades nacionales", "Tesla Europe FSD dashboard", "DGT"]
       }
     ]
-  }
+  },
+  "what_changed": [
+    {
+      "id": "wc-juniper-eu",
+      "since": "2025-01",
+      "theme": "product_refresh",
+      "summary": "Model Y refresh (Juniper / New Model Y) en producción en Giga Berlin y disponible como producto EU de volumen; el code name es de estudio, el configurador usa el nombre de marketing local.",
+      "verify": ["tesla.com/modely", "Giga Berlin / IR"]
+    },
+    {
+      "id": "wc-fsd-eu-map",
+      "since": "2025-11",
+      "theme": "autonomy",
+      "summary": "Mapa FSD Supervised en UE en movimiento: pruebas en ES (DGT/ES-AV), aprobaciones nacionales reportadas en algunos países (p. ej. NL 2026-04). No equivale a robotaxi ni a disponibilidad uniforme en toda la UE.",
+      "verify": ["RDW", "DGT / ES-AV", "Tesla Europe FSD"]
+    },
+    {
+      "id": "wc-sc-open-afir",
+      "since": "2021-2024",
+      "theme": "charging",
+      "summary": "Tema durable: Supercharger EU con CCS2 y apertura gradual a no-Tesla en estaciones seleccionadas; AFIR (desde 2024) empuja acceso ad-hoc y transparencia en carga pública.",
+      "verify": ["Find Us / app Charge Your Non-Tesla", "Reglamento UE 2023/1804 AFIR"]
+    },
+    {
+      "id": "wc-energy-megapack-emea",
+      "since": "2026",
+      "theme": "energy_megapack",
+      "summary": "Energy utility sigue creciendo en narrativa IR (deployments EMEA, Megafactories); acuerdos B2B tipo NatPower (>25 GWh IT/UK) no implican Powerwall retail automático en ES.",
+      "verify": ["ir.tesla.com Q2 2026 Update", "comunicados Energy / NatPower"]
+    },
+    {
+      "id": "wc-es-retail-charging",
+      "since": "2026",
+      "theme": "europe_spain",
+      "summary": "España: expansión retail reportada + hito de red Supercharger (~1.000 stalls / ~96 estaciones en prensa mar 2026). Conteos perishable — verificar Find Us.",
+      "verify": ["https://www.tesla.com/es_ES/findus", "prensa / comunicados Tesla España"]
+    },
+    {
+      "id": "wc-naming-assistance",
+      "since": "2026-02",
+      "theme": "autonomy",
+      "summary": "Tema durable de naming: OTA 2026 renombra etiquetas (Navigate on Autosteer, AI Computer) sin cambiar necesariamente el comportamiento; Autopilot/FSD Supervised siguen siendo asistencia con conductor responsable.",
+      "verify": ["release notes OTA vehículo", "manual / soporte local"]
+    }
+  ]
 }
 ```
 
@@ -199,6 +243,22 @@ Este módulo **no** es un feed en vivo. Da **temas + hitos verificables** para l
 2. ¿Afecta a un cliente en España *esta semana*?  
 3. ¿Qué fuente primaria lo confirmaría?  
 4. ¿Qué frase corta y honesta pondrías en la app?
+
+---
+
+## Modo UI “¿Qué cambió?” (`what_changed`)
+
+Bloque parseable (misma fence JSON que `timeline`) para una vista de **temas durables**, no titulares del día:
+
+| Campo | Uso |
+|-------|-----|
+| `id` | clave estable |
+| `since` | ancla temporal aproximada |
+| `theme` | alinea con `timeline.themes` / categorías |
+| `summary` | 1–2 frases honestas |
+| `verify` | dónde comprobar antes de fosilizar |
+
+No añadas headlines inventados: solo temas que un estudiante pueda revalidar meses después.
 
 ---
 

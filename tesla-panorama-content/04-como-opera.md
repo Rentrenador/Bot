@@ -106,6 +106,16 @@ Hay matices por país; la idea es el **control de extremo a extremo** de la expe
 
 ---
 
+---
+
+## Tarjeta UI — flujo día a día
+
+Para la card parseable **venta → pedido → preparación → entrega → servicio** (JSON `ops_flow`), ver el módulo dedicado:
+
+→ **`11-ops-dia-a-dia.md`** (`ui_features: ops_flow_card`)
+
+Este archivo 04 sigue siendo la narrativa + Supercharger ops + retail vs legacy.
+
 ## Checklist
 
 - [ ] Puedo narrar compra → entrega → servicio en orden.  
