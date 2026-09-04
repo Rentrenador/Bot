@@ -25,13 +25,20 @@
     expoStep: 0,
   };
 
-  /** Curated exhibition story path */
+  /** Curated exhibition story path — covers content 01→11 (tools interleaved; 08 merged into comparador; FTT off) */
   const EXPO_PATH = [
     { id: "que-es", label: "Qué es", view: "module", opts: { moduleId: "que-es-tesla" } },
-    { id: "mapa", label: "Estructura", view: "map", opts: { mapAreaId: null } },
-    { id: "productos", label: "Productos", view: "compare", opts: {} },
+    { id: "estructura", label: "Estructura", view: "module", opts: { moduleId: "estructura" } },
+    { id: "mapa", label: "Mapa", view: "map", opts: { mapAreaId: null } },
+    { id: "productos", label: "Productos", view: "module", opts: { moduleId: "productos" } },
+    { id: "comparador", label: "Comparador", view: "compare", opts: {} },
+    { id: "como-opera", label: "Cómo opera", view: "module", opts: { moduleId: "como-opera" } },
+    { id: "actualidad", label: "Actualidad", view: "module", opts: { moduleId: "actualidad" } },
+    { id: "timeline", label: "Timeline", view: "timeline", opts: { timelineId: null, timelineMode: "all" } },
+    { id: "cultura", label: "Cultura", view: "module", opts: { moduleId: "cultura" } },
+    { id: "glosario", label: "Glosario", view: "glossary", opts: { glossaryId: null } },
+    { id: "carga", label: "Carga EU", view: "charging", opts: { chargingLayerId: null } },
     { id: "ops", label: "Ops", view: "ops", opts: { opsStep: 0 } },
-    { id: "actualidad", label: "Actualidad", view: "timeline", opts: { timelineId: null, timelineMode: "all" } },
     { id: "quiz", label: "Quiz", view: "examen", opts: {} },
   ];
 
@@ -62,6 +69,8 @@
   }
 
   function setFttMode(on) {
+    // FTT/STAR stay off for the whole expo session
+    if (state.expo) on = false;
     const s = getStore();
     s.fttMode = !!on;
     saveStore(s);
@@ -71,6 +80,15 @@
       return;
     }
     render();
+  }
+
+  function forceFttOffForExpo() {
+    const s = getStore();
+    if (s.fttMode) {
+      s.fttMode = false;
+      saveStore(s);
+    }
+    syncFttChrome();
   }
 
   function isOptionalModule(id) {
@@ -128,14 +146,25 @@
     });
     const prev = document.getElementById("expo-prev");
     const next = document.getElementById("expo-next");
-    if (prev) prev.disabled = state.expoStep <= 0;
-    if (next) next.disabled = state.expoStep >= EXPO_PATH.length - 1;
+    const prevStep = EXPO_PATH[state.expoStep - 1];
+    const nextStep = EXPO_PATH[state.expoStep + 1];
+    if (prev) {
+      prev.disabled = state.expoStep <= 0;
+      prev.setAttribute("aria-label", prevStep ? "Anterior: " + prevStep.label : "Anterior");
+      prev.title = prevStep ? prevStep.label : "Anterior";
+    }
+    if (next) {
+      next.disabled = state.expoStep >= EXPO_PATH.length - 1;
+      next.setAttribute("aria-label", nextStep ? "Siguiente: " + nextStep.label : "Siguiente");
+      next.title = nextStep ? nextStep.label : "Siguiente";
+    }
   }
 
   function goExpoStep(i) {
     if (i < 0 || i >= EXPO_PATH.length) return;
     state.expoStep = i;
     state.expo = true;
+    forceFttOffForExpo();
     const step = EXPO_PATH[i];
     syncExpoChrome();
     navigate(step.view, { ...(step.opts || {}), _fromExpo: true });
@@ -143,6 +172,7 @@
 
   function setExpoMode(on) {
     state.expo = !!on;
+    forceFttOffForExpo();
     if (on) {
       syncExpoChrome();
       goExpoStep(state.expoStep || 0);
@@ -421,7 +451,7 @@
             <button type="button" class="btn btn-ghost" data-go="expo">Modo exposición</button>
           </div>
           <div class="landing-meta">
-            <span><i></i> 6 módulos + herramientas</span>
+            <span><i></i> Módulos 01–11 · panorama completo</span>
             <span><i></i> Modo exposición con teclado</span>
             <span><i></i> Proyecto educativo · no afiliado</span>
           </div>

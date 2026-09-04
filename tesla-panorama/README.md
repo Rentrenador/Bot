@@ -37,13 +37,11 @@ O abre `index.html` / Live Server. Sin build ni Node.
 
 ### Modo exposición
 
-Recorrido curado con tipografía ampliada y menos chrome:
-
-1. Qué es → 2. Estructura/mapa → 3. Productos/comparador → 4. Ops → 5. Actualidad → 6. Quiz
+Recorrido curado (módulos 01→11, FTT off): Qué es → Estructura → Mapa → Productos → Comparador → Cómo opera → Actualidad → Timeline → Cultura → Glosario → Carga EU → Ops → Quiz.
 
 - Toggle **Expo** en el header, CTA en portada, o ruta `#/exposicion`
 - Teclado: `←` / `→` (o PageUp/PageDown), `Esc` para salir
-- Progress dots en la barra de exposición
+- Progress dots en la barra de exposición; `fttMode` forzado a off al entrar/salir
 
 ## Qué incluye
 
@@ -73,7 +71,7 @@ tesla-panorama/
 ## Demo rápida (60 s)
 
 1. Abre `#/` — portada con wordmark y valor prop.
-2. Pulsa **Modo exposición** → avanza con `→` por mapa, comparador, ops, actualidad, quiz.
+2. Pulsa **Modo exposición** → avanza con `→` por módulos 01–11 (mapa, comparador, timeline, glosario, carga, ops, quiz).
 3. `Esc` → vuelve al panel (`#/panel`) o portada; explora herramientas.
 
 ## Aviso
