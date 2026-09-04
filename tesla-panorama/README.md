@@ -1,41 +1,27 @@
-# Tesla FTT Panorama
+# Tesla Panorama
 
-App web interactiva (SPA) para preparar el **Future Talent Traineeship (FTT) España** — Sales & Customer Support (Madrid/Fuenlabrada y otras ubicaciones).
+SPA estática (HTML/CSS/JS) para aprender el **panorama actual de Tesla** como compañía: qué es, estructura, productos, cómo opera, actualidad y cultura. UI en español (España), tema negro / blanco / rojo.
 
-Tema visual Tesla (negro / blanco / rojo). UI en **español (España)**. Contenido basado en hechos públicos; no es material oficial de Tesla.
+**Contenido fuente:** `tesla-panorama-content/` (ruta primaria). **Modo Future Talent** (FTT + STAR) es opcional y va **apagado por defecto**.
 
-## Cómo ejecutar
-
-No hace falta build ni Node. Abre la carpeta con cualquier servidor estático:
+## Cómo abrir
 
 ```bash
-# Python 3
 cd tesla-panorama
 python3 -m http.server 5173
-
-# Luego abre http://localhost:5173
+# http://localhost:5173
 ```
 
-O con VS Code / Cursor: «Open with Live Server» sobre `index.html`.
+O abre `index.html` / Live Server. Sin build ni Node.
 
-También puedes abrir `index.html` directamente en el navegador; algunas restricciones `file://` pueden limitar poco, pero la app es vanilla JS sin bundler.
+## Qué incluye
 
-## Qué incluye (MVP)
+| Capa | Contenido |
+|------|-----------|
+| **Primaria** | 6 lecciones + quiz panorama (32 Q, cortas con autoevaluación) |
+| **Opcional** | Toggle «Modo Future Talent» → programa FTT, banco corto FTT, STAR |
 
-| Vista | Descripción |
-|---|---|
-| **Inicio** | Dashboard, progreso global (localStorage), mapa de módulos |
-| **Misión** | Cards + frases entrevista |
-| **Productos** | Modelos, carga, FSD, Energy, comparador |
-| **Viaje cliente** | Timeline Sales → Delivery → Ops → Elective |
-| **Cultura** | First principles, ownership, checklist interview-safe |
-| **Programa FTT** | Datos clave, rotaciones, FAQ, checklist elegibilidad |
-| **Examen** | 35 preguntas del banco; simulacro 15/30; puntuación + repaso |
-| **STAR** | 6 plantillas con editor y guardado local |
-
-## Progreso
-
-Se guarda en `localStorage` bajo la clave `tesla-ftt-panorama-v1` (módulos, checklist FTT, historias STAR, historial de exámenes).
+Progreso en `localStorage` clave `tesla-panorama-v2`.
 
 ## Estructura
 
@@ -43,16 +29,12 @@ Se guarda en `localStorage` bajo la clave `tesla-ftt-panorama-v1` (módulos, che
 tesla-panorama/
   index.html
   css/app.css
-  js/data.js          # módulos estructurados
-  js/quiz-data.js     # banco de examen
-  js/app.js           # SPA (router, quiz, STAR)
+  js/data.js       # módulos panorama + FTT opcional
+  js/quiz-data.js  # QUIZ_BANK + QUIZ_BANK_FTT
+  js/app.js
   README.md
 ```
 
-## Contenido fuente
-
-Los markdown originales viven en `tesla-ftt-content/` del mismo repo. Esta app los convierte a datos estructurados para UI de cards/timeline/quiz.
-
 ## Aviso
 
-No inventa salarios, ejercicios secretos de assessment ni roadmaps internos. Verifica precios/modelos en [tesla.com/es_es](https://www.tesla.com/es_es) y requisitos en el portal de empleo Tesla.
+No oficial. Sin organigramas inventados ni leaks de entrevista. Verifica en [tesla.com/es_es](https://www.tesla.com/es_es) y el portal de empleo.
