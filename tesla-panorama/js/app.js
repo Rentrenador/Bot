@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "tesla-ftt-panorama-v1";
+  const STORAGE_KEY = "tesla-panorama-v2";
   const $main = document.getElementById("main");
   const $pill = document.getElementById("progress-pill");
 
@@ -29,7 +29,59 @@
     if (!s.checklist) s.checklist = {};
     if (!s.star) s.star = {};
     if (!s.quizHistory) s.quizHistory = [];
+    if (typeof s.fttMode !== "boolean") s.fttMode = false;
     return s;
+  }
+
+  function isFttMode() {
+    return !!getStore().fttMode;
+  }
+
+  function setFttMode(on) {
+    const s = getStore();
+    s.fttMode = !!on;
+    saveStore(s);
+    syncFttChrome();
+    if (!on && (state.view === "star" || (state.moduleId && isOptionalModule(state.moduleId)))) {
+      navigate("home");
+      return;
+    }
+    render();
+  }
+
+  function isOptionalModule(id) {
+    const m = window.MODULES.find((x) => x.id === id);
+    return m && m.path === "optional-ftt";
+  }
+
+  function visibleModules() {
+    const ftt = isFttMode();
+    return (window.MODULES || []).filter((m) => ftt || m.path !== "optional-ftt");
+  }
+
+  function studyPath() {
+    const base = (window.STUDY_PATH || []).slice();
+    if (isFttMode()) return base.concat(window.STUDY_PATH_FTT || []);
+    return base;
+  }
+
+  function activeQuizBank() {
+    const pan = window.QUIZ_BANK || [];
+    if (!isFttMode()) return pan;
+    return pan.concat(window.QUIZ_BANK_FTT || []);
+  }
+
+  function syncFttChrome() {
+    const on = isFttMode();
+    document.querySelectorAll("[data-nav='star']").forEach((el) => {
+      el.hidden = !on;
+      el.style.display = on ? "" : "none";
+    });
+    document.body.classList.toggle("ftt-on", on);
+    const brandStrong = document.querySelector(".brand-text strong");
+    const brandSmall = document.querySelector(".brand-text small");
+    if (brandStrong) brandStrong.textContent = on ? "Tesla · FTT" : "Tesla Panorama";
+    if (brandSmall) brandSmall.textContent = on ? "Future Talent · opcional" : "Compañía · España / EU";
   }
 
   function moduleProgress(id) {
@@ -54,7 +106,9 @@
   }
 
   function globalProgress() {
-    const mods = window.MODULES.filter((m) => m.order >= 1);
+    const mods = studyPath()
+      .map((id) => window.MODULES.find((m) => m.id === id))
+      .filter(Boolean);
     if (!mods.length) return 0;
     const sum = mods.reduce((a, m) => a + moduleProgress(m.id), 0);
     return Math.round(sum / mods.length);
@@ -102,6 +156,14 @@
   }
 
   function navigate(view, opts = {}) {
+    if (view === "star" && !isFttMode()) {
+      view = "home";
+      opts = {};
+    }
+    if (view === "module" && opts.moduleId && isOptionalModule(opts.moduleId) && !isFttMode()) {
+      view = "home";
+      opts = {};
+    }
     state.view = view;
     if (opts.moduleId) state.moduleId = opts.moduleId;
     if (opts.starId) state.starId = opts.starId;
@@ -143,43 +205,61 @@
     const pct = globalProgress();
     const history = getStore().quizHistory || [];
     const lastQuiz = history[history.length - 1];
-    const doneCount = window.MODULES.filter((m) => moduleProgress(m.id) >= 100).length;
+    const mods = visibleModules();
+    const doneCount = mods.filter((m) => moduleProgress(m.id) >= 100).length;
+    const ftt = isFttMode();
+    const bankLen = activeQuizBank().length;
 
     return `
       <section class="hero">
-        <div class="hero-kicker">Future Talent Traineeship · ES</div>
-        <h1>Tu panorama Tesla para el FTT</h1>
-        <p>${escapeHtml(window.APP_META.audience)}. Estudio interactivo (~${escapeHtml(window.APP_META.studyHours)}): misión, productos, viaje del cliente, cultura, programa, examen y STAR.</p>
+        <div class="hero-kicker">Panorama Tesla · ES / EU · ${escapeHtml(window.APP_META.updated)}</div>
+        <h1>Entiende Tesla como compañía hoy</h1>
+        <p>${escapeHtml(window.APP_META.audience)}. Ruta primaria (~${escapeHtml(window.APP_META.studyHours)}): qué es, estructura, productos, cómo opera, actualidad, cultura y quiz. FTT/STAR solo si lo activas.</p>
         <div class="hero-actions">
-          <button type="button" class="btn btn-primary" data-go="path">Empezar ruta FTT</button>
-          <button type="button" class="btn btn-ghost" data-go="examen">Modo examen</button>
+          <button type="button" class="btn btn-primary" data-go="path">Empezar panorama</button>
+          <button type="button" class="btn btn-ghost" data-go="examen">Quiz panorama</button>
         </div>
       </section>
 
+      <div class="card ftt-toggle-card">
+        <div class="ftt-toggle-row">
+          <div>
+            <h3 style="margin:0 0 .25rem">Modo Future Talent</h3>
+            <p style="margin:0;color:var(--muted);font-size:.88rem">FTT + STAR quedan ocultos por defecto. Actívalo solo si preparas el traineeship.</p>
+          </div>
+          <label class="switch" title="Modo Future Talent">
+            <input type="checkbox" id="ftt-mode-toggle" ${ftt ? "checked" : ""} />
+            <span class="switch-ui" aria-hidden="true"></span>
+            <span class="switch-label">${ftt ? "ON" : "OFF"}</span>
+          </label>
+        </div>
+      </div>
+
       <div class="grid grid-stats">
-        <div class="card stat-card"><div class="num">${pct}%</div><div class="lbl">Progreso global</div></div>
-        <div class="card stat-card"><div class="num">${doneCount}/${window.MODULES.length}</div><div class="lbl">Módulos al 100%</div></div>
-        <div class="card stat-card"><div class="num">${(window.QUIZ_BANK || []).length}</div><div class="lbl">Preguntas banco</div></div>
-        <div class="card stat-card"><div class="num">${lastQuiz ? lastQuiz.pct + "%" : "—"}</div><div class="lbl">Último examen</div></div>
+        <div class="card stat-card"><div class="num">${pct}%</div><div class="lbl">Progreso ${ftt ? "con FTT" : "panorama"}</div></div>
+        <div class="card stat-card"><div class="num">${doneCount}/${mods.length}</div><div class="lbl">Módulos al 100%</div></div>
+        <div class="card stat-card"><div class="num">${bankLen}</div><div class="lbl">Preguntas banco</div></div>
+        <div class="card stat-card"><div class="num">${lastQuiz ? lastQuiz.pct + "%" : "—"}</div><div class="lbl">Último quiz</div></div>
       </div>
 
       <div class="section-head">
         <div>
           <h2>Mapa de módulos</h2>
-          <p>Ruta recomendada: Misión → Productos → Cliente → FTT → Cultura → Examen → STAR</p>
+          <p>Ruta primaria: Qué es Tesla → Estructura → Productos → Cómo opera → Actualidad → Cultura → Quiz${ftt ? " · [FTT] Programa → STAR" : ""}</p>
         </div>
       </div>
       <div class="grid grid-2" id="module-map">
-        ${window.MODULES.map((m) => moduleCard(m)).join("")}
+        ${mods.map((m) => moduleCard(m)).join("")}
       </div>
     `;
   }
 
   function moduleCard(m) {
     const p = moduleProgress(m.id);
+    const badge = m.path === "optional-ftt" ? `<span class="pill pill-ftt">FTT</span>` : "";
     return `
       <button type="button" class="card card-clickable" data-module="${escapeHtml(m.id)}">
-        <div class="card-icon">${escapeHtml(m.icon)}</div>
+        <div class="card-icon">${escapeHtml(m.icon)} ${badge}</div>
         <h3>${escapeHtml(m.title)}</h3>
         <p>${escapeHtml(m.short)}</p>
         <div class="card-meta">
@@ -191,9 +271,11 @@
   }
 
   function renderModulesList() {
+    const mods = visibleModules();
+    const ftt = isFttMode();
     return `
-      <div class="section-head"><div><h2>Todos los módulos</h2><p>Progreso guardado en este navegador (localStorage).</p></div></div>
-      <div class="grid grid-2">${window.MODULES.map((m) => moduleCard(m)).join("")}</div>
+      <div class="section-head"><div><h2>Todos los módulos</h2><p>Progreso en este navegador (localStorage · ${escapeHtml(STORAGE_KEY)}). ${ftt ? "Modo Future Talent activo." : "Solo ruta panorama."}</p></div></div>
+      <div class="grid grid-2">${mods.map((m) => moduleCard(m)).join("")}</div>
     `;
   }
 
@@ -246,9 +328,14 @@
   function renderModule() {
     const m = window.MODULES.find((x) => x.id === state.moduleId);
     if (!m) return `<p class="empty">Módulo no encontrado.</p>`;
+    if (m.path === "optional-ftt" && !isFttMode()) {
+      return `<p class="empty">Este módulo es FTT opcional. Activa <strong>Modo Future Talent</strong> en Inicio.</p>
+        <button type="button" class="btn btn-primary" data-go="home">Ir al inicio</button>`;
+    }
     markModuleOpened(m.id);
     const p = moduleProgress(m.id);
-    const nextId = window.STUDY_PATH[window.STUDY_PATH.indexOf(m.id) + 1];
+    const path = studyPath();
+    const nextId = path[path.indexOf(m.id) + 1];
     const next = window.MODULES.find((x) => x.id === nextId);
 
     return `
@@ -260,7 +347,7 @@
         <span>${escapeHtml(m.title)}</span>
       </nav>
       <div class="module-hero">
-        <div class="tag">${escapeHtml(m.tags.join(" · "))}</div>
+        <div class="tag">${escapeHtml(m.tags.join(" · "))}${m.path === "optional-ftt" ? " · opcional FTT" : ""}</div>
         <h1>${escapeHtml(m.icon)} ${escapeHtml(m.title)}</h1>
         <p>${escapeHtml(m.summary)}</p>
         <div class="card-meta" style="margin-top:1rem">
@@ -271,7 +358,7 @@
       ${m.sections.map(renderSection).join("")}
       <div class="hero-actions" style="margin-top:1.5rem">
         <button type="button" class="btn btn-primary" data-done="${escapeHtml(m.id)}">Marcar como estudiado</button>
-        ${next ? `<button type="button" class="btn btn-ghost" data-module="${escapeHtml(next.id)}">Siguiente: ${escapeHtml(next.title)}</button>` : `<button type="button" class="btn btn-ghost" data-go="examen">Ir al examen</button>`}
+        ${next ? `<button type="button" class="btn btn-ghost" data-module="${escapeHtml(next.id)}">Siguiente: ${escapeHtml(next.title)}</button>` : `<button type="button" class="btn btn-ghost" data-go="examen">Ir al quiz</button>`}
       </div>
     `;
   }
@@ -300,8 +387,13 @@
     return false;
   }
 
+  function isShortAnswer(q) {
+    const t = (q.type || "").toLowerCase();
+    return t.includes("corta") || t.includes("abierta") || (!(q.options && q.options.length) && !t.includes("verdadero") && !t.includes("falso"));
+  }
+
   function buildQuiz(count, tag) {
-    let pool = (window.QUIZ_BANK || []).filter(isAutoScore);
+    let pool = activeQuizBank().slice();
     if (tag && tag !== "all") pool = pool.filter((q) => q.tags.some((t) => t.toLowerCase() === tag.toLowerCase()));
     const shuffled = pool.slice().sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(count, shuffled.length));
@@ -310,6 +402,7 @@
       index: 0,
       answers: {},
       revealed: {},
+      selfGrade: {},
       tag: tag || "all",
       startedAt: Date.now(),
     };
@@ -317,24 +410,26 @@
 
   function allTags() {
     const set = new Set();
-    (window.QUIZ_BANK || []).forEach((q) => q.tags.forEach((t) => set.add(t)));
+    activeQuizBank().forEach((q) => q.tags.forEach((t) => set.add(t)));
     return Array.from(set).sort();
   }
 
   function renderExamenSetup() {
     const tags = allTags();
-    const autoCount = (window.QUIZ_BANK || []).filter(isAutoScore).length;
-    const shortCount = (window.QUIZ_BANK || []).length - autoCount;
+    const bank = activeQuizBank();
+    const autoCount = bank.filter(isAutoScore).length;
+    const shortCount = bank.length - autoCount;
+    const ftt = isFttMode();
     return `
       <section class="quiz-setup">
         <div class="module-hero">
-          <div class="tag">Banco de examen</div>
-          <h1>Modo examen</h1>
-          <p>${autoCount} preguntas auto-corregibles · ${shortCount} de respuesta corta (autoevaluación). Mezcla, filtra por tag y revisa explicaciones.</p>
+          <div class="tag">${ftt ? "Banco panorama + FTT" : "Banco panorama"}</div>
+          <h1>Quiz</h1>
+          <p>${bank.length} preguntas (${autoCount} auto-corregibles · ${shortCount} cortas con autoevaluación). Filtro por tag incluido.${ftt ? " Incluye el banco corto FTT." : ""}</p>
         </div>
         <div class="card">
           <h3>Configurar simulacro</h3>
-          <p style="color:var(--muted);font-size:.9rem;margin:.4rem 0 1rem">Elige tamaño y tema. Se guardará tu puntuación en este navegador.</p>
+          <p style="color:var(--muted);font-size:.9rem;margin:.4rem 0 1rem">Elige tamaño y tema. Se guarda la puntuación en este navegador.</p>
           <div class="tag-row" id="quiz-tags">
             <button type="button" class="chip active" data-tag="all">Todos</button>
             ${tags.map((t) => `<button type="button" class="chip" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join("")}
@@ -381,6 +476,7 @@
     const total = qz.questions.length;
 
     let optionsHtml = "";
+    const shortQ = isShortAnswer(q);
     if (q.options && q.options.length) {
       optionsHtml = `<div class="option-list">${q.options.map((o) => {
         let cls = "option";
@@ -392,8 +488,10 @@
         }
         return `<button type="button" class="${cls}" data-answer="${escapeHtml(o.key)}" ${revealed ? "disabled" : ""}><strong>${escapeHtml(o.key)}.</strong> ${escapeHtml(o.text)}</button>`;
       }).join("")}</div>`;
+    } else if (shortQ) {
+      optionsHtml = `<textarea class="star-field" data-short-answer rows="4" placeholder="Escribe tu respuesta en 2–4 frases…" ${revealed ? "readonly" : ""}>${escapeHtml(selected || "")}</textarea>
+        <p style="color:var(--muted);font-size:.8rem;margin:.4rem 0 0">Respuesta corta: luego comparas con el modelo (autoevaluación).</p>`;
     } else {
-      // true/false
       const opts = [
         { key: "Verdadero", label: "Verdadero" },
         { key: "Falso", label: "Falso" },
@@ -410,6 +508,20 @@
       }).join("")}</div>`;
     }
 
+    const graded = qz.selfGrade[q.id];
+    const shortGradeHtml = shortQ && revealed && graded === undefined
+      ? `<div class="hero-actions" style="margin-top:.75rem">
+           <span style="color:var(--muted);font-size:.85rem;align-self:center">¿Tu respuesta encaja con el modelo?</span>
+           <button type="button" class="btn btn-primary" data-self-grade="yes">Sí, me cuadra</button>
+           <button type="button" class="btn btn-ghost" data-self-grade="no">No, fallé</button>
+         </div>`
+      : shortQ && revealed && graded !== undefined
+        ? `<p style="margin:.75rem 0 0;font-size:.9rem">${graded ? "✅ Autoevaluación: correcta" : "❌ Autoevaluación: a repasar"}</p>`
+        : "";
+
+    const canReveal = shortQ ? !!(selected && String(selected).trim()) : !!selected;
+    const canAdvance = !shortQ || graded !== undefined;
+
     return `
       <section class="quiz-play">
         <div class="quiz-progress">Pregunta ${i + 1} de ${total} · ${escapeHtml((q.tags || []).join(", "))}</div>
@@ -418,11 +530,12 @@
           <h2 style="margin:0 0 .5rem;font-size:1.15rem">${escapeHtml(q.question)}</h2>
           <p style="margin:0;color:var(--muted);font-size:.8rem">${escapeHtml(q.type)}</p>
           ${optionsHtml}
-          ${revealed ? `<div class="callout tip"><strong>Explicación:</strong> ${escapeHtml(q.explanation || "—")}<br/><span style="color:var(--muted)">Respuesta: ${escapeHtml(q.answer)}</span></div>` : ""}
+          ${revealed ? `<div class="callout tip"><strong>Explicación:</strong> ${escapeHtml(q.explanation || "—")}<br/><span style="color:var(--muted)">Modelo: ${escapeHtml(q.answer)}</span></div>` : ""}
+          ${shortGradeHtml}
           <div class="hero-actions">
-            ${!revealed ? `<button type="button" class="btn btn-primary" data-reveal ${!selected ? "disabled style=\"opacity:.5\"" : ""}>Comprobar</button>` : ""}
-            ${revealed && i < total - 1 ? `<button type="button" class="btn btn-primary" data-next-q>Siguiente</button>` : ""}
-            ${revealed && i === total - 1 ? `<button type="button" class="btn btn-primary" data-finish-quiz>Ver resultado</button>` : ""}
+            ${!revealed ? `<button type="button" class="btn btn-primary" data-reveal ${!canReveal ? "disabled style=\"opacity:.5\"" : ""}>Comprobar</button>` : ""}
+            ${revealed && canAdvance && i < total - 1 ? `<button type="button" class="btn btn-primary" data-next-q>Siguiente</button>` : ""}
+            ${revealed && canAdvance && i === total - 1 ? `<button type="button" class="btn btn-primary" data-finish-quiz>Ver resultado</button>` : ""}
             <button type="button" class="btn btn-ghost" data-go="examen">Abandonar</button>
           </div>
         </div>
@@ -434,23 +547,22 @@
     const qz = state.quiz;
     let correct = 0;
     qz.questions.forEach((q) => {
-      if (normalizeAnswer(q, qz.answers[q.id])) correct++;
+      if (isShortAnswer(q)) {
+        if (qz.selfGrade[q.id]) correct++;
+      } else if (normalizeAnswer(q, qz.answers[q.id])) {
+        correct++;
+      }
     });
     const total = qz.questions.length;
     const pct = total ? Math.round((correct / total) * 100) : 0;
     const s = getStore();
     s.quizHistory = s.quizHistory || [];
     s.quizHistory.push({ at: Date.now(), correct, total, pct, tag: qz.tag });
-    if (pct >= 70) {
-      s.modules["banco-examen"] = s.modules["banco-examen"] || {};
-      s.modules["banco-examen"].opened = true;
-      s.modules["banco-examen"].done = true;
-    } else {
-      s.modules["banco-examen"] = s.modules["banco-examen"] || {};
-      s.modules["banco-examen"].opened = true;
-    }
+    s.modules["banco-panorama"] = s.modules["banco-panorama"] || {};
+    s.modules["banco-panorama"].opened = true;
+    if (pct >= 70) s.modules["banco-panorama"].done = true;
     saveStore(s);
-    state.quizResult = { correct, total, pct, questions: qz.questions, answers: qz.answers };
+    state.quizResult = { correct, total, pct, questions: qz.questions, answers: qz.answers, selfGrade: qz.selfGrade || {} };
     state.view = "quiz-result";
     render();
   }
@@ -458,18 +570,24 @@
   function renderQuizResult() {
     const r = state.quizResult;
     if (!r) return renderExamenSetup();
+    const ftt = isFttMode();
     const msg =
-      r.pct >= 85 ? "Excelente panorama. Listo para pulir STAR." :
-      r.pct >= 70 ? "Buen nivel. Repasa los fallos y vuelve al módulo ligado al tag." :
-      r.pct >= 50 ? "Vas camino. Revisa Misión, Productos y FTT otra vez." :
-      "Empieza por la ruta de estudio recomendada y repite el simulacro.";
+      r.pct >= 85 ? "Excelente panorama de la compañía." :
+      r.pct >= 70 ? "Buen nivel. Repasa los fallos y el módulo del tag." :
+      r.pct >= 50 ? "Vas camino. Revisa Qué es Tesla, Productos y Cómo opera." :
+      "Empieza por la ruta panorama y repite el simulacro.";
 
     const review = r.questions.map((q) => {
-      const ok = normalizeAnswer(q, r.answers[q.id]);
+      const ok = isShortAnswer(q)
+        ? !!r.selfGrade[q.id]
+        : normalizeAnswer(q, r.answers[q.id]);
+      const label = isShortAnswer(q)
+        ? (ok ? "✅ Autoeval. OK" : "❌ Autoeval. falló")
+        : (ok ? "✅ Correcta" : "❌ Incorrecta");
       return `<div class="card" style="border-color:${ok ? "rgba(34,197,94,.4)" : "rgba(227,25,55,.45)"}">
-        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.35rem">${ok ? "✅ Correcta" : "❌ Incorrecta"} · ${escapeHtml((q.tags || []).join(", "))}</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.35rem">${label} · ${escapeHtml((q.tags || []).join(", "))}</div>
         <strong>${escapeHtml(q.question)}</strong>
-        <p style="margin:.5rem 0 0;color:var(--muted);font-size:.88rem">Tu respuesta: ${escapeHtml(r.answers[q.id] || "—")} · Correcta: ${escapeHtml(q.answer)}</p>
+        <p style="margin:.5rem 0 0;color:var(--muted);font-size:.88rem">Tu respuesta: ${escapeHtml(r.answers[q.id] || "—")} · Modelo: ${escapeHtml(q.answer)}</p>
         <p style="margin:.35rem 0 0;font-size:.88rem">${escapeHtml(q.explanation || "")}</p>
       </div>`;
     }).join("");
@@ -483,7 +601,7 @@
           <p>${escapeHtml(msg)}</p>
           <div class="hero-actions" style="justify-content:center;margin-top:1rem">
             <button type="button" class="btn btn-primary" data-go="examen">Nuevo simulacro</button>
-            <button type="button" class="btn btn-ghost" data-go="star">Ir a STAR</button>
+            ${ftt ? `<button type="button" class="btn btn-ghost" data-go="star">Ir a STAR</button>` : ""}
             <button type="button" class="btn btn-ghost" data-go="home">Inicio</button>
           </div>
         </div>
@@ -496,6 +614,10 @@
   /* ---------- STAR ---------- */
 
   function renderStar() {
+    if (!isFttMode()) {
+      return `<p class="empty">STAR forma parte del <strong>Modo Future Talent</strong> (apagado). Actívalo en Inicio.</p>
+        <button type="button" class="btn btn-primary" data-go="home">Ir al inicio</button>`;
+    }
     const templates = window.STAR_TEMPLATES;
     const current = templates.find((t) => t.id === state.starId) || templates[0];
     state.starId = current.id;
@@ -503,7 +625,7 @@
 
     return `
       <div class="module-hero">
-        <div class="tag">Entrevistas</div>
+        <div class="tag">Opcional · Future Talent</div>
         <h1>★ Kit STAR</h1>
         <p>6 historias de práctica (no son preguntas filtradas de Tesla). 60–90 s oral · Actions en 1ª persona · 1 métrica si existe.</p>
       </div>
@@ -543,6 +665,7 @@
   function render() {
     setActiveNav(state.view);
     updateProgressPill();
+    syncFttChrome();
     let html = "";
     switch (state.view) {
       case "home": html = renderHome(); break;
@@ -561,16 +684,17 @@
   function openModule(id) {
     const m = window.MODULES.find((x) => x.id === id);
     if (!m) return;
+    if (m.path === "optional-ftt" && !isFttMode()) return navigate("home");
     if (m.isQuiz) return navigate("examen");
     if (m.isStar) return navigate("star");
     navigate("module", { moduleId: id });
   }
 
   function firstIncomplete() {
-    for (const id of window.STUDY_PATH) {
+    for (const id of studyPath()) {
       if (moduleProgress(id) < 100) return id;
     }
-    return window.STUDY_PATH[0];
+    return studyPath()[0];
   }
 
   function bindDynamic() {
@@ -605,7 +729,11 @@
       });
     });
 
-    // quiz setup
+    const fttToggle = $main.querySelector("#ftt-mode-toggle");
+    if (fttToggle) {
+      fttToggle.addEventListener("change", () => setFttMode(fttToggle.checked));
+    }
+
     let selectedTag = "all";
     $main.querySelectorAll("#quiz-tags .chip").forEach((chip) => {
       chip.addEventListener("click", () => {
@@ -626,7 +754,6 @@
       });
     });
 
-    // quiz play
     $main.querySelectorAll("[data-answer]").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (!state.quiz) return;
@@ -635,11 +762,34 @@
         render();
       });
     });
+    const shortTa = $main.querySelector("[data-short-answer]");
+    if (shortTa) {
+      shortTa.addEventListener("input", () => {
+        if (!state.quiz) return;
+        const q = state.quiz.questions[state.quiz.index];
+        state.quiz.answers[q.id] = shortTa.value;
+        const btn = $main.querySelector("[data-reveal]");
+        if (btn) {
+          const ok = String(shortTa.value || "").trim().length > 0;
+          btn.disabled = !ok;
+          btn.style.opacity = ok ? "" : ".5";
+        }
+      });
+    }
+    $main.querySelectorAll("[data-self-grade]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!state.quiz) return;
+        const q = state.quiz.questions[state.quiz.index];
+        state.quiz.selfGrade = state.quiz.selfGrade || {};
+        state.quiz.selfGrade[q.id] = btn.getAttribute("data-self-grade") === "yes";
+        render();
+      });
+    });
     const revealBtn = $main.querySelector("[data-reveal]");
     if (revealBtn) {
       revealBtn.addEventListener("click", () => {
         const q = state.quiz.questions[state.quiz.index];
-        if (!state.quiz.answers[q.id]) return;
+        if (!String(state.quiz.answers[q.id] || "").trim()) return;
         state.quiz.revealed[q.id] = true;
         render();
       });
@@ -654,7 +804,6 @@
     const finBtn = $main.querySelector("[data-finish-quiz]");
     if (finBtn) finBtn.addEventListener("click", finishQuiz);
 
-    // star
     $main.querySelectorAll("[data-star]").forEach((btn) => {
       btn.addEventListener("click", () => navigate("star", { starId: btn.getAttribute("data-star") }));
     });
@@ -705,11 +854,10 @@
   });
 
   window.addEventListener("hashchange", () => {
-    // avoid loops: only parse if hash doesn't match current intentional nav
     parseHash();
   });
 
-  // boot
+  syncFttChrome();
   updateProgressPill();
   if (location.hash && location.hash.length > 2) parseHash();
   else navigate("home");
