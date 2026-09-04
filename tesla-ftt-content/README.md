@@ -1,35 +1,21 @@
-# Tesla FTT Spain — Contenido de estudio
+# Tesla FTT Spain — Contenido de estudio (histórico / compatibilidad)
 
-Módulos markdown reutilizables para una app interactiva de preparación al **Future Talent Traineeship (FTT) España**. Idioma: **español**. Fecha de contenido: **2026-09-04**.
+Módulos markdown orientados al **Future Talent Traineeship (FTT) España**. Idioma: **español**. Fecha: **2026-09-04**.
 
-## Cómo consumir estos archivos
+## Cambio de producto (importante)
 
-1. **Índice**: empieza por `00-index.md` (mapa de módulos + secciones sugeridas de la app).
-2. **Lecciones**: `01`–`05` son pantallas de estudio (párrafos cortos, bullets, bloques `quiz-ready`).
-3. **Evaluación**: `06-banco-examen.md` — parsea preguntas por `### Q##` (tipo, opciones, respuesta, explicación).
-4. **STAR**: `07-historias-star.md` — plantillas para el candidato (no son respuestas oficiales de Tesla).
+El objetivo principal de la app pasa a ser el **panorama Tesla** (aprender la compañía), no la prep de entrevista.
 
-### Convención sugerida para el agent/app
+👉 **Pack recomendado nuevo:** [`../tesla-panorama-content/`](../tesla-panorama-content/)  
+👉 **FTT / STAR como capa opcional:** [`../tesla-panorama-content/opcional-ftt/`](../tesla-panorama-content/opcional-ftt/)
 
-| Campo frontmatter (opcional) | Uso |
-|---|---|
-| `id` | slug de ruta (`mision`, `productos`…) |
-| `title` | título UI |
-| `order` | orden en sidebar |
-| `tags` | filtros (producto, cultura, ftt…) |
+Esta carpeta `tesla-ftt-content/` se **conserva** por compatibilidad con loaders antiguos. Prefiere cablear la app al pack panorama; no borres esta carpeta sin migrar rutas.
 
-- Renderiza markdown estándar; los bloques `> 💡` / `> ⚠️` pueden mapearse a callouts.
-- Marcas `⚠️ [Incierta / verificar]` = no afirmar como hecho oficial en quizzes duros.
-- **No** inventar salariales, exercises de assessment ni “valores oficiales” inventados.
+## Cómo consumir (legacy)
 
-### Fuentes
+1. `00-index.md` — mapa FTT-centric  
+2. Lecciones `01`–`05`  
+3. `06-banco-examen.md` — quiz  
+4. `07-historias-star.md` — STAR  
 
-Solo hechos públicos (web Tesla, ofertas FTT publicadas, SEC/10-K). No hay leaks de entrevista. Verificar precios/modelos en tesla.com/es_es antes de exámenes “live”.
-
-### Integración típica
-
-```
-/content/*.md  →  MDX/loader  →  LessonScreen | QuizEngine | STARBuilder
-```
-
-Otro agent puede clonar esta carpeta en un repo GitHub y cablear rutas 1:1 con los `id` del índice.
+Ver también el README del pack panorama para la convención `path: primary | optional-ftt`.
