@@ -1,7 +1,7 @@
 window.APP_META = {
   title: "Tesla Panorama",
   subtitle: "Mapa de la compañía · España / EU",
-  audience: "Panorama Tesla 2026: qué es, estructura, productos, ops, actualidad y cultura",
+  audience: "Panorama Tesla 2026: mapa, productos, ops, actualidad, comparador y quiz",
   updated: "2026-09-04",
   studyHours: "2–3 h",
   contentSource: "tesla-panorama-content/",
@@ -561,6 +561,247 @@ window.MODULES = [
     summary: "Situation → Task → Action → Result. Plantillas del candidato, no respuestas oficiales de Tesla.",
     isStar: true,
     sections: []
+  }
+];
+
+
+
+/* ——— Herramientas interactivas (mapa, comparador, timeline) ——— */
+
+window.STRUCTURE_MAP = [
+  {
+    id: "vehicles",
+    icon: "▣",
+    title: "Vehículos",
+    short: "Automotive · diseño a entrega",
+    accent: "red",
+    detail: {
+      lead: "Diseño, fabricación, venta y entrega de vehículos eléctricos.",
+      points: [
+        "Gama pública: Model 3, Y, S, X; Cybertruck (NA); Semi (flotas).",
+        "En ES/UE el volumen conversacional real se centra en 3 y Y.",
+        "Reporting de segmento Automotive en filings — verifica el último 10-K/earnings."
+      ],
+      related: "productos"
+    }
+  },
+  {
+    id: "energy",
+    icon: "⚡",
+    title: "Energy",
+    short: "Generación y almacenamiento",
+    accent: "amber",
+    detail: {
+      lead: "Baterías residenciales y a escala de red; software de energía.",
+      points: [
+        "Powerwall: hogar / pequeño comercial.",
+        "Megapack: utilities y grandes proyectos; a menudo con despacho software.",
+        "Solar según país y partners — no asumas el mismo modelo en todos los mercados.",
+        "En España: no inventes un retail eléctrico tipo UK sin verificar."
+      ],
+      related: "productos"
+    }
+  },
+  {
+    id: "software-ai",
+    icon: "◈",
+    title: "Software / IA",
+    short: "OTA, asistencia, robótica",
+    accent: "blue",
+    detail: {
+      lead: "Capas de software visibles: OTA, app, asistencia a la conducción e IA/robótica en narrativa pública.",
+      points: [
+        "Autopilot / FSD Supervised: asistencia; el conductor supervisa según mercado y ley.",
+        "Disponibilidad y nombres cambian por país y versión de software.",
+        "Optimus y robotaxi: roadmap público e incierto — no SKU de consumo diario en ES (2026).",
+        "Energy software (trading/despacho): más B2B que consumidor."
+      ],
+      related: "productos"
+    }
+  },
+  {
+    id: "sales-service",
+    icon: "◎",
+    title: "Sales & Service",
+    short: "Retail, delivery, postventa",
+    accent: "green",
+    detail: {
+      lead: "Canales directos al cliente: experiencia, pedido, entrega y servicio.",
+      points: [
+        "Stores / Galleries: educar, probar, configurar, cerrar.",
+        "Delivery Hubs: preparación, cita, handoff y onboarding.",
+        "Service Centers + Mobile Service: diagnóstico y reparaciones.",
+        "España = red comercial/servicio; sin Giga de vehículos propia."
+      ],
+      related: "como-opera"
+    }
+  },
+  {
+    id: "charging",
+    icon: "⌁",
+    title: "Carga",
+    short: "Supercharger + destino",
+    accent: "red",
+    detail: {
+      lead: "La red Supercharger es producto y experiencia de marca; la carga en destino completa el journey.",
+      points: [
+        "Reduce fricción en viajes largos.",
+        "Mapa oficial y políticas de acceso (Tesla / terceros) evolucionan por mercado.",
+        "Parte del ecosistema, no un add-on aislado."
+      ],
+      related: "como-opera"
+    }
+  },
+  {
+    id: "manufacturing",
+    icon: "▦",
+    title: "Manufactura",
+    short: "Gigas · footprint público",
+    accent: "muted",
+    detail: {
+      lead: "Huella industrial pública: Fremont, Nevada, Shanghai, Berlin-Brandenburg, Texas.",
+      points: [
+        "Giga Berlin-Brandenburg: ancla europea (Model Y; celdas en evolución en prensa).",
+        "España fue candidata en debates históricos; la Giga europea operativa es Berlín.",
+        "No memorices capacidades anunciadas sin fecha — los objetivos se revisan."
+      ],
+      related: "estructura"
+    }
+  }
+];
+
+window.COMPARE_VEHICLES = [
+  {
+    id: "model-3",
+    name: "Model 3",
+    attrs: {
+      "Tipo": "Sedán",
+      "Relevancia ES/EU": "Alta — volumen / uso diario",
+      "Segmento": "Volumen · eficiente",
+      "Producción EU citada": "No como ancla principal (volumen EU suele asociarse a Y en Berlin)",
+      "Notas": "Punto de partida típico en conversación ES"
+    }
+  },
+  {
+    id: "model-y",
+    name: "Model Y",
+    attrs: {
+      "Tipo": "SUV / crossover compacto",
+      "Relevancia ES/EU": "Muy alta",
+      "Segmento": "Volumen · familiar / crossover",
+      "Producción EU citada": "Giga Berlin-Brandenburg",
+      "Notas": "Producto estrella europeo en narrativa pública"
+    }
+  },
+  {
+    id: "model-s",
+    name: "Model S",
+    attrs: {
+      "Tipo": "Sedán premium",
+      "Relevancia ES/EU": "Media-baja (menor volumen)",
+      "Segmento": "Gama alta",
+      "Producción EU citada": "No es el foco Berlin Y",
+      "Notas": "Premium frente a 3/Y"
+    }
+  },
+  {
+    id: "model-x",
+    name: "Model X",
+    attrs: {
+      "Tipo": "SUV premium",
+      "Relevancia ES/EU": "Media-baja (menor volumen)",
+      "Segmento": "Gama alta",
+      "Producción EU citada": "No es el foco Berlin Y",
+      "Notas": "Premium frente a 3/Y"
+    }
+  },
+  {
+    id: "cybertruck",
+    name: "Cybertruck",
+    attrs: {
+      "Tipo": "Pickup",
+      "Relevancia ES/EU": "No práctica como compra retail",
+      "Segmento": "NA / contraste de mercado",
+      "Producción EU citada": "—",
+      "Notas": "Diseño/homologación distintos a EE.UU.; no trates como opción ES"
+    }
+  }
+];
+
+window.COMPARE_ENERGY = [
+  {
+    id: "powerwall",
+    name: "Powerwall",
+    attrs: {
+      "Escala": "Residencial / pequeño comercial",
+      "Cliente típico": "Hogar (y PYME según mercado)",
+      "Idea clave": "Almacenamiento en el punto de consumo",
+      "Software": "App / integración solar según mercado",
+      "Notas ES": "Verifica SKU y disponibilidad en tesla.com/es_es — la línea evoluciona"
+    }
+  },
+  {
+    id: "megapack",
+    name: "Megapack",
+    attrs: {
+      "Escala": "Red / utility / grandes proyectos",
+      "Cliente típico": "Utilities, desarrolladores, B2B",
+      "Idea clave": "Almacenamiento a escala de red",
+      "Software": "A menudo con capas de despacho / trading",
+      "Notas ES": "Un deal europeo ≠ Powerwall automático en tu bloque"
+    }
+  }
+];
+
+/* Hitos del módulo actualidad (pack 2026-09-04). Sin fechas inventadas: periodo = lo que dice la fuente. */
+window.ACTUALIDAD_TIMELINE = [
+  {
+    id: "tl-pack",
+    when: "2026-09-04",
+    category: "pack",
+    title: "Pack de contenido fechado",
+    body: "Este panorama lleva fecha explícita. Si lees mucho después, trata los ejemplos como ilustraciones y revalida en fuentes primarias.",
+    ask: "¿La app muestra «actualizado» y un CTA a tesla.com?"
+  },
+  {
+    id: "tl-berlin",
+    when: "2026 (continuo)",
+    category: "fábricas",
+    title: "Giga Berlin como ancla EU",
+    body: "Sigue siendo el ancla manufacturero en Europa (Model Y; evolución de celdas anunciada en prensa). Planes ≠ capacidad ya al máximo.",
+    ask: "¿Es anuncio, permiso o producción real?"
+  },
+  {
+    id: "tl-fsd",
+    when: "2026",
+    category: "autonomía",
+    title: "FSD Supervised — primeras aprobaciones UE",
+    body: "Primeras aprobaciones nacionales / provisionales reportadas en 2026; mapa por país en movimiento. No generalices a toda la UE ni a España sin comprobar.",
+    ask: "¿País? ¿Supervised? ¿Fuente primaria?"
+  },
+  {
+    id: "tl-energy",
+    when: "2026 (narrativa)",
+    category: "energy",
+    title: "Energy en el relato corporativo",
+    body: "Crece la narrativa de Megapack / software; deals europeos aparecen en prensa especializada. Separar utility-scale de producto residencial local.",
+    ask: "¿Residencial o utility? ¿Afecta al configurador ES?"
+  },
+  {
+    id: "tl-bev",
+    when: "2026 (mercado EU)",
+    category: "producto",
+    title: "Competencia BEV en Europa",
+    body: "Tesla no es el único actor. Precio, software y red de carga importan en el panorama competitivo.",
+    ask: "¿Qué cambia para un cliente en España esta semana?"
+  },
+  {
+    id: "tl-sources",
+    when: "Siempre",
+    category: "método",
+    title: "Fuentes primarias primero",
+    body: "tesla.com/es_es, Investor Relations / press, filings SEC, autoridades de homologación, mapa Supercharger oficial. Un medio serio + contraste.",
+    ask: "¿Qué fuente primaria confirmaría este titular?"
   }
 ];
 

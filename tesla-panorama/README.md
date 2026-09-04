@@ -14,14 +14,17 @@ python3 -m http.server 5173
 
 O abre `index.html` / Live Server. Sin build ni Node.
 
+Rutas útiles: `#/mapa`, `#/comparador`, `#/actualidad-timeline`, `#/examen`.
+
 ## Qué incluye
 
 | Capa | Contenido |
 |------|-----------|
 | **Primaria** | 6 lecciones + quiz panorama (32 Q, cortas con autoevaluación) |
+| **Herramientas** | Mapa de estructura · Comparador · Timeline actualidad · Repaso de fallos |
 | **Opcional** | Toggle «Modo Future Talent» → programa FTT, banco corto FTT, STAR |
 
-Progreso en `localStorage` clave `tesla-panorama-v2`.
+Progreso en `localStorage` clave `tesla-panorama-v2` (incluye `lastWrongIds` para el repaso).
 
 ## Estructura
 
@@ -29,7 +32,7 @@ Progreso en `localStorage` clave `tesla-panorama-v2`.
 tesla-panorama/
   index.html
   css/app.css
-  js/data.js       # módulos panorama + FTT opcional
+  js/data.js       # módulos + STRUCTURE_MAP + COMPARE_* + ACTUALIDAD_TIMELINE
   js/quiz-data.js  # QUIZ_BANK + QUIZ_BANK_FTT
   js/app.js
   README.md
