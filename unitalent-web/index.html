@@ -165,11 +165,11 @@
             </div>
           </div>
 
-          <!-- STEP 2: Bizum + simular -->
+          <!-- STEP 2: Stripe Payment Link -->
           <div id="paywall-step-2" class="card paywall-step" hidden>
             <p class="pay-step-label">Paso 2 de 2</p>
             <h2 class="cluster-title" style="margin-bottom: 0.25rem">
-              Pagar con Bizum
+              Pagar con tarjeta
             </h2>
             <p class="pay-price">
               <span class="pay-amount"><span id="pay-price-num-2">9</span>&nbsp;€</span>
@@ -177,27 +177,33 @@
             </p>
 
             <div class="bizum-box">
-              <strong>Instrucciones Bizum:</strong> envía 9 € a
-              <code id="pay-bizum">[tu número Bizum]</code> e indica
-              «UniTalent» en el concepto. En producción se verificará el pago;
-              aquí puedes simularlo.
+              <strong>Pago seguro con Stripe.</strong> Te redirigimos a la página
+              de pago. Tras completar el cobro volverás automáticamente a
+              UniTalent con el informe desbloqueado en este dispositivo.
             </div>
 
-            <div class="divider">MVP sin Stripe</div>
-
-            <button type="button" class="btn btn-primary" id="btn-simulate-pay">
-              He pagado / Simular pago
+            <button type="button" class="btn btn-primary" id="btn-stripe-pay">
+              Pagar 9 € con Stripe
             </button>
+            <p class="pay-return-note" id="pay-return-note">
+              Después de pagar vuelves automáticamente al informe.
+            </p>
             <div class="btn-row" style="margin-top: 0.65rem">
               <button type="button" class="btn btn-ghost" id="btn-back-pay-step1">
                 Volver
               </button>
             </div>
+            <details class="pay-dev-toggle">
+              <summary>Modo prueba</summary>
+              <button type="button" class="btn btn-ghost" id="btn-simulate-pay">
+                Simular pago (solo pruebas)
+              </button>
+            </details>
           </div>
 
           <div class="disclaimer compact" role="note">
-            El desbloqueo se guarda en este dispositivo (localStorage). No hay
-            cobro real en este MVP.
+            El desbloqueo se guarda en este dispositivo (localStorage) tras el
+            retorno con <code>?paid=1</code>.
           </div>
         </section>
 

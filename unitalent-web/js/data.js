@@ -5,9 +5,12 @@
  */
 window.UNITALENT_DATA = {
   priceEur: 9,
+  /** Public Stripe Payment Link (success URL set in Stripe Dashboard). */
+  stripePaymentLink: "https://buy.stripe.com/3cIeVf5ZP6er2n855Wf7i00",
+  /** @deprecated kept for reference; payment is via Stripe Payment Link */
   bizumPlaceholder: "[tu número Bizum]",
   contentDate: "2026-09-21",
-  version: "mvp-0.2-riasec",
+  version: "mvp-0.3-stripe",
   disclaimer:
     "Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado. UniTalent no está avalado por el Ministerio de Educación, las universidades ni Holland Company. Los resultados son una ayuda ilustrativa; no sustituyen el consejo de orientadores ni el catálogo oficial. Verifica siempre en RUCT y QEDU.",
   disclaimerShort:

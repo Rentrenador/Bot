@@ -1,5 +1,5 @@
 /**
- * UniTalent MVP — RIASEC Holland scoring, quiz flow, paywall (simulated).
+ * UniTalent MVP — RIASEC Holland scoring, quiz flow, Stripe Payment Link paywall.
  * Mean per letter → Holland code 2–3 letters → cluster affinity map.
  */
 (function () {
@@ -529,8 +529,8 @@
 
   function showPaywall() {
     const D = window.UNITALENT_DATA;
-    const bizum = $("#pay-bizum");
-    if (bizum) bizum.textContent = D.bizumPlaceholder;
+    const price2 = $("#pay-price-num-2");
+    if (price2) price2.textContent = String(D.priceEur);
     const check = $("#pay-accept-check");
     const cont = $("#btn-pay-continue");
     if (check) check.checked = false;
@@ -677,6 +677,48 @@
     }
   }
 
+
+  /* ---------- Stripe return / unlock ---------- */
+  function getPaymentLink() {
+    const D = window.UNITALENT_DATA || {};
+    return D.stripePaymentLink || "";
+  }
+
+  function cleanPaidQueryParam() {
+    try {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has("paid")) return;
+      url.searchParams.delete("paid");
+      const qs = url.searchParams.toString();
+      const next = url.pathname + (qs ? "?" + qs : "") + url.hash;
+      window.history.replaceState({}, "", next);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function consumePaidQueryParam() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get("paid");
+      if (raw == null) return false;
+      const v = String(raw).trim().toLowerCase();
+      return v === "1" || v === "true" || v === "yes";
+    } catch {
+      return false;
+    }
+  }
+
+  function goToStripeCheckout() {
+    const link = getPaymentLink();
+    if (!link) {
+      alert("Enlace de pago no configurado. Prueba más tarde o contacta soporte.");
+      return;
+    }
+    // Success URL is configured in the Stripe Payment Link dashboard.
+    window.location.href = link;
+  }
+
   /* ---------- Events ---------- */
   function bindEvents() {
     $("#btn-start").addEventListener("click", () => {
@@ -724,13 +766,21 @@
       backStep1.addEventListener("click", () => setPaywallStep(1));
     }
 
-    $("#btn-simulate-pay").addEventListener("click", () => {
-      saveUnlock();
-      if (!state.results) {
-        state.results = scoreAnswers(state.answers);
-      }
-      showReport();
-    });
+    const stripeBtn = $("#btn-stripe-pay");
+    if (stripeBtn) {
+      stripeBtn.addEventListener("click", () => goToStripeCheckout());
+    }
+
+    const simBtn = $("#btn-simulate-pay");
+    if (simBtn) {
+      simBtn.addEventListener("click", () => {
+        saveUnlock();
+        if (!state.results) {
+          state.results = scoreAnswers(state.answers);
+        }
+        showReport();
+      });
+    }
 
     $("#btn-retake").addEventListener("click", () => {
       if (
@@ -782,6 +832,24 @@
       if (savedResults) state.results = JSON.parse(savedResults);
     } catch {
       /* ignore */
+    }
+
+    const paidReturn = consumePaidQueryParam();
+    if (paidReturn) {
+      saveUnlock();
+      cleanPaidQueryParam();
+      if (state.results || (state.answers && Object.keys(state.answers).length)) {
+        if (!state.results && state.questions) {
+          state.results = scoreAnswers(state.answers);
+        }
+        if (state.results) {
+          showReport();
+          return;
+        }
+      }
+      // Unlocked but no answers yet → landing with unlock already saved
+      showScreen("landing");
+      return;
     }
 
     showScreen("landing");

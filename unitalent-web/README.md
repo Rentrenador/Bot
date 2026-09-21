@@ -29,10 +29,20 @@ Luego abre: http://127.0.0.1:8080/
 2. Responde las **34 preguntas** (30 escalas RIASEC 1–5 + 4 preferencias)
 3. **Vista previa** gratis: código / letra #1 + cluster principal
 4. «Desbloquear informe · 9 €» → paywall **paso 1** (9 € + política de devolución + checkbox)
-5. Aceptar política → **paso 2** Bizum (`[tu número Bizum]`) → «He pagado / Simular pago»
-6. Desbloqueo en `localStorage` → **informe completo**: perfil RIASEC, código Holland, top 3 clusters, grados, unis
+5. Aceptar política → **paso 2** → «Pagar 9 € con Stripe» (Payment Link)
+6. Tras el pago, Stripe redirige a `?paid=1` → desbloqueo en `localStorage` → **informe completo**
 
-Para resetear el pago simulado:
+### Stripe Payment Link
+
+- Enlace público: configurado en `js/data.js` → `stripePaymentLink`
+- **Importante:** en el [Stripe Dashboard](https://dashboard.stripe.com/) el Payment Link debe tener
+  **After payment → Redirect to website**:
+  `https://rentrenador.github.io/Bot/unitalent-web/?paid=1`
+- Local/dev: el mismo `?paid=1` / `?paid=true` también desbloquea en `index.html` servido en local.
+
+«Modo prueba» (simular pago) queda oculto bajo un `<details>` solo para desarrollo.
+
+Para resetear el desbloqueo:
 
 ```js
 localStorage.removeItem('unitalent_unlock_v2');
