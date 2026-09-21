@@ -1,18 +1,49 @@
 /**
- * UniTalent MVP — clusters, degrees, universities (from 02/03 markdown).
+ * UniTalent MVP — clusters, degrees, universities + RIASEC metadata.
  * Illustrative data only — not official rankings. Verify RUCT / QEDU.
+ * Orientation inspired by Holland/RIASEC; not licensed SDS nor clinical test.
  */
 window.UNITALENT_DATA = {
   priceEur: 9,
   bizumPlaceholder: "[tu Bizum]",
   contentDate: "2026-09-21",
+  version: "mvp-0.2-riasec",
   disclaimer:
-    "Orientación informativa, no oficial. UniTalent no está avalado por el Ministerio de Educación, las universidades ni organismos oficiales. Los resultados son una ayuda ilustrativa; no sustituyen el consejo de orientadores ni el catálogo oficial. Verifica siempre en RUCT y QEDU.",
+    "Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado. UniTalent no está avalado por el Ministerio de Educación, las universidades ni Holland Company. Los resultados son una ayuda ilustrativa; no sustituyen el consejo de orientadores ni el catálogo oficial. Verifica siempre en RUCT y QEDU.",
   disclaimerShort:
-    "Orientación informativa, no oficial. Verifica títulos en RUCT y acceso en QEDU.",
+    "Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado. Verifica títulos en RUCT y acceso en QEDU.",
+  letterLabels: {
+    R: "Realista (práctico / técnico)",
+    I: "Investigador (científico / analítico)",
+    A: "Artístico (creativo / expresivo)",
+    S: "Social (ayudar / enseñar / cuidar)",
+    E: "Emprendedor (liderazgo / persuasión)",
+    C: "Convencional (orden / datos / procedimientos)",
+  },
+  letterKeywords: {
+    R: "práctico",
+    I: "analítico",
+    A: "creativo",
+    S: "cercano",
+    E: "emprendedor",
+    C: "ordenado",
+  },
   links: {
     ruct: "https://www.educacion.gob.es/ruct",
     qedu: "https://www.educacion.gob.es/notasdecorte",
+  },
+  /** primary letters full weight; secondary at 0.5 — from questions.json cluster_riasec_map */
+  clusterRiasecMap: {
+    ingenieria: { primary: ["R"], secondary: ["I"] },
+    ambiente: { primary: ["R"], secondary: ["I"] },
+    stem: { primary: ["I"], secondary: [] },
+    arte: { primary: ["A"], secondary: [] },
+    idiomas: { primary: ["A"], secondary: ["S"] },
+    salud: { primary: ["S"], secondary: ["I"] },
+    educacion: { primary: ["S"], secondary: [] },
+    social: { primary: ["S"], secondary: ["E"] },
+    empresa: { primary: ["E"], secondary: ["C"] },
+    derecho: { primary: ["E", "C"], secondary: [] },
   },
   clusters: {
     salud: {
@@ -35,7 +66,7 @@ window.UNITALENT_DATA = {
       salidas:
         "Ámbitos habituales: hospitales y clínicas, centros deportivos, farmacia comunitaria, investigación biomédica, consultorios y salud pública (orientativo, sin garantía de empleo).",
       nuance:
-        "Muchos grados de salud tienen notas de corte altas y plazas limitadas. Si la autoevaluación en biología es baja, valora refuerzo o vías alternativas (p. ej. Enfermería, Fisioterapia, CAFYD).",
+        "Muchos grados de salud tienen notas de corte altas y plazas limitadas. Si el confort STEM es bajo, valora refuerzo o vías alternativas (p. ej. Enfermería, Fisioterapia, CAFYD).",
       unis: [
         {
           name: "Universidad Complutense de Madrid (UCM)",
@@ -78,7 +109,7 @@ window.UNITALENT_DATA = {
       salidas:
         "Ámbitos habituales: investigación, análisis de datos, laboratorios, docencia universitaria, consultoría tecnológica y transferencia científica (orientativo).",
       nuance:
-        "Si la autoevaluación en mates/lógica es baja, considera refuerzo o grados con más componente aplicado (p. ej. Informática, Biotecnología).",
+        "Si el confort STEM es bajo, considera refuerzo o grados con más componente aplicado (p. ej. Informática, Biotecnología).",
       unis: [
         {
           name: "Universidad Autónoma de Madrid (UAM)",
@@ -155,13 +186,12 @@ window.UNITALENT_DATA = {
         "Grado en Finanzas y Contabilidad",
         "Grado en Marketing e Investigación de Mercados",
         "Grado en International Business / Comercio Internacional",
-        "Grado en Turismo",
         "Dobles grados ADE + Derecho / ADE + Informática",
       ],
       salidas:
         "Ámbitos habituales: consultoría, banca, marketing, startups, administración pública económica y emprendeduría (orientativo).",
       nuance:
-        "Turismo solapa con idiomas; ADE+Derecho es una vía frecuente. Revisa ponderaciones de Bachillerato para cada universidad.",
+        "ADE+Derecho es una vía frecuente. Revisa ponderaciones de Bachillerato para cada universidad.",
       unis: [
         {
           name: "Universidad Carlos III de Madrid (UC3M)",
@@ -196,7 +226,6 @@ window.UNITALENT_DATA = {
         "Grado en Educación Primaria",
         "Grado en Pedagogía",
         "Grado en Educación Social",
-        "Grado en Maestro/a (según denominación histórica/autonómica)",
       ],
       salidas:
         "Ámbitos habituales: colegios e institutos (tras máster de profesorado si aplica), pedagogía, educación social y recursos educativos (orientativo).",
@@ -234,12 +263,11 @@ window.UNITALENT_DATA = {
         "Grado en Sociología",
         "Grado en Antropología Social y Cultural",
         "Grado en Criminología",
-        "Grado en Gestión y Administración Pública",
       ],
       salidas:
         "Ámbitos habituales: servicios sociales, ONGs, administración, investigación social y mediación comunitaria (orientativo).",
       nuance:
-        "Criminología y GAP solapan con derecho. Comprueba planes y prácticas en cada centro.",
+        "Criminología solapa con derecho. Comprueba planes y prácticas en cada centro.",
       unis: [
         {
           name: "Universidad Complutense de Madrid (UCM)",
@@ -273,7 +301,6 @@ window.UNITALENT_DATA = {
       degrees: [
         "Grado en Bellas Artes",
         "Grado en Diseño",
-        "Grado en Diseño de Interiores / Diseño de Producto",
         "Grado en Comunicación Audiovisual",
         "Grado en Publicidad y Relaciones Públicas",
         "Grado en Periodismo",
@@ -319,7 +346,6 @@ window.UNITALENT_DATA = {
         "Grado en Ciencias Políticas y de la Administración",
         "Grado en Relaciones Internacionales",
         "Grado en Gestión y Administración Pública",
-        "Grado en Criminología",
         "Doble Grado en Derecho + ADE / Derecho + Relaciones Internacionales",
       ],
       salidas:
@@ -356,7 +382,6 @@ window.UNITALENT_DATA = {
         "Grado en Turismo",
         "Grado en Humanidades",
         "Grado en Historia / Historia del Arte",
-        "Grado en Literatura Comparada / Estudios Culturales",
       ],
       salidas:
         "Ámbitos habituales: traducción, turismo, enseñanza de idiomas, gestión cultural e internacionalización de empresas (orientativo).",
@@ -398,7 +423,6 @@ window.UNITALENT_DATA = {
         "Grado en Ingeniería Agrícola / Ingeniería Agroalimentaria",
         "Grado en Geología / Ciencias del Mar",
         "Grado en Geografía y Ordenación del Territorio",
-        "Grado en Química / Biotecnología con enfoque ambiental",
       ],
       salidas:
         "Ámbitos habituales: consultoría ambiental, administración del territorio, agroalimentación, energías renovables e investigación (orientativo).",

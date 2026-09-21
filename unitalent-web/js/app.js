@@ -1,16 +1,19 @@
 /**
- * UniTalent MVP — quiz scoring, flow, paywall (simulated).
+ * UniTalent MVP — RIASEC Holland scoring, quiz flow, paywall (simulated).
+ * Mean per letter → Holland code 2–3 letters → cluster affinity map.
  */
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "unitalent_unlock_v1";
-  const ANSWERS_KEY = "unitalent_answers_v1";
-  const RESULTS_KEY = "unitalent_results_v1";
+  const STORAGE_KEY = "unitalent_unlock_v2";
+  const ANSWERS_KEY = "unitalent_answers_v2";
+  const RESULTS_KEY = "unitalent_results_v2";
+  const LETTERS = ["R", "I", "A", "S", "E", "C"];
 
   const state = {
     questions: null,
     scoring: null,
+    meta: null,
     answers: {},
     currentIndex: 0,
     results: null,
@@ -61,140 +64,231 @@
     const data = await res.json();
     state.questions = data.questions.sort((a, b) => a.order - b.order);
     state.scoring = data.scoring;
+    state.meta = data;
   }
 
-  /* ---------- Scoring ---------- */
-  function scoreAnswers(answers) {
-    const { single_weight, multi_weight, scale_weight_factor, clusters } =
-      state.scoring;
-    const scores = {};
-    clusters.forEach((c) => (scores[c] = 0));
+  /* ---------- RIASEC Scoring ---------- */
+  function meanLetterScores(answers) {
+    const sums = {};
+    const counts = {};
+    LETTERS.forEach((L) => {
+      sums[L] = 0;
+      counts[L] = 0;
+    });
 
     for (const q of state.questions) {
+      if (q.block !== "riasec" || !q.riasec) continue;
       const ans = answers[q.id];
       if (ans == null) continue;
-
-      if (q.type === "single") {
-        const opt = q.options.find((o) => o.id === ans);
-        if (opt) {
-          opt.tags.forEach((t) => {
-            if (scores[t] != null) scores[t] += single_weight;
-          });
-        }
-      } else if (q.type === "multi") {
-        const ids = Array.isArray(ans) ? ans : [];
-        ids.forEach((oid) => {
-          const opt = q.options.find((o) => o.id === oid);
-          if (opt) {
-            opt.tags.forEach((t) => {
-              if (scores[t] != null) scores[t] += multi_weight;
-            });
-          }
-        });
-      } else if (q.type === "scale") {
-        const val = Number(ans);
-        if (!Number.isFinite(val)) continue;
-        const w = val * scale_weight_factor;
-        (q.tags || []).forEach((t) => {
-          if (scores[t] != null) scores[t] += w;
-        });
-      }
+      const val = Number(ans);
+      if (!Number.isFinite(val)) continue;
+      const L = q.riasec;
+      if (!sums.hasOwnProperty(L)) continue;
+      sums[L] += val;
+      counts[L] += 1;
     }
 
-    const maxScore = Math.max(...Object.values(scores), 0.0001);
-    const ranked = Object.entries(scores)
-      .map(([id, score]) => ({
+    const means = {};
+    LETTERS.forEach((L) => {
+      means[L] = counts[L] > 0 ? sums[L] / counts[L] : 0;
+    });
+    return { means, counts, sums };
+  }
+
+  function hollandCodeFromMeans(means, topN) {
+    const n = topN || (state.scoring && state.scoring.top_letters_for_report) || 3;
+    const rankedLetters = LETTERS.map((L) => ({
+      letter: L,
+      mean: means[L],
+    })).sort(
+      (a, b) =>
+        b.mean - a.mean ||
+        LETTERS.indexOf(a.letter) - LETTERS.indexOf(b.letter)
+    );
+    const top = rankedLetters.slice(0, n);
+    const code = top.map((t) => t.letter).join("");
+    return { rankedLetters, topLetters: top, code };
+  }
+
+  function clusterAffinity(means) {
+    const D = window.UNITALENT_DATA;
+    const map =
+      (state.scoring && state.scoring.cluster_riasec_map) ||
+      D.clusterRiasecMap;
+    const clusterIds =
+      (state.scoring && state.scoring.clusters) || Object.keys(map);
+
+    const scored = clusterIds.map((id) => {
+      const m = map[id] || { primary: [], secondary: [] };
+      let score = 0;
+      (m.primary || []).forEach((L) => {
+        score += means[L] || 0;
+      });
+      (m.secondary || []).forEach((L) => {
+        score += 0.5 * (means[L] || 0);
+      });
+      return {
         id,
         score,
-        pct: Math.round((score / maxScore) * 100),
+        primary: m.primary || [],
+        secondary: m.secondary || [],
+      };
+    });
+
+    const maxScore = Math.max(...scored.map((s) => s.score), 0.0001);
+    const ranked = scored
+      .map((s) => ({
+        ...s,
+        pct: Math.round((s.score / maxScore) * 100),
       }))
       .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
 
-    return { scores, ranked, maxScore };
+    return { ranked, maxScore };
   }
 
-  function profileKeywords(ranked) {
-    const top3 = ranked.slice(0, 3);
-    return top3.map((r) => {
-      const c = window.UNITALENT_DATA.clusters[r.id];
-      return (c && c.keywords[0]) || c.shortName;
-    });
-  }
-
-  function buildWhyBullets(clusterId, answers) {
-    const bullets = [];
-    const cluster = window.UNITALENT_DATA.clusters[clusterId];
+  function extractPractical(answers) {
+    const practical = {
+      modality: null,
+      mobility: null,
+      confortStem: null,
+      format: null,
+      tags: [],
+    };
 
     for (const q of state.questions) {
-      if (bullets.length >= 4) break;
+      if (q.block !== "practico") continue;
       const ans = answers[q.id];
       if (ans == null) continue;
 
       if (q.type === "single") {
         const opt = q.options.find((o) => o.id === ans);
-        if (opt && opt.tags.includes(clusterId)) {
-          bullets.push(
-            `En «${shortQ(q.text)}» elegiste: «${opt.label}».`
-          );
-        }
-      } else if (q.type === "multi") {
-        const ids = Array.isArray(ans) ? ans : [];
-        const matched = ids
-          .map((id) => q.options.find((o) => o.id === id))
-          .filter((o) => o && o.tags.includes(clusterId));
-        if (matched.length) {
-          bullets.push(
-            `Te interesan áreas como ${matched
-              .map((m) => m.label)
-              .slice(0, 2)
-              .join(" y ")}.`
-          );
-        }
-      } else if (q.type === "scale") {
-        const val = Number(ans);
-        if (val >= 4 && (q.tags || []).includes(clusterId)) {
-          bullets.push(
-            `Autoevaluación alta (${val}/5) en: ${shortQ(q.text)}.`
-          );
-        }
+        if (!opt) continue;
+        practical.tags.push(...(opt.tags || []));
+        if (q.id === "q31_modalidad_estudio") practical.modality = opt.label;
+        if (q.id === "q32_movilidad") practical.mobility = opt.label;
+        if (q.id === "q34_formato_aprendizaje") practical.format = opt.label;
+      } else if (q.type === "scale" && q.id === "q33_confort_stem") {
+        practical.confortStem = Number(ans);
       }
     }
+    return practical;
+  }
 
-    if (!bullets.length && cluster) {
-      bullets.push(cluster.description);
+  function scoreAnswers(answers) {
+    const { means, counts } = meanLetterScores(answers);
+    const { rankedLetters, topLetters, code } = hollandCodeFromMeans(means, 3);
+    const { ranked, maxScore } = clusterAffinity(means);
+    const practical = extractPractical(answers);
+
+    return {
+      means,
+      counts,
+      rankedLetters,
+      topLetters,
+      hollandCode: code,
+      ranked,
+      maxScore,
+      practical,
+    };
+  }
+
+  function formatMean(m) {
+    return (Math.round(m * 10) / 10).toFixed(1).replace(".", ",");
+  }
+
+  function profileKeywords(results) {
+    const D = window.UNITALENT_DATA;
+    return results.topLetters.slice(0, 3).map((t) => {
+      return D.letterKeywords[t.letter] || t.letter;
+    });
+  }
+
+  function buildWhyBullets(clusterId, results) {
+    const D = window.UNITALENT_DATA;
+    const map =
+      (state.scoring && state.scoring.cluster_riasec_map) ||
+      D.clusterRiasecMap;
+    const m = map[clusterId] || { primary: [], secondary: [] };
+    const bullets = [];
+    const labels = D.letterLabels;
+
+    (m.primary || []).forEach((L) => {
+      const mean = results.means[L];
+      bullets.push(
+        `Tu letra ${L} (${labels[L]}) puntúa ${formatMean(mean)}/5 y activa este cluster.`
+      );
+    });
+    (m.secondary || []).forEach((L) => {
+      const mean = results.means[L];
+      if (mean >= 3) {
+        bullets.push(
+          `También refuerza la letra secundaria ${L} (${labels[L]}, ${formatMean(mean)}/5).`
+        );
+      }
+    });
+
+    if (results.hollandCode) {
+      bullets.push(
+        `Encaja con tu código Holland ilustrativo «${results.hollandCode}».`
+      );
     }
+
+    const cluster = D.clusters[clusterId];
+    if (bullets.length < 2 && cluster) bullets.push(cluster.description);
+
+    // STEM comfort nuance
+    const stem = results.practical && results.practical.confortStem;
+    if (
+      stem != null &&
+      stem <= 2 &&
+      (clusterId === "stem" || clusterId === "ingenieria")
+    ) {
+      bullets.push(
+        `Nota: tu confort STEM es bajo (${stem}/5); conviene refuerzo o vías más aplicadas.`
+      );
+    }
+
     return bullets.slice(0, 5);
+  }
+
+  function profileParagraph(results) {
+    const D = window.UNITALENT_DATA;
+    const top = results.topLetters;
+    const code = results.hollandCode;
+    const labels = top
+      .map(
+        (t) =>
+          `**${t.letter}** ${D.letterLabels[t.letter].split(" (")[0]} (${formatMean(t.mean)}/5)`
+      )
+      .join(" · ")
+      .replace(/\*\*/g, "");
+
+    const topCluster = results.ranked[0];
+    const c = D.clusters[topCluster.id];
+    const p = results.practical;
+
+    let practicalHint = "";
+    if (p) {
+      const bits = [];
+      if (p.modality) bits.push(`modalidad «${p.modality}»`);
+      if (p.mobility) bits.push(`movilidad «${p.mobility}»`);
+      if (p.format) bits.push(`formato «${p.format}»`);
+      if (p.confortStem != null)
+        bits.push(`confort STEM ${p.confortStem}/5`);
+      if (bits.length) practicalHint = ` Preferencias prácticas: ${bits.join("; ")}.`;
+    }
+
+    return (
+      `Tu perfil ilustrativo RIASEC destaca el código «${code}»: ${labels}. ` +
+      `El cluster con mayor afinidad es «${c.name}» (${topCluster.pct}%). ` +
+      `${c.description}` +
+      practicalHint +
+      ` Este informe es orientativo (adaptación Holland/RIASEC, no SDS): contraste siempre en RUCT y QEDU.`
+    );
   }
 
   function shortQ(text) {
     return text.replace(/^¿/, "").replace(/\?$/, "").slice(0, 55);
-  }
-
-  function profileParagraph(ranked, answers) {
-    const top = ranked[0];
-    const c = window.UNITALENT_DATA.clusters[top.id];
-    const second = ranked[1]
-      ? window.UNITALENT_DATA.clusters[ranked[1].id]
-      : null;
-
-    let styleHint = "";
-    const q07 = answers["q07_trabajo_equipo"];
-    if (q07) {
-      const opt = state.questions
-        .find((q) => q.id === "q07_trabajo_equipo")
-        ?.options.find((o) => o.id === q07);
-      if (opt) styleHint = ` En equipo tiendes a: ${opt.label.toLowerCase()}.`;
-    }
-
-    return (
-      `Tu perfil se alinea especialmente con «${c.name}» (${top.pct}% de afinidad relativa). ` +
-      `${c.description}` +
-      (second
-        ? ` También aparece afinidad con «${second.name}», lo que sugiere un perfil versátil.`
-        : "") +
-      styleHint +
-      ` Este informe es orientativo: contraste siempre la oferta real en RUCT y las notas de acceso en QEDU.`
-    );
   }
 
   /* ---------- Quiz UI ---------- */
@@ -207,6 +301,10 @@
     $("#progress-fill").style.width = `${(n / total) * 100}%`;
 
     const blockNames = {
+      riasec: q.riasec
+        ? `RIASEC · ${q.riasec}`
+        : "RIASEC",
+      practico: "Preferencias prácticas",
       intereses: "Intereses",
       estilo: "Estilo de trabajo",
       habilidades: "Habilidades",
@@ -217,6 +315,12 @@
     const hint = $("#q-hint");
     const container = $("#options");
     container.innerHTML = "";
+
+    const scaleLabels =
+      q.scale_labels_override ||
+      (state.scoring && state.scoring.scale_labels) ||
+      q.scale_labels ||
+      {};
 
     if (q.type === "multi") {
       hint.textContent = `Puedes elegir hasta ${q.max_selections || 3} opciones.`;
@@ -233,13 +337,15 @@
         container.appendChild(btn);
       });
     } else if (q.type === "scale") {
+      const lo = scaleLabels["1"] || "Nada / no me gusta";
+      const hi = scaleLabels["5"] || "Mucho / me encanta";
       hint.textContent = "";
       hint.hidden = true;
       const wrap = document.createElement("div");
       wrap.innerHTML = `
         <div class="scale-labels">
-          <span>${escapeHtml(q.scale_labels?.["1"] || "Bajo")}</span>
-          <span>${escapeHtml(q.scale_labels?.["5"] || "Alto")}</span>
+          <span>${escapeHtml(lo)}</span>
+          <span>${escapeHtml(hi)}</span>
         </div>
         <div class="scale" role="group" aria-label="Escala 1 a 5"></div>
       `;
@@ -324,6 +430,27 @@
   }
 
   /* ---------- Preview / Report ---------- */
+  function renderLetterBars(rankedLetters, limit, container) {
+    container.innerHTML = "";
+    const D = window.UNITALENT_DATA;
+    const top = rankedLetters.slice(0, limit);
+    const maxMean = Math.max(...top.map((t) => t.mean), 0.0001);
+    top.forEach((t) => {
+      const pct = Math.round((t.mean / 5) * 100);
+      const label = D.letterLabels[t.letter] || t.letter;
+      const row = document.createElement("div");
+      row.className = "affinity-row";
+      row.innerHTML = `
+        <div class="affinity-name">${escapeHtml(t.letter)} · ${escapeHtml(
+        label.split(" (")[0]
+      )}</div>
+        <div class="affinity-track"><div class="affinity-fill" style="width:${pct}%"></div></div>
+        <div class="affinity-pct">${formatMean(t.mean)}</div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
   function renderAffinityBars(ranked, limit, container) {
     container.innerHTML = "";
     ranked.slice(0, limit).forEach((r) => {
@@ -342,23 +469,28 @@
   }
 
   function showPreview() {
-    const { ranked } = state.results;
+    const results = state.results;
+    const { ranked, topLetters, hollandCode } = results;
     const top = ranked[0];
     const c = window.UNITALENT_DATA.clusters[top.id];
+    const topLetter = topLetters[0];
+    const D = window.UNITALENT_DATA;
 
-    $("#preview-badge").textContent = `Tu cluster #1 · ${top.pct}% afinidad`;
+    $("#preview-badge").textContent = `Código ${hollandCode} · letra #1: ${topLetter.letter}`;
     $("#preview-title").textContent = c.name;
-    $("#preview-desc").textContent = c.description;
-    renderAffinityBars(ranked, 1, $("#preview-bars"));
+    $("#preview-desc").textContent =
+      `Tu letra dominante es ${topLetter.letter} — ${D.letterLabels[topLetter.letter]} (${formatMean(topLetter.mean)}/5). ` +
+      `Cluster asociado: ${c.description}`;
+
+    // Free preview: top letter bars + 1 cluster
+    renderLetterBars(results.rankedLetters, 2, $("#preview-bars"));
 
     const teaser = $("#preview-teaser");
     teaser.innerHTML = `
       <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">
-        También encajan contigo: <strong>${ranked
-          .slice(1, 3)
-          .map((r) => window.UNITALENT_DATA.clusters[r.id].shortName)
-          .join(", ")}</strong>…
-        Grados, universidades y plan de acción en el informe completo.
+        Preview gratis: código <strong>${escapeHtml(hollandCode)}</strong> y cluster
+        <strong>${escapeHtml(c.shortName)}</strong> (${top.pct}% afinidad).
+        Perfil RIASEC completo, top clusters, grados y universidades en el informe.
       </p>
     `;
 
@@ -373,7 +505,8 @@
 
   function showReport() {
     const D = window.UNITALENT_DATA;
-    const { ranked } = state.results;
+    const results = state.results;
+    const { ranked, hollandCode, topLetters } = results;
     const top3 = ranked.slice(0, 3);
     const low = ranked.slice(-2).reverse();
 
@@ -388,23 +521,34 @@
     $("#report-date").textContent = `Informe generado el ${dateStr}`;
     $("#report-disclaimer").textContent = D.disclaimerShort;
 
-    const kws = profileKeywords(ranked);
+    const codeEl = $("#report-holland-code");
+    if (codeEl) {
+      codeEl.textContent = `Código Holland ilustrativo: ${hollandCode}`;
+    }
+
+    const kws = profileKeywords(results);
     const kwEl = $("#report-keywords");
     kwEl.innerHTML = kws
       .map((k) => `<span class="kw">${escapeHtml(k)}</span>`)
       .join("");
 
-    $("#report-profile").textContent = profileParagraph(
-      ranked,
-      state.answers
-    );
+    $("#report-profile").textContent = profileParagraph(results);
+
+    const letterBars = $("#report-letter-bars");
+    if (letterBars) {
+      renderLetterBars(results.rankedLetters, 6, letterBars);
+    }
     renderAffinityBars(ranked, 5, $("#report-bars"));
 
     const clustersEl = $("#report-clusters");
     clustersEl.innerHTML = "";
     top3.forEach((r, i) => {
       const c = D.clusters[r.id];
-      const bullets = buildWhyBullets(r.id, state.answers);
+      const bullets = buildWhyBullets(r.id, results);
+      const lettersHint = [
+        ...(r.primary || []).map((L) => L),
+        ...(r.secondary || []).map((L) => L + "·sec"),
+      ].join(", ");
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -413,7 +557,7 @@
           <strong>${escapeHtml(c.name)}</strong>
           <span style="color:var(--text-muted);font-size:0.9rem"> · ${
             r.pct
-          }% afinidad</span>
+          }% afinidad · letras ${escapeHtml(lettersHint)}</span>
         </div>
         <p class="cluster-desc" style="margin-top:0.65rem">${escapeHtml(
           c.description
@@ -457,14 +601,22 @@
     });
 
     const lowEl = $("#report-low");
-    lowEl.innerHTML = low
-      .map((r) => {
-        const c = D.clusters[r.id];
-        return `<p style="margin:0.35rem 0"><strong>${escapeHtml(
-          c.name
-        )}</strong> (${r.pct}%) — menor afinidad según tus respuestas. No lo descartes por curiosidad; puede complementar tu vía principal.</p>`;
-      })
-      .join("");
+    const lowLetters = results.rankedLetters.slice(-2).reverse();
+    lowEl.innerHTML =
+      `<p style="margin:0.35rem 0"><strong>Letras menores:</strong> ${lowLetters
+        .map(
+          (t) =>
+            `${t.letter} (${formatMean(t.mean)}/5)`
+        )
+        .join(" · ")}</p>` +
+      low
+        .map((r) => {
+          const c = D.clusters[r.id];
+          return `<p style="margin:0.35rem 0"><strong>${escapeHtml(
+            c.name
+          )}</strong> (${r.pct}%) — menor afinidad según tu perfil RIASEC. No lo descartes por curiosidad; puede complementar tu vía principal.</p>`;
+        })
+        .join("");
 
     const checkEl = $("#report-checklist");
     checkEl.innerHTML = D.checklist
@@ -577,7 +729,6 @@
       return;
     }
 
-    // Restore session if unlocked + results exist
     try {
       const savedResults = localStorage.getItem(RESULTS_KEY);
       const savedAnswers = localStorage.getItem(ANSWERS_KEY);
@@ -589,6 +740,15 @@
 
     showScreen("landing");
   }
+
+  // Expose for smoke tests
+  window.UNITALENT_SCORE = {
+    scoreAnswers: (answers) => {
+      if (!state.questions) throw new Error("questions not loaded");
+      return scoreAnswers(answers);
+    },
+    getState: () => state,
+  };
 
   document.addEventListener("DOMContentLoaded", init);
 })();

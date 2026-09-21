@@ -1,63 +1,54 @@
-# UniTalent Web MVP
+# UniTalent Web MVP (RIASEC)
 
-Test móvil de orientación universitaria (España): 18 preguntas → preview del cluster #1 → paywall 9 € → informe completo (top 3, grados, unis, checklist).
+Test móvil de orientación universitaria (España): **30 Likert RIASEC + 4 prácticas** → preview gratis (letra dominante + cluster) → paywall 9 € → informe completo (código Holland, top clusters, grados, unis, checklist).
 
-**Orientación informativa, no oficial.** Verificar títulos en [RUCT](https://www.educacion.gob.es/ruct) y acceso en [QEDU](https://www.educacion.gob.es/notasdecorte).
+**Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado.** Verificar títulos en [RUCT](https://www.educacion.gob.es/ruct) y acceso en [QEDU](https://www.educacion.gob.es/notasdecorte).
 
 ## Abrir en local
 
 ```bash
-cd /workspace/unitalent-web
+cd unitalent-web
 python3 -m http.server 8080
 ```
 
-Luego abre en el navegador (móvil o DevTools responsive):
-
-- http://127.0.0.1:8080/
-- o http://localhost:8080/
+Luego abre: http://127.0.0.1:8080/
 
 > Hace falta un servidor HTTP (no abras `index.html` como `file://`) porque se carga `data/questions.json` con `fetch`.
 
 ## Flujo de demo
 
 1. **Landing** → «Empezar el test»
-2. Responde las **18 preguntas** (single / multi hasta 3 / escala 1–5)
-3. **Vista previa** gratis: solo cluster #1 + barra
+2. Responde las **34 preguntas** (30 escalas RIASEC 1–5 + 4 preferencias)
+3. **Vista previa** gratis: código / letra #1 + cluster principal
 4. «Desbloquear informe · 9 €» → pantalla de pago
-5. **Simular pago** (MVP; Bizum placeholder `[tu Bizum]`) → desbloqueo en `localStorage`
-6. **Informe completo**: perfil, top 3 clusters, grados, universidades de ejemplo, contraste, checklist, disclaimer
+5. **Simular pago** → desbloqueo en `localStorage`
+6. **Informe completo**: perfil RIASEC, código Holland, top 3 clusters, grados, unis, checklist
 
-Para rehacer el test: botón al final del informe (el unlock se mantiene en el dispositivo).
-
-Para resetear el pago simulado en DevTools:
+Para resetear el pago simulado:
 
 ```js
-localStorage.removeItem('unitalent_unlock_v1');
+localStorage.removeItem('unitalent_unlock_v2');
 ```
+
+## Scoring (Holland / RIASEC)
+
+1. Media aritmética por letra **R / I / A / S / E / C** (5 ítems Likert cada una).
+2. Orden descendente → **código de 2–3 letras** (p. ej. `IAS`, `RES`).
+3. Afinidad de cluster ≈ Σ(medias primary) + 0,5 × Σ(medias secondary) según `cluster_riasec_map`.
+4. Q31–Q34 (modalidad, movilidad, confort STEM, formato) **no** suman al RIASEC; matizan el informe.
 
 ## Estructura
 
 ```
 unitalent-web/
-├── index.html          # SPA
-├── css/styles.css      # Mobile-first
-├── js/data.js          # Clusters, grados, unis (desde markdown)
-├── js/app.js           # Scoring + flujo + paywall
-├── data/questions.json # Preguntas + tags
+├── index.html
+├── css/styles.css
+├── js/data.js          # Clusters, unis, letter labels, disclaimers
+├── js/app.js           # RIASEC scoring + flujo + paywall
+├── data/questions.json # Banco RIASEC (mvp-0.2-riasec)
 └── README.md
 ```
 
-## Scoring (resumen)
-
-- `single` / `multi`: +1.0 por cada tag de la opción
-- `scale` 1–5: valor × 0.4 por tag de la pregunta
-- Ranking por suma; % relativo al cluster máximo
-- Preview: top 1 · Informe: top 3 (+ barras top 5)
-
-## Pago MVP
-
-Sin Stripe. Botón **Simular pago** + instrucciones Bizum con placeholder `[tu Bizum]`. El flag `unitalent_unlock_v1` en `localStorage` desbloquea el informe en ese navegador.
-
 ## Origen del contenido
 
-Derivado de `/workspace/unitalent/` (`questions.json`, guion, clusters, unis, plantilla de informe). Fecha de contenido: **2026-09-21**.
+Derivado de `unitalent/` (`questions.json`, guion, clusters, unis, plantilla). Fecha de contenido: **2026-09-21**.

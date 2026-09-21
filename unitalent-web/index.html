@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="UniTalent — test de orientación universitaria. Descubre clusters de grados y universidades públicas de ejemplo en España." />
+    <meta name="description" content="UniTalent — orientación universitaria inspirada en Holland/RIASEC. Clusters de grados y universidades públicas de ejemplo en España." />
     <meta name="theme-color" content="#1e4d8c" />
-    <title>UniTalent — Orientación universitaria</title>
+    <title>UniTalent — Orientación universitaria (RIASEC)</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -16,7 +16,7 @@
             <span class="logo-mark" aria-hidden="true">UT</span>
             UniTalent
           </a>
-          <span class="header-meta">MVP · ES</span>
+          <span class="header-meta">MVP · RIASEC · ES</span>
         </div>
       </header>
 
@@ -27,22 +27,23 @@
             <span class="price-pill">Test gratis · Informe completo 9 €</span>
             <h1>Descubre qué grados universitarios encajan contigo</h1>
             <p class="lede">
-              UniTalent es un test corto de intereses, estilo de trabajo y
-              habilidades. Te recomendamos <strong>clusters de grados</strong> y
+              UniTalent es un test corto de <strong>intereses vocacionales</strong>
+              inspirado en el modelo <strong>Holland / RIASEC</strong>. Te recomienda
+              <strong>clusters de grados</strong> y
               <strong>universidades públicas españolas de ejemplo</strong>.
             </p>
             <ul class="features">
               <li>
                 <span class="num">1</span>
-                <span>18 preguntas · ~5–8 minutos · pensado para el móvil</span>
+                <span>34 preguntas (30 Likert RIASEC + 4 prácticas) · ~8–12 min · móvil</span>
               </li>
               <li>
                 <span class="num">2</span>
-                <span>Vista previa gratis de tu cluster principal</span>
+                <span>Vista previa gratis: letra dominante + cluster principal</span>
               </li>
               <li>
                 <span class="num">3</span>
-                <span>Informe completo: top 3, grados, unis y plan de acción</span>
+                <span>Informe completo: código Holland, top clusters, grados, unis y plan</span>
               </li>
             </ul>
             <button type="button" class="btn btn-primary" id="btn-start">
@@ -56,14 +57,14 @@
         <section id="screen-quiz" class="screen" aria-label="Test">
           <div class="progress-wrap">
             <div class="progress-label">
-              <span id="progress-label">Pregunta 1 de 18</span>
+              <span id="progress-label">Pregunta 1 de 34</span>
             </div>
             <div class="progress-bar" aria-hidden="true">
               <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
             </div>
           </div>
           <div class="card">
-            <span class="block-tag" id="block-tag">Intereses</span>
+            <span class="block-tag" id="block-tag">RIASEC</span>
             <h2 class="q-text" id="q-text">…</h2>
             <p class="hint" id="q-hint" hidden></p>
             <div class="options" id="options"></div>
@@ -81,15 +82,15 @@
         <!-- PREVIEW (free) -->
         <section id="screen-preview" class="screen" aria-label="Vista previa">
           <div class="card">
-            <div class="cluster-badge" id="preview-badge">Tu cluster #1</div>
+            <div class="cluster-badge" id="preview-badge">Tu código RIASEC</div>
             <h2 class="cluster-title" id="preview-title">…</h2>
             <p class="cluster-desc" id="preview-desc">…</p>
             <div class="affinity" id="preview-bars"></div>
             <div class="teaser" id="preview-teaser"></div>
             <div class="lock-cta">
               <p>
-                Desbloquea tu informe completo: top 3 clusters, grados,
-                universidades de ejemplo y plan de acción.
+                Desbloquea tu informe completo: perfil RIASEC, top clusters,
+                grados, universidades de ejemplo y plan de acción.
               </p>
               <button type="button" class="btn btn-accent" id="btn-unlock">
                 Desbloquear informe · 9 €
@@ -97,7 +98,8 @@
             </div>
           </div>
           <div class="disclaimer compact" role="note">
-            Orientación informativa, <strong>no oficial</strong>. Verifica en
+            Orientación inspirada en el modelo Holland/RIASEC; <strong>no es SDS licenciado ni test clínico validado</strong>.
+            Verifica en
             <a href="https://www.educacion.gob.es/ruct" target="_blank" rel="noopener">RUCT</a>
             y
             <a href="https://www.educacion.gob.es/notasdecorte" target="_blank" rel="noopener">QEDU</a>.
@@ -115,11 +117,11 @@
               <span>pago único</span>
             </p>
             <ul class="pay-list">
+              <li>Código Holland ilustrativo (2–3 letras) y barras RIASEC</li>
               <li>Tus 3 clusters recomendados con % de afinidad</li>
               <li>Ejemplos de grados oficiales por cluster</li>
               <li>Universidades públicas de ejemplo (no ranking)</li>
-              <li>Contraste de lo que menos encaja</li>
-              <li>Checklist de siguientes pasos</li>
+              <li>Contraste de letras/clusters menores + checklist</li>
             </ul>
 
             <div class="bizum-box">
@@ -152,9 +154,14 @@
             <h1>Tu informe de orientación universitaria</h1>
             <p class="report-date" id="report-date"></p>
             <div class="disclaimer compact" id="report-disclaimer" role="note"></div>
-            <p style="font-weight: 650; margin: 1rem 0 0.25rem">Resumen de tu perfil</p>
+            <p style="font-weight: 650; margin: 1rem 0 0.25rem" id="report-holland-code"></p>
+            <p style="font-weight: 650; margin: 1rem 0 0.25rem">Resumen de tu perfil RIASEC</p>
             <div class="keywords" id="report-keywords"></div>
             <p class="profile-text" id="report-profile"></p>
+            <p style="font-weight: 650; margin: 1.25rem 0 0.5rem; font-size: 0.95rem">
+              Perfil R–I–A–S–E–C (media /5)
+            </p>
+            <div class="affinity" id="report-letter-bars"></div>
             <p style="font-weight: 650; margin: 1.25rem 0 0.5rem; font-size: 0.95rem">
               Afinidad por cluster (top 5)
             </p>
@@ -175,15 +182,18 @@
           <h2 class="section-title">Cómo hemos calculado tu resultado</h2>
           <div class="card transparency">
             <p style="margin-top: 0">
-              Cada opción del test lleva etiquetas (tags) hacia clusters de
-              grados. Las respuestas únicas y múltiples suman peso a esos
-              clusters; las escalas 1–5 aportan un peso menor (valor × 0,4) para
-              no saturar frente a intereses. Se muestran los clusters con mayor
-              puntuación relativa.
+              Cada ítem Likert RIASEC (Q01–Q30) está etiquetado con una letra
+              (R/I/A/S/E/C). Calculamos la <strong>media por letra</strong>,
+              ordenamos de mayor a menor y formamos un
+              <strong>código Holland ilustrativo de 2–3 letras</strong>.
+              Los clusters se puntúan como
+              suma(medias primary) + 0,5 × suma(medias secondary).
+              Las preferencias prácticas (Q31–Q34) <strong>no</strong> entran en la media RIASEC.
             </p>
             <p style="margin-bottom: 0">
-              <strong>Límites:</strong> 18 ítems de autoinforme. No es un test
-              psicométrico clínico ni una prueba de admisión universitaria.
+              <strong>Límites:</strong> ~34 ítems de autoinforme.
+              Orientación inspirada en el modelo Holland/RIASEC; <strong>no es SDS licenciado ni test clínico validado</strong>;
+              no hay estudio de fiabilidad reportado.
             </p>
           </div>
 
@@ -207,7 +217,7 @@
             <a id="ruct-link" href="https://www.educacion.gob.es/ruct" target="_blank" rel="noopener">RUCT</a>
             ·
             <a id="qedu-link" href="https://www.educacion.gob.es/notasdecorte" target="_blank" rel="noopener">QEDU</a>
-            · UniTalent MVP · contenido 2026-09-21
+            · UniTalent MVP · RIASEC · contenido 2026-09-21
           </p>
         </div>
       </footer>
