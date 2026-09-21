@@ -28,9 +28,9 @@ Luego abre: http://127.0.0.1:8080/
 1. **Landing** → «Empezar el test»
 2. Responde las **34 preguntas** (30 escalas RIASEC 1–5 + 4 preferencias)
 3. **Vista previa** gratis: código / letra #1 + cluster principal
-4. «Desbloquear informe · 9 €» → pantalla de pago
-5. **Simular pago** → desbloqueo en `localStorage`
-6. **Informe completo**: perfil RIASEC, código Holland, top 3 clusters, grados, unis, checklist
+4. «Desbloquear informe · 9 €» → paywall **paso 1** (9 € + política de devolución + checkbox)
+5. Aceptar política → **paso 2** Bizum (`[tu número Bizum]`) → «He pagado / Simular pago»
+6. Desbloqueo en `localStorage` → **informe completo**: perfil RIASEC, código Holland, top 3 clusters, grados, unis, checklist
 
 Para resetear el pago simulado:
 

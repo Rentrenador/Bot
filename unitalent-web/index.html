@@ -112,9 +112,11 @@
           </div>
         </section>
 
-        <!-- PAYWALL -->
+        <!-- PAYWALL (2 steps) -->
         <section id="screen-paywall" class="screen" aria-label="Pago">
-          <div class="card">
+          <!-- STEP 1: precio + política + aceptación -->
+          <div id="paywall-step-1" class="card paywall-step">
+            <p class="pay-step-label">Paso 1 de 2</p>
             <h2 class="cluster-title" style="margin-bottom: 0.25rem">
               Informe completo UniTalent
             </h2>
@@ -130,17 +132,31 @@
               <li>Contraste de letras/clusters menores + checklist</li>
             </ul>
 
-            <div class="bizum-box">
-              <strong>Pago real (placeholder):</strong> envía 9 € por Bizum a
-              <code id="pay-bizum">[tu Bizum]</code> e indica «UniTalent» en el
-              concepto. En producción se verificará el pago; aquí usamos
-              simulación.
+            <div class="refund-policy" id="refund-policy" role="note">
+              Informe digital. Si no carga o falla el pago, devolvemos. Si ya has
+              visto el informe completo, no hay devolución por desacuerdo con el
+              resultado. Al pagar aceptas el acceso inmediato.
             </div>
 
-            <div class="divider">MVP sin Stripe</div>
+            <label class="pay-accept" for="pay-accept-check">
+              <input
+                type="checkbox"
+                id="pay-accept-check"
+                aria-describedby="refund-policy"
+              />
+              <span
+                >Acepto el acceso inmediato al informe digital y la política de
+                devolución.</span
+              >
+            </label>
 
-            <button type="button" class="btn btn-primary" id="btn-simulate-pay">
-              Simular pago
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="btn-pay-continue"
+              disabled
+            >
+              Continuar al pago
             </button>
             <div class="btn-row" style="margin-top: 0.65rem">
               <button type="button" class="btn btn-ghost" id="btn-back-preview">
@@ -148,6 +164,37 @@
               </button>
             </div>
           </div>
+
+          <!-- STEP 2: Bizum + simular -->
+          <div id="paywall-step-2" class="card paywall-step" hidden>
+            <p class="pay-step-label">Paso 2 de 2</p>
+            <h2 class="cluster-title" style="margin-bottom: 0.25rem">
+              Pagar con Bizum
+            </h2>
+            <p class="pay-price">
+              <span class="pay-amount"><span id="pay-price-num-2">9</span>&nbsp;€</span>
+              <span class="pay-note">pago único · acceso inmediato</span>
+            </p>
+
+            <div class="bizum-box">
+              <strong>Instrucciones Bizum:</strong> envía 9 € a
+              <code id="pay-bizum">[tu número Bizum]</code> e indica
+              «UniTalent» en el concepto. En producción se verificará el pago;
+              aquí puedes simularlo.
+            </div>
+
+            <div class="divider">MVP sin Stripe</div>
+
+            <button type="button" class="btn btn-primary" id="btn-simulate-pay">
+              He pagado / Simular pago
+            </button>
+            <div class="btn-row" style="margin-top: 0.65rem">
+              <button type="button" class="btn btn-ghost" id="btn-back-pay-step1">
+                Volver
+              </button>
+            </div>
+          </div>
+
           <div class="disclaimer compact" role="note">
             El desbloqueo se guarda en este dispositivo (localStorage). No hay
             cobro real en este MVP.

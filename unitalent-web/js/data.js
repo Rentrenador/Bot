@@ -5,7 +5,7 @@
  */
 window.UNITALENT_DATA = {
   priceEur: 9,
-  bizumPlaceholder: "[tu Bizum]",
+  bizumPlaceholder: "[tu número Bizum]",
   contentDate: "2026-09-21",
   version: "mvp-0.2-riasec",
   disclaimer:

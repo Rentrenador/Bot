@@ -518,9 +518,24 @@
     showScreen("preview");
   }
 
+  function setPaywallStep(step) {
+    const step1 = $("#paywall-step-1");
+    const step2 = $("#paywall-step-2");
+    if (!step1 || !step2) return;
+    const is1 = step === 1;
+    step1.hidden = !is1;
+    step2.hidden = is1;
+  }
+
   function showPaywall() {
     const D = window.UNITALENT_DATA;
-    $("#pay-bizum").textContent = D.bizumPlaceholder;
+    const bizum = $("#pay-bizum");
+    if (bizum) bizum.textContent = D.bizumPlaceholder;
+    const check = $("#pay-accept-check");
+    const cont = $("#btn-pay-continue");
+    if (check) check.checked = false;
+    if (cont) cont.disabled = true;
+    setPaywallStep(1);
     showScreen("paywall");
   }
 
@@ -701,6 +716,23 @@
 
     $("#btn-unlock").addEventListener("click", () => showPaywall());
     $("#btn-back-preview").addEventListener("click", () => showPreview());
+
+    const acceptCheck = $("#pay-accept-check");
+    const continueBtn = $("#btn-pay-continue");
+    if (acceptCheck && continueBtn) {
+      acceptCheck.addEventListener("change", () => {
+        continueBtn.disabled = !acceptCheck.checked;
+      });
+      continueBtn.addEventListener("click", () => {
+        if (!acceptCheck.checked) return;
+        setPaywallStep(2);
+      });
+    }
+
+    const backStep1 = $("#btn-back-pay-step1");
+    if (backStep1) {
+      backStep1.addEventListener("click", () => setPaywallStep(1));
+    }
 
     $("#btn-simulate-pay").addEventListener("click", () => {
       saveUnlock();
