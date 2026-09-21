@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="UniTalent — test de orientación universitaria. Descubre clusters de grados y universidades públicas de ejemplo en España." />
+    <meta name="theme-color" content="#1e4d8c" />
+    <title>UniTalent — Orientación universitaria</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="header-inner">
+          <a href="#" class="logo" aria-label="UniTalent inicio">
+            <span class="logo-mark" aria-hidden="true">UT</span>
+            UniTalent
+          </a>
+          <span class="header-meta">MVP · ES</span>
+        </div>
+      </header>
+
+      <main class="main">
+        <!-- LANDING -->
+        <section id="screen-landing" class="screen active" aria-label="Inicio">
+          <div class="card hero">
+            <span class="price-pill">Test gratis · Informe completo 9 €</span>
+            <h1>Descubre qué grados universitarios encajan contigo</h1>
+            <p class="lede">
+              UniTalent es un test corto de intereses, estilo de trabajo y
+              habilidades. Te recomendamos <strong>clusters de grados</strong> y
+              <strong>universidades públicas españolas de ejemplo</strong>.
+            </p>
+            <ul class="features">
+              <li>
+                <span class="num">1</span>
+                <span>18 preguntas · ~5–8 minutos · pensado para el móvil</span>
+              </li>
+              <li>
+                <span class="num">2</span>
+                <span>Vista previa gratis de tu cluster principal</span>
+              </li>
+              <li>
+                <span class="num">3</span>
+                <span>Informe completo: top 3, grados, unis y plan de acción</span>
+              </li>
+            </ul>
+            <button type="button" class="btn btn-primary" id="btn-start">
+              Empezar el test
+            </button>
+          </div>
+          <div class="disclaimer" id="landing-disclaimer" role="note"></div>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="screen-quiz" class="screen" aria-label="Test">
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span id="progress-label">Pregunta 1 de 18</span>
+            </div>
+            <div class="progress-bar" aria-hidden="true">
+              <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="card">
+            <span class="block-tag" id="block-tag">Intereses</span>
+            <h2 class="q-text" id="q-text">…</h2>
+            <p class="hint" id="q-hint" hidden></p>
+            <div class="options" id="options"></div>
+            <div class="btn-row">
+              <button type="button" class="btn btn-ghost" id="btn-prev">
+                Anterior
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-next" disabled>
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PREVIEW (free) -->
+        <section id="screen-preview" class="screen" aria-label="Vista previa">
+          <div class="card">
+            <div class="cluster-badge" id="preview-badge">Tu cluster #1</div>
+            <h2 class="cluster-title" id="preview-title">…</h2>
+            <p class="cluster-desc" id="preview-desc">…</p>
+            <div class="affinity" id="preview-bars"></div>
+            <div class="teaser" id="preview-teaser"></div>
+            <div class="lock-cta">
+              <p>
+                Desbloquea tu informe completo: top 3 clusters, grados,
+                universidades de ejemplo y plan de acción.
+              </p>
+              <button type="button" class="btn btn-accent" id="btn-unlock">
+                Desbloquear informe · 9 €
+              </button>
+            </div>
+          </div>
+          <div class="disclaimer compact" role="note">
+            Orientación informativa, <strong>no oficial</strong>. Verifica en
+            <a href="https://www.educacion.gob.es/ruct" target="_blank" rel="noopener">RUCT</a>
+            y
+            <a href="https://www.educacion.gob.es/notasdecorte" target="_blank" rel="noopener">QEDU</a>.
+          </div>
+        </section>
+
+        <!-- PAYWALL -->
+        <section id="screen-paywall" class="screen" aria-label="Pago">
+          <div class="card">
+            <h2 class="cluster-title" style="margin-bottom: 0.25rem">
+              Informe completo UniTalent
+            </h2>
+            <p class="pay-price">
+              <span id="pay-price-num">9</span>€
+              <span>pago único</span>
+            </p>
+            <ul class="pay-list">
+              <li>Tus 3 clusters recomendados con % de afinidad</li>
+              <li>Ejemplos de grados oficiales por cluster</li>
+              <li>Universidades públicas de ejemplo (no ranking)</li>
+              <li>Contraste de lo que menos encaja</li>
+              <li>Checklist de siguientes pasos</li>
+            </ul>
+
+            <div class="bizum-box">
+              <strong>Pago real (placeholder):</strong> envía 9 € por Bizum a
+              <code id="pay-bizum">[tu Bizum]</code> e indica «UniTalent» en el
+              concepto. En producción se verificará el pago; aquí usamos
+              simulación.
+            </div>
+
+            <div class="divider">MVP sin Stripe</div>
+
+            <button type="button" class="btn btn-primary" id="btn-simulate-pay">
+              Simular pago
+            </button>
+            <div class="btn-row" style="margin-top: 0.65rem">
+              <button type="button" class="btn btn-ghost" id="btn-back-preview">
+                Volver a la vista previa
+              </button>
+            </div>
+          </div>
+          <div class="disclaimer compact" role="note">
+            El desbloqueo se guarda en este dispositivo (localStorage). No hay
+            cobro real en este MVP.
+          </div>
+        </section>
+
+        <!-- FULL REPORT -->
+        <section id="screen-report" class="screen" aria-label="Informe">
+          <div class="card report-header">
+            <h1>Tu informe de orientación universitaria</h1>
+            <p class="report-date" id="report-date"></p>
+            <div class="disclaimer compact" id="report-disclaimer" role="note"></div>
+            <p style="font-weight: 650; margin: 1rem 0 0.25rem">Resumen de tu perfil</p>
+            <div class="keywords" id="report-keywords"></div>
+            <p class="profile-text" id="report-profile"></p>
+            <p style="font-weight: 650; margin: 1.25rem 0 0.5rem; font-size: 0.95rem">
+              Afinidad por cluster (top 5)
+            </p>
+            <div class="affinity" id="report-bars"></div>
+          </div>
+
+          <h2 class="section-title">Tus clusters recomendados</h2>
+          <div id="report-clusters"></div>
+
+          <h2 class="section-title">Lo que menos encaja</h2>
+          <div class="low-fit" id="report-low"></div>
+
+          <h2 class="section-title">Plan de siguientes pasos</h2>
+          <div class="card">
+            <ul class="checklist" id="report-checklist"></ul>
+          </div>
+
+          <h2 class="section-title">Cómo hemos calculado tu resultado</h2>
+          <div class="card transparency">
+            <p style="margin-top: 0">
+              Cada opción del test lleva etiquetas (tags) hacia clusters de
+              grados. Las respuestas únicas y múltiples suman peso a esos
+              clusters; las escalas 1–5 aportan un peso menor (valor × 0,4) para
+              no saturar frente a intereses. Se muestran los clusters con mayor
+              puntuación relativa.
+            </p>
+            <p style="margin-bottom: 0">
+              <strong>Límites:</strong> 18 ítems de autoinforme. No es un test
+              psicométrico clínico ni una prueba de admisión universitaria.
+            </p>
+          </div>
+
+          <div class="disclaimer" id="report-full-disclaimer" role="note"></div>
+
+          <div class="report-actions">
+            <button type="button" class="btn btn-primary" id="btn-print">
+              Imprimir / guardar PDF
+            </button>
+            <button type="button" class="btn btn-ghost" id="btn-retake">
+              Rehacer el test
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <p id="footer-disclaimer" style="margin: 0 0 0.5rem"></p>
+          <p style="margin: 0">
+            <a id="ruct-link" href="https://www.educacion.gob.es/ruct" target="_blank" rel="noopener">RUCT</a>
+            ·
+            <a id="qedu-link" href="https://www.educacion.gob.es/notasdecorte" target="_blank" rel="noopener">QEDU</a>
+            · UniTalent MVP · contenido 2026-09-21
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

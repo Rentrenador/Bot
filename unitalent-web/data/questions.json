@@ -1,0 +1,291 @@
+{
+  "product": "UniTalent",
+  "version": "mvp-0.1",
+  "locale": "es-ES",
+  "content_date": "2026-09-21",
+  "disclaimer": "Orientación informativa, no oficial. Datos ilustrativos de MVP. Verificar títulos en RUCT y acceso en QEDU.",
+  "scoring": {
+    "single_weight": 1.0,
+    "multi_weight": 1.0,
+    "scale_weight_factor": 0.4,
+    "scale_min": 1,
+    "scale_max": 5,
+    "clusters": [
+      "salud",
+      "stem",
+      "ingenieria",
+      "empresa",
+      "educacion",
+      "social",
+      "arte",
+      "derecho",
+      "idiomas",
+      "ambiente"
+    ]
+  },
+  "questions": [
+    {
+      "id": "q01_actividad_preferida",
+      "order": 1,
+      "block": "intereses",
+      "text": "¿Qué tipo de actividad te motiva más en un día ideal?",
+      "type": "single",
+      "options": [
+        { "id": "q01_a", "label": "Ayudar o cuidar a personas", "tags": ["salud", "social"] },
+        { "id": "q01_b", "label": "Resolver problemas técnicos o científicos", "tags": ["stem", "ingenieria"] },
+        { "id": "q01_c", "label": "Crear, diseñar o expresar ideas", "tags": ["arte"] },
+        { "id": "q01_d", "label": "Organizar proyectos o vender ideas", "tags": ["empresa"] },
+        { "id": "q01_e", "label": "Enseñar o explicar a otros", "tags": ["educacion"] },
+        { "id": "q01_f", "label": "Viajar, idiomas o conocer culturas", "tags": ["idiomas"] }
+      ]
+    },
+    {
+      "id": "q02_asignaturas",
+      "order": 2,
+      "block": "intereses",
+      "text": "¿Cuáles de estas áreas te gustaban (o te gustan) más en el instituto / Bachillerato?",
+      "type": "multi",
+      "max_selections": 3,
+      "options": [
+        { "id": "q02_a", "label": "Biología / Química", "tags": ["salud", "stem"] },
+        { "id": "q02_b", "label": "Matemáticas / Física", "tags": ["stem", "ingenieria"] },
+        { "id": "q02_c", "label": "Economía / Empresa", "tags": ["empresa"] },
+        { "id": "q02_d", "label": "Historia / Filosofía", "tags": ["derecho", "social", "educacion"] },
+        { "id": "q02_e", "label": "Lengua / Literatura / Idiomas", "tags": ["idiomas", "educacion", "arte"] },
+        { "id": "q02_f", "label": "Dibujo / Música / Tecnología creativa", "tags": ["arte", "ingenieria"] },
+        { "id": "q02_g", "label": "Educación Física", "tags": ["salud"] }
+      ]
+    },
+    {
+      "id": "q03_impacto",
+      "order": 3,
+      "block": "intereses",
+      "text": "¿Qué impacto te gustaría tener con tu futuro trabajo?",
+      "type": "single",
+      "options": [
+        { "id": "q03_a", "label": "Mejorar la salud y el bienestar de las personas", "tags": ["salud"] },
+        { "id": "q03_b", "label": "Innovar con tecnología o ciencia", "tags": ["stem", "ingenieria"] },
+        { "id": "q03_c", "label": "Crear valor económico o emprender", "tags": ["empresa"] },
+        { "id": "q03_d", "label": "Formar y acompañar el aprendizaje", "tags": ["educacion"] },
+        { "id": "q03_e", "label": "Defender derechos o influir en políticas públicas", "tags": ["derecho", "social"] },
+        { "id": "q03_f", "label": "Proteger el medio ambiente o el territorio", "tags": ["ambiente", "stem"] },
+        { "id": "q03_g", "label": "Contar historias o diseñar experiencias", "tags": ["arte", "idiomas"] }
+      ]
+    },
+    {
+      "id": "q04_entorno",
+      "order": 4,
+      "block": "intereses",
+      "text": "¿En qué entorno te ves trabajando con más naturalidad?",
+      "type": "single",
+      "options": [
+        { "id": "q04_a", "label": "Hospital, clínica o centro deportivo", "tags": ["salud"] },
+        { "id": "q04_b", "label": "Laboratorio, oficina técnica o fábrica", "tags": ["stem", "ingenieria"] },
+        { "id": "q04_c", "label": "Empresa, startup o consultora", "tags": ["empresa"] },
+        { "id": "q04_d", "label": "Colegio, instituto o universidad", "tags": ["educacion"] },
+        { "id": "q04_e", "label": "ONG, servicios sociales o administración", "tags": ["social", "derecho"] },
+        { "id": "q04_f", "label": "Estudio creativo, agencia o producción", "tags": ["arte"] },
+        { "id": "q04_g", "label": "Agencia de viajes, hotel o institución cultural", "tags": ["idiomas"] },
+        { "id": "q04_h", "label": "Campo, parque natural o proyecto sostenible", "tags": ["ambiente"] }
+      ]
+    },
+    {
+      "id": "q05_temas_curiosidad",
+      "order": 5,
+      "block": "intereses",
+      "text": "¿Sobre qué temas lees o ves contenido por curiosidad?",
+      "type": "multi",
+      "max_selections": 3,
+      "options": [
+        { "id": "q05_a", "label": "Medicina, nutrición o deporte", "tags": ["salud"] },
+        { "id": "q05_b", "label": "Ciencia, espacio o IA", "tags": ["stem"] },
+        { "id": "q05_c", "label": "Finanzas, marketing o startups", "tags": ["empresa"] },
+        { "id": "q05_d", "label": "Pedagogía o psicología educativa", "tags": ["educacion"] },
+        { "id": "q05_e", "label": "Justicia social o actualidad política", "tags": ["derecho", "social"] },
+        { "id": "q05_f", "label": "Arte, diseño, cine o moda", "tags": ["arte"] },
+        { "id": "q05_g", "label": "Idiomas, viajes o interculturalidad", "tags": ["idiomas"] },
+        { "id": "q05_h", "label": "Clima, energía o ecología", "tags": ["ambiente", "ingenieria"] }
+      ]
+    },
+    {
+      "id": "q06_problema_resolver",
+      "order": 6,
+      "block": "intereses",
+      "text": "Si pudieras resolver un gran problema, ¿cuál elegirías?",
+      "type": "single",
+      "options": [
+        { "id": "q06_a", "label": "Enfermedades y calidad de vida", "tags": ["salud"] },
+        { "id": "q06_b", "label": "Acceso a tecnología y conocimiento científico", "tags": ["stem"] },
+        { "id": "q06_c", "label": "Desempleo y oportunidades económicas", "tags": ["empresa"] },
+        { "id": "q06_d", "label": "Desigualdad educativa", "tags": ["educacion", "social"] },
+        { "id": "q06_e", "label": "Derechos humanos y justicia", "tags": ["derecho", "social"] },
+        { "id": "q06_f", "label": "Contaminación y cambio climático", "tags": ["ambiente", "ingenieria"] },
+        { "id": "q06_g", "label": "Falta de cultura y expresiones creativas", "tags": ["arte"] },
+        { "id": "q06_h", "label": "Barreras de comunicación entre culturas", "tags": ["idiomas"] }
+      ]
+    },
+    {
+      "id": "q07_trabajo_equipo",
+      "order": 7,
+      "block": "estilo",
+      "text": "En un trabajo en grupo, ¿qué rol sueles adoptar?",
+      "type": "single",
+      "options": [
+        { "id": "q07_a", "label": "El que cuida el clima y apoya al resto", "tags": ["social", "salud", "educacion"] },
+        { "id": "q07_b", "label": "El que analiza datos y propone soluciones técnicas", "tags": ["stem", "ingenieria"] },
+        { "id": "q07_c", "label": "El que lidera plazos y divide tareas", "tags": ["empresa", "derecho"] },
+        { "id": "q07_d", "label": "El que aporta ideas creativas o visuales", "tags": ["arte"] },
+        { "id": "q07_e", "label": "El que documenta, traduce o comunica", "tags": ["idiomas", "educacion"] },
+        { "id": "q07_f", "label": "El que cuestiona normas y busca lo justo", "tags": ["derecho", "social"] }
+      ]
+    },
+    {
+      "id": "q08_preferencia_ritmo",
+      "order": 8,
+      "block": "estilo",
+      "text": "¿Qué ritmo de trabajo prefieres?",
+      "type": "single",
+      "options": [
+        { "id": "q08_a", "label": "Ritmo intenso con personas (turnos, atención)", "tags": ["salud", "idiomas"] },
+        { "id": "q08_b", "label": "Proyectos largos de investigación o diseño técnico", "tags": ["stem", "ingenieria", "ambiente"] },
+        { "id": "q08_c", "label": "Objetivos comerciales y plazos cortos", "tags": ["empresa"] },
+        { "id": "q08_d", "label": "Ciclos escolares / formativos predecibles", "tags": ["educacion"] },
+        { "id": "q08_e", "label": "Casos, plazos legales o administrativos", "tags": ["derecho"] },
+        { "id": "q08_f", "label": "Encargos creativos con picos de entrega", "tags": ["arte"] },
+        { "id": "q08_g", "label": "Acompañamiento social a medio/largo plazo", "tags": ["social"] }
+      ]
+    },
+    {
+      "id": "q09_decisiones",
+      "order": 9,
+      "block": "estilo",
+      "text": "¿Cómo sueles tomar decisiones importantes?",
+      "type": "single",
+      "options": [
+        { "id": "q09_a", "label": "Con empatía y escuchando a las personas", "tags": ["salud", "social", "educacion"] },
+        { "id": "q09_b", "label": "Con datos, pruebas y método", "tags": ["stem", "ingenieria"] },
+        { "id": "q09_c", "label": "Valorando riesgo, beneficio y mercado", "tags": ["empresa"] },
+        { "id": "q09_d", "label": "Siguiendo normas, criterios y precedentes", "tags": ["derecho"] },
+        { "id": "q09_e", "label": "Siguiendo intuición estética o narrativa", "tags": ["arte"] },
+        { "id": "q09_f", "label": "Considerando impacto cultural o lingüístico", "tags": ["idiomas"] },
+        { "id": "q09_g", "label": "Pensando en sostenibilidad a largo plazo", "tags": ["ambiente"] }
+      ]
+    },
+    {
+      "id": "q10_estres",
+      "order": 10,
+      "block": "estilo",
+      "text": "¿Qué situación te genera menos estrés (o incluso te activa)?",
+      "type": "single",
+      "options": [
+        { "id": "q10_a", "label": "Situaciones de cuidado o urgencia humana", "tags": ["salud"] },
+        { "id": "q10_b", "label": "Bugs, fallos técnicos o puzzles difíciles", "tags": ["stem", "ingenieria"] },
+        { "id": "q10_c", "label": "Negociar o presentar resultados", "tags": ["empresa", "idiomas"] },
+        { "id": "q10_d", "label": "Explicar lo mismo de formas distintas", "tags": ["educacion"] },
+        { "id": "q10_e", "label": "Debates éticos o argumentación", "tags": ["derecho", "social"] },
+        { "id": "q10_f", "label": "Feedback creativo y revisiones de diseño", "tags": ["arte"] },
+        { "id": "q10_g", "label": "Trabajo de campo o proyectos ambientales", "tags": ["ambiente"] }
+      ]
+    },
+    {
+      "id": "q11_valores",
+      "order": 11,
+      "block": "estilo",
+      "text": "¿Qué valor priorizas más en tu futuro profesional?",
+      "type": "single",
+      "options": [
+        { "id": "q11_a", "label": "Cuidado y salud", "tags": ["salud"] },
+        { "id": "q11_b", "label": "Rigor e innovación", "tags": ["stem", "ingenieria"] },
+        { "id": "q11_c", "label": "Autonomía e impacto económico", "tags": ["empresa"] },
+        { "id": "q11_d", "label": "Transmisión de conocimiento", "tags": ["educacion"] },
+        { "id": "q11_e", "label": "Justicia e igualdad", "tags": ["derecho", "social"] },
+        { "id": "q11_f", "label": "Belleza y expresión", "tags": ["arte"] },
+        { "id": "q11_g", "label": "Apertura cultural", "tags": ["idiomas"] },
+        { "id": "q11_h", "label": "Sostenibilidad", "tags": ["ambiente"] }
+      ]
+    },
+    {
+      "id": "q12_formato_aprendizaje",
+      "order": 12,
+      "block": "estilo",
+      "text": "¿Cómo aprendes mejor?",
+      "type": "single",
+      "options": [
+        { "id": "q12_a", "label": "Práctica con personas reales (prácticas clínicas, deporte…)", "tags": ["salud", "educacion"] },
+        { "id": "q12_b", "label": "Experimentos, código o prototipos", "tags": ["stem", "ingenieria"] },
+        { "id": "q12_c", "label": "Casos de negocio y simulaciones", "tags": ["empresa"] },
+        { "id": "q12_d", "label": "Lectura de textos legales o teóricos", "tags": ["derecho"] },
+        { "id": "q12_e", "label": "Proyectos creativos y portfolio", "tags": ["arte"] },
+        { "id": "q12_f", "label": "Inmersión lingüística o cultural", "tags": ["idiomas"] },
+        { "id": "q12_g", "label": "Trabajo en comunidad o voluntariado", "tags": ["social"] },
+        { "id": "q12_h", "label": "Salidas de campo y medición", "tags": ["ambiente", "stem"] }
+      ]
+    },
+    {
+      "id": "q13_bio_salud",
+      "order": 13,
+      "block": "habilidades",
+      "text": "¿Cómo valorarías tu interés y facilidad con biología, cuerpo humano o ciencias de la salud?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["salud", "stem"]
+    },
+    {
+      "id": "q14_mates_logica",
+      "order": 14,
+      "block": "habilidades",
+      "text": "¿Cómo valorarías tu soltura con matemáticas, lógica o resolución de problemas abstractos?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["stem", "ingenieria"]
+    },
+    {
+      "id": "q15_comunicacion",
+      "order": 15,
+      "block": "habilidades",
+      "text": "¿Cómo de cómodo/a te sientes hablando en público, escribiendo o explicando ideas?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["educacion", "idiomas", "empresa", "derecho"]
+    },
+    {
+      "id": "q16_creatividad",
+      "order": 16,
+      "block": "habilidades",
+      "text": "¿Cómo valorarías tu creatividad visual, musical o de diseño de experiencias?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["arte"]
+    },
+    {
+      "id": "q17_idiomas",
+      "order": 17,
+      "block": "habilidades",
+      "text": "¿Cómo valorarías tu nivel / ganas de trabajar con idiomas extranjeros?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["idiomas", "empresa"]
+    },
+    {
+      "id": "q18_social_empatia",
+      "order": 18,
+      "block": "habilidades",
+      "text": "¿Cómo de fácil te resulta entender emociones ajenas y mediar en conflictos?",
+      "type": "scale",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": { "1": "Nada / muy bajo", "5": "Alto / me desenvuelvo bien" },
+      "tags": ["social", "salud", "educacion"]
+    }
+  ]
+}
