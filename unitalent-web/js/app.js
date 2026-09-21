@@ -58,13 +58,33 @@
     state.results = null;
   }
 
-  async function loadQuestions() {
-    const res = await fetch("data/questions.json");
-    if (!res.ok) throw new Error("No se pudo cargar questions.json");
-    const data = await res.json();
-    state.questions = data.questions.sort((a, b) => a.order - b.order);
+  function applyQuestionsPayload(data) {
+    if (!data || !Array.isArray(data.questions) || !data.questions.length) {
+      throw new Error("questions payload vacío o inválido");
+    }
+    state.questions = data.questions.slice().sort((a, b) => a.order - b.order);
     state.scoring = data.scoring;
     state.meta = data;
+  }
+
+  async function loadQuestions() {
+    const embedded = window.UNITALENT_QUESTIONS;
+    if (embedded && Array.isArray(embedded.questions) && embedded.questions.length) {
+      applyQuestionsPayload(embedded);
+      return;
+    }
+    try {
+      const res = await fetch("data/questions.json");
+      if (!res.ok) throw new Error("No se pudo cargar questions.json");
+      const data = await res.json();
+      applyQuestionsPayload(data);
+    } catch (err) {
+      if (embedded) {
+        applyQuestionsPayload(embedded);
+        return;
+      }
+      throw err;
+    }
   }
 
   /* ---------- RIASEC Scoring ---------- */
@@ -724,7 +744,7 @@
     } catch (err) {
       console.error(err);
       alert(
-        "Error cargando el test. Sirve la carpeta con un servidor local (python3 -m http.server)."
+        "Error cargando el test. Recarga la página; si persiste, avisa al soporte."
       );
       return;
     }
