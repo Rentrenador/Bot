@@ -33,7 +33,7 @@ Los listados de grados y universidades de este MVP son **ejemplos ilustrativos**
 2. **Perfil.** Media por letra → orden descendente → código de **2–3 letras** (p. ej. `IAS`, `RES`).
 3. **Clusters.** Se mapean letras (y combos) a ~10 clusters de grados (`02-clusters-grados.md` / `cluster_riasec_map` en JSON).
 4. **Preferencias prácticas (Q31–Q34).** Modalidad, movilidad, confort STEM y formato de aprendizaje: **no** suman al RIASEC; matizan el informe.
-5. **Informe de pago.** Top letras + clusters + grados/unis de ejemplo + checklist.
+5. **Informe de pago.** Top letras + clusters + grados/unis de ejemplo.
 
 ## Archivos de este MVP
 

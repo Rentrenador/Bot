@@ -59,24 +59,14 @@ Por cada cluster del Top:
 
 ---
 
-## 5. Plan de siguientes pasos (checklist)
-- [ ] Revisar Bachillerato / modalidad y ponderaciones de la universidad objetivo
-- [ ] Consultar notas de corte orientativas del último curso (QEDU) — **cambian cada año**
-- [ ] Leer planes de estudio (créditos, prácticas, menciones)
-- [ ] Asistir a jornadas de puertas abiertas / ferias
-- [ ] Hablar con orientador/a del centro y, si puede, con estudiantes del grado
-- [ ] Valorar dobles grados, FP superior como vía alternativa, o año de refuerzo
-
----
-
-## 6. Cómo hemos calculado tu resultado (transparencia)
+## 5. Cómo hemos calculado tu resultado (transparencia)
 - Media Likert por letra RIASEC (5 ítems/letra) → código 2–3 letras → mapeo a clusters
 - Preferencias prácticas (Q31–Q34) no entran en la media RIASEC
 - **Límites:** ~30–34 ítems, autoinforme, **no** es test psicométrico clínico ni prueba de admisión; **no** hay estudio de validación ni alfa de Cronbach reportado; **no** es SDS licenciado
 
 ---
 
-## 7. Pie legal / producto
+## 6. Pie legal / producto
 - Disclaimer completo (orientación informativa; adaptación RIASEC ilustrativa; no SDS / no Holland Company license)
 - Política de privacidad / tratamiento de respuestas del test
 - Soporte: email de contacto
@@ -88,6 +78,21 @@ Por cada cluster del Top:
 | Estado | Contenido visible |
 |--------|-------------------|
 | Gratis | Preguntas + top 1–2 letras RIASEC + 1 cluster teaser |
-| De pago | Secciones 1–7 completas + PDF |
+| De pago | Secciones 1–6 completas + PDF |
 
-**Copy CTA sugerido:** «Desbloquea tu informe: perfil RIASEC, grados, universidades de ejemplo y plan de acción.»
+**Copy CTA sugerido:** «Desbloquea tu informe: perfil RIASEC, grados y universidades de ejemplo.»
+
+---
+
+## Copy corto listo para UI (pase 2026-09-21)
+
+**Paywall (título):** Desbloquea tu informe completo  
+**Paywall (cuerpo):** Verás tu perfil RIASEC, grados que encajan, universidades de ejemplo. Precio: 9 €.  
+**Paywall (botón):** Ver informe — 9 €  
+**€ en UI:** usar texto “9 €” (mismo tamaño que el resto), no un icono gigante.
+
+**Resumen perfil (plantilla):**  
+Tu perfil destaca **{LETRAS}**. Eso suele ir con curiosidad por {tema1}, gusto por {tema2} y un estilo {tema3}. No es una etiqueta fija: es un mapa de intereses para explorar grados.
+
+**Unis (badge):** Ejemplos orientativos — no es un ranking oficial. Comprueba en RUCT y QEDU.  
+**Cierre:** Este resultado es orientación. No sustituye a tu centro, a la universidad ni a un test clínico.

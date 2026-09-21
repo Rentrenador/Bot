@@ -1043,33 +1043,6 @@ a {
   box-shadow: var(--shadow);
 }
 
-.checklist {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.checklist li {
-  display: flex;
-  gap: 0.7rem;
-  align-items: flex-start;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.92rem;
-}
-
-.checklist li:last-child {
-  border-bottom: none;
-}
-
-.checklist input {
-  margin-top: 0.2rem;
-  width: 1.1rem;
-  height: 1.1rem;
-  accent-color: var(--accent);
-  flex-shrink: 0;
-}
-
 .transparency {
   font-size: 0.86rem;
   color: var(--text-muted);

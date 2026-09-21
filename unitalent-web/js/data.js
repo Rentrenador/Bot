@@ -451,13 +451,5 @@ window.UNITALENT_DATA = {
         },
       ],
     },
-  },
-  checklist: [
-    "Revisar Bachillerato / modalidad y ponderaciones de la universidad objetivo",
-    "Consultar notas de corte orientativas del último curso (QEDU) — cambian cada año",
-    "Leer planes de estudio (créditos, prácticas, menciones)",
-    "Asistir a jornadas de puertas abiertas / ferias",
-    "Hablar con orientador/a del centro y, si puedes, con estudiantes del grado",
-    "Valorar dobles grados, FP superior como vía alternativa, o año de refuerzo",
-  ],
+  }
 };

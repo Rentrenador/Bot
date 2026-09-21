@@ -657,16 +657,6 @@
         })
         .join("");
 
-    const checkEl = $("#report-checklist");
-    checkEl.innerHTML = D.checklist
-      .map(
-        (item, i) =>
-          `<li><input type="checkbox" id="chk-${i}" /><label for="chk-${i}">${escapeHtml(
-            item
-          )}</label></li>`
-      )
-      .join("");
-
     $("#report-full-disclaimer").textContent = D.disclaimer;
     showScreen("report");
   }
