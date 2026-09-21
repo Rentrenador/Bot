@@ -362,6 +362,7 @@
       hint.textContent = "";
       hint.hidden = true;
       const wrap = document.createElement("div");
+      wrap.className = "likert-wrap";
       wrap.innerHTML = `
         <div class="scale-labels">
           <span>${escapeHtml(lo)}</span>
@@ -543,7 +544,10 @@
 
     const codeEl = $("#report-holland-code");
     if (codeEl) {
-      codeEl.textContent = `Código Holland ilustrativo: ${hollandCode}`;
+      codeEl.hidden = false;
+      codeEl.className = "report-holland";
+      codeEl.innerHTML = `<span aria-hidden="true">◆</span> ${escapeHtml(hollandCode)}`;
+      codeEl.setAttribute("title", "Código Holland ilustrativo (no SDS licenciado)");
     }
 
     const kws = profileKeywords(results);

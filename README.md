@@ -1,15 +1,18 @@
 # Bot
 
-Contenido educativo Tesla para la app interactiva.
+Contenido y demos de Rentrenador.
 
-## Packs
+## UniTalent (web)
 
-| Carpeta | Rol |
-|---------|-----|
-| **`tesla-panorama-content/`** | **Primario** — panorama de la compañía (qué es Tesla hoy, estructura, productos, ops, actualidad, cultura, quiz) |
-| `tesla-panorama-content/opcional-ftt/` | **Opcional** — FTT España + STAR |
-| `tesla-ftt-content/` | Histórico FTT-centric (compatibilidad; no borrar sin migrar) |
+Test móvil de orientación universitaria (Holland / RIASEC).
 
-Idioma: **español**. Contenido fechado **2026-09-04**. No es material oficial de Tesla.
+- **App en repo:** [`unitalent-web/`](./unitalent-web/)
+- **GitHub Pages (HTML):** https://rentrenador.github.io/Bot/unitalent-web/
+- También: https://rentrenador.github.io/Bot/ (redirige a UniTalent)
 
-Empieza por `tesla-panorama-content/README.md` y `00-index.md`.
+> No uses jsDelivr para servir el HTML: puede devolver `text/plain`. Usa GitHub Pages.
+
+## Otros
+
+- `tesla-panorama/` — panorama Tesla FTT
+- `tesla-ftt-content/` / `tesla-panorama-content/` — fuentes de contenido

@@ -5,7 +5,7 @@
  */
 window.UNITALENT_QUESTIONS = {
   "product": "UniTalent",
-  "version": "mvp-0.2-riasec",
+  "version": "mvp-0.3-clarity",
   "locale": "es-ES",
   "content_date": "2026-09-21",
   "theoretical_base": {
@@ -19,25 +19,25 @@ window.UNITALENT_QUESTIONS = {
       "C"
     ],
     "letter_labels_es": {
-      "R": "Realista (práctico / técnico)",
-      "I": "Investigador (científico / analítico)",
-      "A": "Artístico (creativo / expresivo)",
+      "R": "Realista (práctico / con las manos)",
+      "I": "Investigador (ciencia / análisis)",
+      "A": "Artístico (crear / expresar)",
       "S": "Social (ayudar / enseñar / cuidar)",
-      "E": "Emprendedor (liderazgo / persuasión)",
-      "C": "Convencional (orden / datos / procedimientos)"
+      "E": "Emprendedor (liderar / convencer)",
+      "C": "Convencional (orden / números / normas)"
     },
     "note": "Adaptación ilustrativa MVP inspirada en el modelo RIASEC de John L. Holland. No es el Self-Directed Search (SDS) ni un inventario licenciado. No constituye validación psicométrica."
   },
   "disclaimer": "Orientación informativa, no oficial ni clínica. UniTalent no está avalado por el Ministerio de Educación ni por Holland Company / SDS. Datos ilustrativos de MVP. Verificar títulos en RUCT y acceso en QEDU. No se aportan coeficientes de fiabilidad inventados.",
   "scoring": {
     "method": "Para cada letra RIASEC, media aritmética de sus ítems Likert (1–5). Ordenar letras de mayor a menor → código de 2–3 letras. Mapear a clusters vía primary_riasec / secondary_riasec.",
-    "riasec_item_weight": 1,
+    "riasec_item_weight": 1.0,
     "scale_min": 1,
     "scale_max": 5,
     "scale_labels": {
       "1": "Nada / no me gusta",
       "2": "Poco",
-      "3": "Regular / indiferente",
+      "3": "Regular / me da igual",
       "4": "Bastante",
       "5": "Mucho / me encanta"
     },
@@ -138,7 +138,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 1,
       "block": "riasec",
       "riasec": "R",
-      "text": "¿Cuánto te gusta trabajar con herramientas, maquinaria o hacer reparaciones?",
+      "text": "¿Cuánto te gusta arreglar cosas con herramientas (una bici, un móvil, algo de casa)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -148,7 +148,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 2,
       "block": "riasec",
       "riasec": "R",
-      "text": "¿Cuánto disfrutas actividades al aire libre, en el campo, taller o entorno físico (frente a solo pantalla)?",
+      "text": "¿Cuánto disfrutas estar en movimiento: campo, taller, obra o deporte al aire libre (más que solo delante del ordenador)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -158,7 +158,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 3,
       "block": "riasec",
       "riasec": "R",
-      "text": "¿Cuánto te gusta construir, montar, fabricar o arreglar cosas con las manos?",
+      "text": "¿Cuánto te gusta construir, montar o fabricar algo con las manos (muebles, maquetas, piezas…)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -168,7 +168,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 4,
       "block": "riasec",
       "riasec": "R",
-      "text": "¿Cuánto te interesa manejar vehículos, equipos técnicos, instalaciones o sistemas físicos?",
+      "text": "¿Cuánto te interesa conducir, manejar maquinaria o entender instalaciones (luz, agua, redes, equipos técnicos)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -178,7 +178,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 5,
       "block": "riasec",
       "riasec": "R",
-      "text": "¿Cuánto disfrutas resolver problemas prácticos de forma tangible (que se vea un resultado físico)?",
+      "text": "¿Cuánto disfrutas solucionar un problema práctico y ver el resultado delante (algo que funciona o queda arreglado)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -188,7 +188,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 6,
       "block": "riasec",
       "riasec": "I",
-      "text": "¿Cuánto te gusta investigar o entender a fondo cómo funcionan las cosas?",
+      "text": "¿Cuánto te gusta indagar hasta entender de verdad cómo funciona algo?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -198,7 +198,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 7,
       "block": "riasec",
       "riasec": "I",
-      "text": "¿Cuánto disfrutas experimentar (laboratorio, prototipos, código) o trabajar con datos?",
+      "text": "¿Cuánto disfrutas experimentar en el lab, probar prototipos, programar o trabajar con datos?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -208,7 +208,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 8,
       "block": "riasec",
       "riasec": "I",
-      "text": "¿Cuánto te gusta resolver problemas abstractos, lógicos o científicos?",
+      "text": "¿Cuánto te gusta resolver enigmas o problemas de lógica, mates o ciencia?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -218,7 +218,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 9,
       "block": "riasec",
       "riasec": "I",
-      "text": "¿Cuánto disfrutas leer o ver contenido sobre ciencia, tecnología o descubrimientos?",
+      "text": "¿Cuánto disfrutas leer o ver cosas sobre ciencia, tecnología o descubrimientos (vídeos, podcasts, artículos…)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -228,7 +228,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 10,
       "block": "riasec",
       "riasec": "I",
-      "text": "¿Cuánto te gusta analizar información para sacar conclusiones o hipótesis?",
+      "text": "¿Cuánto te gusta mirar información o datos y sacar tus propias conclusiones?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -238,7 +238,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 11,
       "block": "riasec",
       "riasec": "A",
-      "text": "¿Cuánto te gusta dibujar, diseñar o crear contenido visual?",
+      "text": "¿Cuánto te gusta dibujar, diseñar o crear imágenes, vídeos o contenido visual?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -248,7 +248,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 12,
       "block": "riasec",
       "riasec": "A",
-      "text": "¿Cuánto disfrutas escribir, contar historias o crear textos con estilo propio?",
+      "text": "¿Cuánto disfrutas escribir, contar historias o crear textos con tu propio estilo?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -258,7 +258,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 13,
       "block": "riasec",
       "riasec": "A",
-      "text": "¿Cuánto te interesa la música, el teatro, el cine o la expresión artística?",
+      "text": "¿Cuánto te interesa la música, el teatro, el cine o expresarte de forma artística?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -268,7 +268,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 14,
       "block": "riasec",
       "riasec": "A",
-      "text": "¿Cuánto te gusta diseñar espacios, productos, marcas o experiencias con criterio estético?",
+      "text": "¿Cuánto te gusta pensar cómo se ve y se siente algo (un espacio, un producto, una marca o una app)?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -278,7 +278,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 15,
       "block": "riasec",
       "riasec": "A",
-      "text": "¿Cuánto prefieres entornos con libertad creativa frente a rutinas muy rígidas?",
+      "text": "¿Cuánto prefieres tener libertad para crear frente a seguir una rutina muy fija?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -288,7 +288,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 16,
       "block": "riasec",
       "riasec": "S",
-      "text": "¿Cuánto te gusta ayudar a personas con dificultades o necesidades?",
+      "text": "¿Cuánto te gusta ayudar a quien lo está pasando mal o necesita apoyo?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -298,7 +298,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 17,
       "block": "riasec",
       "riasec": "S",
-      "text": "¿Cuánto disfrutas enseñar, explicar o acompañar el aprendizaje de otros?",
+      "text": "¿Cuánto disfrutas explicar cosas, dar clases o ayudar a que otras personas aprendan?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -308,7 +308,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 18,
       "block": "riasec",
       "riasec": "S",
-      "text": "¿Cuánto te interesa cuidar o promover el bienestar físico o emocional de otras personas?",
+      "text": "¿Cuánto te interesa cuidar de la salud o del bienestar de otras personas?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -318,7 +318,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 19,
       "block": "riasec",
       "riasec": "S",
-      "text": "¿Cuánto disfrutas trabajar en equipo con foco en las personas (clima, apoyo, mediación)?",
+      "text": "¿Cuánto disfrutas trabajar en equipo cuidando el buen ambiente, el apoyo y que nadie se quede fuera?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -328,7 +328,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 20,
       "block": "riasec",
       "riasec": "S",
-      "text": "¿Cuánto te motiva el voluntariado, la intervención comunitaria o el impacto social?",
+      "text": "¿Cuánto te motiva el voluntariado o ayudar a mejorar tu barrio, instituto o comunidad?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -338,7 +338,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 21,
       "block": "riasec",
       "riasec": "E",
-      "text": "¿Cuánto te gusta liderar proyectos, equipos o tomar la iniciativa?",
+      "text": "¿Cuánto te gusta liderar un proyecto o un grupo, o ser quien toma la iniciativa?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -348,7 +348,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 22,
       "block": "riasec",
       "riasec": "E",
-      "text": "¿Cuánto disfrutas persuadir, negociar o vender ideas / productos?",
+      "text": "¿Cuánto disfrutas convencer, negociar o vender una idea o un producto?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -358,7 +358,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 23,
       "block": "riasec",
       "riasec": "E",
-      "text": "¿Cuánto te atrae emprender, crear un negocio o generar oportunidades económicas?",
+      "text": "¿Cuánto te atrae montar un negocio, un proyecto propio o buscar formas de ganar dinero con una idea?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -368,7 +368,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 24,
       "block": "riasec",
       "riasec": "E",
-      "text": "¿Cuánto te gusta hablar en público o influir en decisiones de un grupo?",
+      "text": "¿Cuánto te gusta hablar en público o influir en lo que decide un grupo?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -378,7 +378,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 25,
       "block": "riasec",
       "riasec": "E",
-      "text": "¿Cuánto disfrutas competir, asumir riesgo calculado y perseguir metas ambiciosas?",
+      "text": "¿Cuánto disfrutas competir, arriesgarte un poco y perseguir metas altas?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -388,7 +388,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 26,
       "block": "riasec",
       "riasec": "C",
-      "text": "¿Cuánto te gusta organizar archivos, datos, inventarios o procesos administrativos?",
+      "text": "¿Cuánto te gusta poner en orden papeles, carpetas, listas, inventarios o datos?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -398,7 +398,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 27,
       "block": "riasec",
       "riasec": "C",
-      "text": "¿Cuánto disfrutas seguir procedimientos claros, normas y criterios bien definidos?",
+      "text": "¿Cuánto disfrutas seguir pasos claros, normas y criterios bien definidos?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -408,7 +408,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 28,
       "block": "riasec",
       "riasec": "C",
-      "text": "¿Cuánto te gusta trabajar con números, contabilidad, tablas o hojas de cálculo?",
+      "text": "¿Cuánto te gusta trabajar con números, cuentas, tablas o Excel?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -418,7 +418,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 29,
       "block": "riasec",
       "riasec": "C",
-      "text": "¿Cuánto disfrutas planificar agendas, cumplir plazos y mantener el orden en el detalle?",
+      "text": "¿Cuánto disfrutas planificar la agenda, cumplir plazos y cuidar el detalle?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -428,7 +428,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 30,
       "block": "riasec",
       "riasec": "C",
-      "text": "¿Cuánto prefieres entornos de trabajo estructurados y predecibles frente a la improvisación constante?",
+      "text": "¿Cuánto prefieres un entorno con reglas claras y predecible frente a improvisar todo el rato?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5
@@ -438,13 +438,13 @@ window.UNITALENT_QUESTIONS = {
       "order": 31,
       "block": "practico",
       "riasec": null,
-      "text": "¿Qué modalidad de estudios universitarios prefieres?",
+      "text": "¿Qué forma de estudiar en la universidad te encaja más?",
       "type": "single",
       "scoring_note": "No puntúa RIASEC. Preferencia de contexto para filtrar modalidad / unis.",
       "options": [
         {
           "id": "q31_a",
-          "label": "Presencial / en campus",
+          "label": "Presencial / en el campus",
           "tags": [
             "pref_presencial"
           ]
@@ -458,7 +458,7 @@ window.UNITALENT_QUESTIONS = {
         },
         {
           "id": "q31_c",
-          "label": "Remota / a distancia",
+          "label": "A distancia / online",
           "tags": [
             "pref_remota"
           ]
@@ -477,7 +477,7 @@ window.UNITALENT_QUESTIONS = {
       "order": 32,
       "block": "practico",
       "riasec": null,
-      "text": "¿Estarías dispuesto/a a mudarte de ciudad o comunidad autónoma para estudiar el grado que te interese?",
+      "text": "¿Te mudarías de ciudad o de comunidad autónoma para estudiar el grado que te interese?",
       "type": "single",
       "scoring_note": "No puntúa RIASEC. Matiza sugerencias geográficas de universidades.",
       "options": [
@@ -497,7 +497,7 @@ window.UNITALENT_QUESTIONS = {
         },
         {
           "id": "q32_c",
-          "label": "Solo dentro de mi provincia / CCAA",
+          "label": "Solo dentro de mi provincia o comunidad",
           "tags": [
             "mov_baja"
           ]
@@ -516,13 +516,13 @@ window.UNITALENT_QUESTIONS = {
       "order": 33,
       "block": "practico",
       "riasec": null,
-      "text": "¿Cómo de cómodo/a te sientes con matemáticas, física, química o materias STEM intensivas?",
+      "text": "¿Cómo de a gusto te sientes con mates, física, química u otras asignaturas STEM exigentes?",
       "type": "scale",
       "scale_min": 1,
       "scale_max": 5,
       "scale_labels_override": {
-        "1": "Muy incómodo/a",
-        "5": "Muy cómodo/a"
+        "1": "Nada a gusto",
+        "5": "Muy a gusto"
       },
       "context_tag": "confort_stem",
       "scoring_note": "No puntúa RIASEC. Si bajo (1–2), matizar clusters stem/ingenieria (aviso de refuerzo); si alto (4–5), reforzar confianza en vías I/R."
@@ -532,20 +532,20 @@ window.UNITALENT_QUESTIONS = {
       "order": 34,
       "block": "practico",
       "riasec": null,
-      "text": "¿Qué formato de aprendizaje te atrae más en la universidad?",
+      "text": "¿Qué tipo de clases te atrae más en la universidad?",
       "type": "single",
       "scoring_note": "No puntúa RIASEC. Matiza tono del informe (práctico vs teórico vs creativo).",
       "options": [
         {
           "id": "q34_a",
-          "label": "Mucha práctica, laboratorio, taller o clínicas",
+          "label": "Mucha práctica: laboratorio, taller o clínicas",
           "tags": [
             "fmt_practico"
           ]
         },
         {
           "id": "q34_b",
-          "label": "Equilibrio teoría + práctica",
+          "label": "Equilibrio entre teoría y práctica",
           "tags": [
             "fmt_mixto"
           ]

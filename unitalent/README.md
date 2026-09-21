@@ -6,14 +6,18 @@
 
 El banco de preguntas se alinea con el modelo de intereses vocacionales **RIASEC** (Realistic · Investigative · Artistic · Social · Enterprising · Conventional) propuesto por **John L. Holland**, ampliamente usado en orientación educativa y profesional como marco conceptual.
 
-| Letra | Nombre (ES) | Foco |
-|-------|-------------|------|
-| R | Realista | Práctico, técnico, tangible |
-| I | Investigador | Científico, analítico |
-| A | Artístico | Creativo, expresivo |
+| Letra | Nombre (ES) | Foco (lenguaje sencillo) |
+|-------|-------------|--------------------------|
+| R | Realista | Práctico, con las manos, tangible |
+| I | Investigador | Ciencia, curiosidad, análisis |
+| A | Artístico | Crear, expresar, estética |
 | S | Social | Ayudar, enseñar, cuidar |
-| E | Emprendedor | Liderazgo, persuasión, negocio |
-| C | Convencional | Orden, datos, procedimientos |
+| E | Emprendedor | Liderar, convencer, negocio |
+| C | Convencional | Orden, números, normas |
+
+## Lenguaje del banco (claridad)
+
+Ítems en **español cotidiano** pensados para **16–20 años en España**: ejemplos del día a día (bici, Excel, barrio, lab…), trato de **tú**, y redacciones **neutrales de género** (sin formas forzadas tipo -@ / -o/a cuando se puede evitar). Misma estructura RIASEC y mismos `id` / tags de scoring que el esquema `questions.json` (compatible con CoS web).
 
 ## Aviso importante (disclaimer)
 
@@ -35,11 +39,11 @@ Los listados de grados y universidades de este MVP son **ejemplos ilustrativos**
 
 | Archivo | Contenido |
 |---------|-----------|
-| `01-guion-test.md` | Guion ~34 ítems (30 RIASEC + 4 prácticos) en español |
+| `01-guion-test.md` | Guion ~34 ítems (30 RIASEC + 4 prácticos) en español claro |
 | `02-clusters-grados.md` | ~10 clusters mapeados a letras RIASEC + ejemplos de grados |
 | `03-unis-ejemplo.md` | Universidades públicas de ejemplo por cluster |
 | `04-informe-plantilla.md` | Estructura del informe (incluye bloque RIASEC) |
-| `questions.json` | Preguntas machine-readable + tags RIASEC + notas de scoring |
+| `questions.json` | Preguntas machine-readable + tags RIASEC + notas de scoring (`mvp-0.3-clarity`) |
 
 ## Stack / siguiente paso (producto)
 

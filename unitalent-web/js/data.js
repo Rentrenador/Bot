@@ -13,12 +13,12 @@ window.UNITALENT_DATA = {
   disclaimerShort:
     "Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado. Verifica títulos en RUCT y acceso en QEDU.",
   letterLabels: {
-    R: "Realista (práctico / técnico)",
-    I: "Investigador (científico / analítico)",
-    A: "Artístico (creativo / expresivo)",
+    R: "Realista (práctico / con las manos)",
+    I: "Investigador (ciencia / análisis)",
+    A: "Artístico (crear / expresar)",
     S: "Social (ayudar / enseñar / cuidar)",
-    E: "Emprendedor (liderazgo / persuasión)",
-    C: "Convencional (orden / datos / procedimientos)",
+    E: "Emprendedor (liderar / convencer)",
+    C: "Convencional (orden / números / normas)",
   },
   letterKeywords: {
     R: "práctico",

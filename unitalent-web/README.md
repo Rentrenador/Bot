@@ -4,6 +4,14 @@ Test móvil de orientación universitaria (España): **30 Likert RIASEC + 4 prá
 
 **Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado.** Verificar títulos en [RUCT](https://www.educacion.gob.es/ruct) y acceso en [QEDU](https://www.educacion.gob.es/notasdecorte).
 
+## Hosting (GitHub Pages)
+
+URL oficial (Content-Type `text/html`):
+
+**https://rentrenador.github.io/Bot/unitalent-web/**
+
+No uses jsDelivr para el HTML (puede servirlo como `text/plain` en móviles).
+
 ## Abrir en local
 
 ```bash
@@ -45,7 +53,8 @@ unitalent-web/
 ├── css/styles.css
 ├── js/data.js          # Clusters, unis, letter labels, disclaimers
 ├── js/app.js           # RIASEC scoring + flujo + paywall
-├── data/questions.json # Banco RIASEC (mvp-0.2-riasec)
+├── js/questions-embed.js # Banco embebido (window.UNITALENT_QUESTIONS)
+├── data/questions.json # Banco RIASEC (mvp-0.3-clarity)
 └── README.md
 ```
 
