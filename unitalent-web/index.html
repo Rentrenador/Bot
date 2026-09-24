@@ -6,7 +6,7 @@
     <meta name="description" content="UniTalent — orientación universitaria inspirada en Holland/RIASEC. Clusters de grados y universidades públicas de ejemplo en España." />
     <meta name="theme-color" content="#1e4d8c" />
     <title>UniTalent — Orientación universitaria (RIASEC)</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=20260924-riasec-free" />
   </head>
   <body>
     <div class="app">
@@ -85,18 +85,20 @@
           </div>
         </section>
 
-        <!-- PREVIEW (free): letters/code + short phrase only -->
+        <!-- PREVIEW (free): letters/code + short phrase only — NEVER behind paywall -->
         <section id="screen-preview" class="screen" aria-label="Vista previa">
-          <div class="card">
-            <div class="cluster-badge" id="preview-badge">Tu código RIASEC</div>
-            <h2 class="cluster-title" id="preview-title">…</h2>
-            <p class="cluster-desc" id="preview-desc">…</p>
+          <div class="card preview-free-card">
+            <p class="free-pill" id="preview-free-pill">Gratis tras el test</p>
+            <div class="cluster-badge" id="preview-badge">Tu código Holland / RIASEC</div>
+            <div id="preview-code" class="riasec-code" aria-live="polite"></div>
+            <h2 class="cluster-title preview-code-fallback" id="preview-title">…</h2>
+            <p class="preview-phrase" id="preview-desc">…</p>
             <div class="affinity" id="preview-bars" hidden></div>
-            <div class="teaser" id="preview-teaser"></div>
+            <p class="preview-free-note" id="preview-teaser"></p>
             <div class="lock-cta">
               <p>
-                Desbloquea el informe completo: explicación de tu perfil,
-                grados que encajan y universidades de ejemplo en España.
+                El informe completo (explicación del perfil, grados y
+                universidades) se desbloquea con un pago único.
               </p>
               <button type="button" class="btn btn-accent" id="btn-unlock">
                 Desbloquear informe · 9 €
@@ -117,6 +119,7 @@
           <!-- STEP 1: precio + política + aceptación -->
           <div id="paywall-step-1" class="card paywall-step">
             <p class="pay-step-label">Paso 1 de 2</p>
+            <div id="paywall-free-code" class="paywall-free-code" hidden></div>
             <h2 class="cluster-title" style="margin-bottom: 0.25rem">
               Informe completo UniTalent
             </h2>
@@ -271,8 +274,8 @@
       </footer>
     </div>
 
-    <script src="js/data.js"></script>
-    <script src="js/questions-embed.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/data.js?v=20260924-riasec-free"></script>
+    <script src="js/questions-embed.js?v=20260924-riasec-free"></script>
+    <script src="js/app.js?v=20260924-riasec-free"></script>
   </body>
 </html>

@@ -492,9 +492,13 @@
   /** One short plain-language phrase from top RIASEC letters (free preview). */
   function previewPhrase(topLetters) {
     const D = window.UNITALENT_DATA;
-    const kws = topLetters
+    const list = Array.isArray(topLetters) ? topLetters : [];
+    const kws = list
       .slice(0, 3)
-      .map((t) => D.letterKeywords[t.letter])
+      .map((t) => {
+        const letter = typeof t === "string" ? t : t && t.letter;
+        return letter ? D.letterKeywords[letter] : null;
+      })
       .filter(Boolean);
     if (!kws.length) return "Tu perfil RIASEC ya está listo.";
     if (kws.length === 1) return `Tendencia más ${kws[0]}.`;
@@ -502,17 +506,63 @@
     return `Tendencia más ${kws[0]}, ${kws[1]} y ${kws[2]}.`;
   }
 
+  /** Render free Holland/RIASEC letter chips (never behind paywall). */
+  function renderFreeRiasecCode(hollandCode, container) {
+    if (!container) return;
+    const code = String(hollandCode || "").replace(/[^RIASEC]/gi, "").toUpperCase();
+    if (!code) {
+      container.innerHTML = "";
+      container.hidden = true;
+      return;
+    }
+    const D = window.UNITALENT_DATA || {};
+    const labels = D.letterLabels || {};
+    container.hidden = false;
+    container.innerHTML = code
+      .split("")
+      .map((L) => {
+        const title = labels[L] ? `${L}: ${labels[L]}` : L;
+        return `<span class="riasec-letter" title="${escapeHtml(title)}">${escapeHtml(L)}</span>`;
+      })
+      .join('<span class="riasec-sep" aria-hidden="true">·</span>');
+    container.setAttribute("aria-label", `Código RIASEC ${code}`);
+  }
+
   function showPreview() {
     const results = state.results;
-    const { topLetters, hollandCode } = results;
+    if (!results) {
+      showScreen("landing");
+      return;
+    }
+    // Prefer live recompute so free letters never depend on stale storage shape.
+    let hollandCode = results.hollandCode;
+    let topLetters = results.topLetters;
+    if ((!hollandCode || !topLetters) && state.answers && state.questions) {
+      const rescored = scoreAnswers(state.answers);
+      state.results = rescored;
+      hollandCode = rescored.hollandCode;
+      topLetters = rescored.topLetters;
+    }
+    hollandCode = String(hollandCode || "");
+    topLetters = Array.isArray(topLetters) ? topLetters : [];
     const D = window.UNITALENT_DATA;
-    const lettersSpaced = hollandCode.split("").join(" · ");
 
-    // Free preview: RIASEC code/letters + one short phrase only.
+    // Free preview: RIASEC code/letters + one short phrase ONLY, BEFORE pay CTA.
     // No degrees, universities, cluster names, bars, or full profile text.
-    $("#preview-badge").textContent = "Tu código RIASEC";
-    $("#preview-title").textContent = lettersSpaced || hollandCode;
-    $("#preview-desc").textContent = previewPhrase(topLetters);
+    const badge = $("#preview-badge");
+    if (badge) badge.textContent = "Tu código Holland / RIASEC";
+
+    renderFreeRiasecCode(hollandCode, $("#preview-code"));
+
+    const title = $("#preview-title");
+    if (title) {
+      title.textContent = hollandCode || "—";
+      // Chips are primary; keep h2 for a11y / fallback if chips empty.
+      title.classList.toggle("is-fallback-only", !!hollandCode);
+    }
+
+    const desc = $("#preview-desc");
+    if (desc) desc.textContent = previewPhrase(topLetters);
 
     const bars = $("#preview-bars");
     if (bars) {
@@ -521,12 +571,10 @@
     }
 
     const teaser = $("#preview-teaser");
-    teaser.innerHTML = `
-      <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">
-        Vista previa gratis: tus letras <strong>${escapeHtml(hollandCode)}</strong>.
-        La explicación completa, los grados y las universidades van en el informe de ${D.priceEur}&nbsp;€.
-      </p>
-    `;
+    if (teaser) {
+      teaser.textContent =
+        `Estas letras son gratis. La explicación completa, los grados y las universidades van en el informe de ${D.priceEur} €.`;
+    }
 
     showScreen("preview");
   }
@@ -548,6 +596,25 @@
     const cont = $("#btn-pay-continue");
     if (check) check.checked = false;
     if (cont) cont.disabled = true;
+
+    // Remind that letters remain free even on the pay step.
+    const freeBox = $("#paywall-free-code");
+    const code =
+      (state.results && state.results.hollandCode) ||
+      "";
+    if (freeBox) {
+      if (code) {
+        freeBox.hidden = false;
+        freeBox.innerHTML =
+          `<span class="paywall-free-label">Tu código gratis</span> ` +
+          `<strong class="paywall-free-letters">${escapeHtml(String(code))}</strong>` +
+          `<span class="paywall-free-hint"> · ya lo tienes; el pago es solo el informe</span>`;
+      } else {
+        freeBox.hidden = true;
+        freeBox.innerHTML = "";
+      }
+    }
+
     setPaywallStep(1);
     showScreen("paywall");
   }
@@ -683,6 +750,8 @@
       /* ignore quota */
     }
 
+    // Freemium: unlocked → full report; otherwise ALWAYS free letter preview
+    // (never jump straight to paywall — paywall is only via CTA).
     if (state.unlocked) {
       showReport();
     } else {
