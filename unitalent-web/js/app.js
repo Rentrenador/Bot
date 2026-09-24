@@ -489,29 +489,42 @@
     });
   }
 
+  /** One short plain-language phrase from top RIASEC letters (free preview). */
+  function previewPhrase(topLetters) {
+    const D = window.UNITALENT_DATA;
+    const kws = topLetters
+      .slice(0, 3)
+      .map((t) => D.letterKeywords[t.letter])
+      .filter(Boolean);
+    if (!kws.length) return "Tu perfil RIASEC ya está listo.";
+    if (kws.length === 1) return `Tendencia más ${kws[0]}.`;
+    if (kws.length === 2) return `Tendencia más ${kws[0]} y ${kws[1]}.`;
+    return `Tendencia más ${kws[0]}, ${kws[1]} y ${kws[2]}.`;
+  }
+
   function showPreview() {
     const results = state.results;
-    const { ranked, topLetters, hollandCode } = results;
-    const top = ranked[0];
-    const c = window.UNITALENT_DATA.clusters[top.id];
-    const topLetter = topLetters[0];
+    const { topLetters, hollandCode } = results;
     const D = window.UNITALENT_DATA;
+    const lettersSpaced = hollandCode.split("").join(" · ");
 
-    $("#preview-badge").textContent = `Código ${hollandCode} · letra #1: ${topLetter.letter}`;
-    $("#preview-title").textContent = c.name;
-    $("#preview-desc").textContent =
-      `Tu letra dominante es ${topLetter.letter} — ${D.letterLabels[topLetter.letter]} (${formatMean(topLetter.mean)}/5). ` +
-      `Cluster asociado: ${c.description}`;
+    // Free preview: RIASEC code/letters + one short phrase only.
+    // No degrees, universities, cluster names, bars, or full profile text.
+    $("#preview-badge").textContent = "Tu código RIASEC";
+    $("#preview-title").textContent = lettersSpaced || hollandCode;
+    $("#preview-desc").textContent = previewPhrase(topLetters);
 
-    // Free preview: top letter bars + 1 cluster
-    renderLetterBars(results.rankedLetters, 2, $("#preview-bars"));
+    const bars = $("#preview-bars");
+    if (bars) {
+      bars.innerHTML = "";
+      bars.hidden = true;
+    }
 
     const teaser = $("#preview-teaser");
     teaser.innerHTML = `
       <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">
-        Preview gratis: código <strong>${escapeHtml(hollandCode)}</strong> y cluster
-        <strong>${escapeHtml(c.shortName)}</strong> (${top.pct}% afinidad).
-        Perfil RIASEC completo, top clusters, grados y universidades en el informe.
+        Vista previa gratis: tus letras <strong>${escapeHtml(hollandCode)}</strong>.
+        La explicación completa, los grados y las universidades van en el informe de ${D.priceEur}&nbsp;€.
       </p>
     `;
 

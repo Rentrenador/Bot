@@ -1,6 +1,6 @@
 # UniTalent Web MVP (RIASEC)
 
-Test móvil de orientación universitaria (España): **30 Likert RIASEC + 4 prácticas** → preview gratis (letra dominante + cluster) → paywall 9 € → informe completo (código Holland, top clusters, grados, unis).
+Test móvil de orientación universitaria (España): **30 Likert RIASEC + 4 prácticas** → preview gratis (código RIASEC + frase corta) → paywall 9 € → informe completo (perfil explicado, grados, unis de ejemplo).
 
 **Orientación inspirada en el modelo Holland/RIASEC; no es SDS licenciado ni test clínico validado.** Verificar títulos en [RUCT](https://www.educacion.gob.es/ruct) y acceso en [QEDU](https://www.educacion.gob.es/notasdecorte).
 
@@ -27,7 +27,7 @@ Luego abre: http://127.0.0.1:8080/
 
 1. **Landing** → «Empezar el test»
 2. Responde las **34 preguntas** (30 escalas RIASEC 1–5 + 4 preferencias)
-3. **Vista previa** gratis: código / letra #1 + cluster principal
+3. **Vista previa** gratis: código RIASEC (letras) + una frase corta en claro
 4. «Desbloquear informe · 9 €» → paywall **paso 1** (9 € + política de devolución + checkbox)
 5. Aceptar política → **paso 2** → «Pagar 9 € con Stripe» (Payment Link)
 6. Tras el pago, Stripe redirige a `?paid=1` → desbloqueo en `localStorage` → **informe completo**
