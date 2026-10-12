@@ -6,7 +6,7 @@
     <meta name="description" content="UniTalent — orientación universitaria inspirada en Holland/RIASEC. Clusters de grados y universidades públicas de ejemplo en España." />
     <meta name="theme-color" content="#1e4d8c" />
     <title>UniTalent — Orientación universitaria (RIASEC)</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260924-riasec-free" />
+    <link rel="stylesheet" href="css/styles.css?v=20261012-legal" />
   </head>
   <body>
     <div class="app">
@@ -183,7 +183,11 @@
               UniTalent con el informe desbloqueado en este dispositivo.
             </div>
 
-            <button type="button" class="btn btn-primary" id="btn-stripe-pay">
+            <label class="consent-check" for="consent-desist">
+              <input type="checkbox" id="consent-desist" required />
+              <span>Solicito el acceso inmediato al informe y acepto que, una vez desbloqueado, pierdo el derecho de desistimiento (art. 103.m TRLGDCU). He leído las <a href="condiciones-venta.html" target="_blank">condiciones de venta</a> y la <a href="reembolsos.html" target="_blank">política de reembolsos</a>.</span>
+            </label>
+            <button type="button" class="btn btn-primary" id="btn-stripe-pay" disabled>
               Pagar 9 € con Stripe
             </button>
             <p class="pay-return-note" id="pay-return-note">
@@ -270,12 +274,13 @@
             <a id="qedu-link" href="https://www.educacion.gob.es/notasdecorte" target="_blank" rel="noopener">QEDU</a>
             · UniTalent MVP · RIASEC · contenido 2026-09-21
           </p>
+          <p class="legal-links" style="margin: 0.5rem 0 0"><a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Política de privacidad</a> · <a href="cookies.html">Política de cookies</a> · <a href="condiciones-venta.html">Condiciones de venta</a> · <a href="reembolsos.html">Política de reembolsos</a></p>
         </div>
       </footer>
     </div>
 
-    <script src="js/data.js?v=20260924-riasec-free"></script>
-    <script src="js/questions-embed.js?v=20260924-riasec-free"></script>
-    <script src="js/app.js?v=20260924-riasec-free"></script>
+    <script src="js/data.js?v=20261012-legal"></script>
+    <script src="js/questions-embed.js?v=20261012-legal"></script>
+    <script src="js/app.js?v=20261012-legal"></script>
   </body>
 </html>

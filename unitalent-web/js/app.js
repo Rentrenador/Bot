@@ -850,7 +850,19 @@
 
     const stripeBtn = $("#btn-stripe-pay");
     if (stripeBtn) {
-      stripeBtn.addEventListener("click", () => goToStripeCheckout());
+      const consent = $("#consent-desist");
+      if (consent) {
+        const sync = () => { stripeBtn.disabled = !consent.checked; };
+        consent.addEventListener("change", sync);
+        sync();
+      }
+      stripeBtn.addEventListener("click", () => {
+        if (consent && !consent.checked) {
+          alert("Para continuar, marca la casilla de consentimiento.");
+          return;
+        }
+        goToStripeCheckout();
+      });
     }
 
     const simBtn = $("#btn-simulate-pay");
